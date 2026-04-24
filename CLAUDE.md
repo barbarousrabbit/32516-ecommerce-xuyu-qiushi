@@ -1,0 +1,108 @@
+# 32516 Assignment 2 — E-commerce Shopping Cart
+
+## Project Info
+- **Subject**: 32516 Internet Programming, UTS 2026 Semester 1
+- **Members**: Xuyu Zhang (20625395), Qiushi Huang
+- **GitHub**: https://github.com/barbarousrabbit/32516-ecommerce-xuyu-qiushi
+- **Due**: 24 May 2026 by 23:59
+
+## Tech Stack
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18 + Vite + React Router v6 |
+| Styling | CSS Modules (plain CSS, no extra libraries) |
+| Backend | FastAPI (Python 3.11+) |
+| Database | MySQL 8 |
+| Auth | JWT (python-jose) + password hashing (passlib/bcrypt) |
+
+## Folder Structure
+```
+/
+  frontend/
+    src/
+      components/    Reusable UI pieces (Button, Modal, SearchBar…)
+      pages/         One file per route (HomePage, LoginPage, CartPage…)
+      hooks/         Custom React hooks (useAuth, useSearch…)
+      services/      All fetch/API calls — NO fetch() inside components
+      context/       React Context (AuthContext for login state)
+    index.html       The ONE and ONLY html file (SPA requirement)
+  backend/
+    routers/         One file per entity (users.py, products.py, cart.py)
+    models/          SQLAlchemy ORM models
+    schemas/         Pydantic request/response schemas
+    auth/            JWT token logic (create, verify, decode)
+    database.py      DB session and engine setup
+    main.py          FastAPI app entry point, CORS config
+  database/
+    schema.sql       All CREATE TABLE statements
+    seed.sql         Sample data for testing
+  README.md
+  .gitignore
+  CLAUDE.md          ← this file
+```
+
+## The Three Entities (CRUD required for all)
+| Entity | Table | Who can access |
+|--------|-------|----------------|
+| User | `users` | Admin: CRUD all users; User: own profile |
+| Product | `products` | Admin: CRUD; User: Read only |
+| Shopping Cart | `shopping_cart` + `cart_items` | User: own cart CRUD; Admin: read all |
+
+## Assignment Must-Haves (check before submitting)
+- [ ] Only ONE `.html` file in the entire project (`frontend/index.html`)
+- [ ] All four CRUD operations exist on all three entities
+- [ ] JWT stored in `localStorage`, sent via `Authorization: Bearer <token>` header
+- [ ] Passwords hashed with bcrypt — never stored in plaintext
+- [ ] Live search: product list filters as user types (no submit button needed)
+- [ ] Admin role: `role` field in `users` table, backend checks on protected routes
+- [ ] Admin page: view all users' shopping carts
+- [ ] Error handling: API failures show a friendly message, not a blank/broken screen
+- [ ] README includes: description, tech stack, how to run, folder structure, workload split
+
+## Git Rules (affects Individual — Professional Practices score)
+- **Commit often**: after every completed feature or meaningful change
+- **Commit message format**: `type: short description`
+  - Types: `feat` `fix` `style` `refactor` `docs` `chore`
+  - Examples: `feat: add product search bar`, `fix: jwt token expiry bug`
+  - Bad examples (will lose marks): `update`, `fix`, `stuff`, `aaa`
+- **No secrets in code**: all passwords / DB credentials go in `.env` files (already in `.gitignore`)
+- **Branch strategy**: `main` = stable working code; `feature/<name>` = work in progress
+
+## Code Conventions
+### Frontend (React)
+- Component files: `PascalCase.jsx` (e.g., `ProductCard.jsx`)
+- Variables/functions: `camelCase`
+- API base URL in `.env`: `VITE_API_URL=http://localhost:8000` — never hardcode
+- Never call `fetch()` directly in a component — always go through `services/`
+- Use `useState` for UI state; `useContext` for auth; `useEffect` for data fetching on mount
+
+### Backend (Python/FastAPI)
+- All files, functions, variables: `snake_case`
+- Follow PEP 8 (max line length 88)
+- Every route must have a Pydantic response model
+- Auth dependency: use `Depends(get_current_user)` to protect routes
+- Environment variables via `python-dotenv` → never hardcode DB password
+
+## How to Run (local dev)
+```bash
+# Backend
+cd backend
+python -m venv .venv && source .venv/Scripts/activate  # Windows
+pip install -r requirements.txt
+uvicorn main:app --reload
+
+# Frontend
+cd frontend
+npm install
+npm run dev
+
+# Database
+mysql -u root -p < database/schema.sql
+mysql -u root -p < database/seed.sql
+```
+
+## Key Files to Edit Most Often
+- Adding a new page → `frontend/src/pages/`
+- Adding an API call → `frontend/src/services/`
+- Adding a new route (backend) → `backend/routers/`
+- Changing DB schema → `backend/models/` + update `database/schema.sql`

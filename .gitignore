@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.env
+*.env
+
+# Node / React
+node_modules/
+dist/
+build/
+.cache/
+.parcel-cache/
+
+# Database credentials
+*.sql.bak
+database/local_*.sql
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
