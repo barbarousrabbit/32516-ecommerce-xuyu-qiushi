@@ -168,7 +168,7 @@
 - `UserCartOut`: user_id, username, cart (CartOut) — used by admin endpoint
 
 **routers/cart.py — 5 endpoints:**
-- `GET /cart/me` (login required): return current user's cart; handle None if cart not found
+- `GET /cart/me` (login required): query `shopping_cart` by `user_id`; if None (e.g. admin seeded without cart), raise `HTTPException(404, "Cart not found")` — do not return None to the frontend
 - `POST /cart/items` (login required): add item; if product already in cart, increment quantity instead of creating duplicate
 - `PUT /cart/items/{id}` (login required): update quantity; if quantity ≤ 0, delete the item automatically
 - `DELETE /cart/items/{id}` (login required): remove item
@@ -188,7 +188,7 @@
 - `GET /users/me` (login required): return current user's profile
 - `PUT /users/me` (login required): update own username or email; use `exclude_unset=True` for partial update
 - `GET /users` (admin only): return list of all users
-- `DELETE /users/{id}` (admin only): delete user or 404
+- `DELETE /users/{id}` (admin only): delete user or 404; raise `HTTPException(400, "Cannot delete yourself")` if `user_id == current_user.id`
 
 **Verification:** Test profile read/update with user token; test list/delete with admin token.
 
@@ -225,10 +225,13 @@ npm install react-router-dom
 
 **AdminRoute:** If `user.role !== 'admin'` → redirect to `/`. Otherwise render children.
 
+**Catch-all route:** Add `<Route path="*" element={<Navigate to="/" replace />} />` as the last route — prevents blank page on unknown URLs.
+
 **index.css — CSS variables for consistent styling (no inline styles in components):**
-- Define: `--primary`, `--primary-dark`, `--danger`, `--text`, `--bg`, `--border`, `--radius`, `--shadow`
-- Base styles: body font, box-sizing, button/input resets
-- Utility classes: `.container`, `.card`, `.btn`, `.btn-danger`, `.form-group`, `.error-msg`, `.loading`
+- Define: `--primary: #2563eb`, `--primary-dark: #1d4ed8`, `--danger: #dc2626`, `--text: #111827`, `--text-secondary: #6b7280`, `--bg: #f9fafb`, `--border: #e5e7eb`, `--radius: 8px`, `--shadow: 0 1px 3px rgba(0,0,0,0.1)`
+- Base styles: body font (Inter or system-ui), box-sizing border-box, button/input resets
+- Utility classes: `.container` (max-width 1200px, centered), `.card`, `.btn`, `.btn-danger`, `.form-group`, `.error-msg`, `.loading`
+- Responsive breakpoints: minimum support for 768px (tablet) and 1280px (desktop); product grid uses `grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))` for automatic responsiveness
 
 **Verification:** `npm run dev` → `http://localhost:5173` loads without errors.
 

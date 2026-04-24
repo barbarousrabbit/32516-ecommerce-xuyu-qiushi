@@ -168,7 +168,7 @@
 - `UserCartOut`：user_id、username、cart（CartOut）— 供管理员接口使用
 
 **routers/cart.py — 5 个接口：**
-- `GET /cart/me`（需登录）：返回当前用户的购物车；处理购物车为 None 的边界情况
+- `GET /cart/me`（需登录）：查询该用户的 `shopping_cart`；如果为 None（例如通过 seed.sql 直接插入的 admin 账号没有购物车行），抛出 `HTTPException(404, "Cart not found")` — 绝不将 None 返回给前端
 - `POST /cart/items`（需登录）：加入商品；如果该商品已在购物车中，则累加数量而不是创建重复条目
 - `PUT /cart/items/{id}`（需登录）：修改数量；如果数量 ≤ 0，自动删除该条目
 - `DELETE /cart/items/{id}`（需登录）：删除购物车条目
@@ -188,7 +188,7 @@
 - `GET /users/me`（需登录）：返回当前用户的资料
 - `PUT /users/me`（需登录）：允许用户更新自己的 username 或 email；用 `exclude_unset=True` 支持局部更新
 - `GET /users`（仅 admin）：返回所有用户列表
-- `DELETE /users/{id}`（仅 admin）：删除指定用户，不存在则 404
+- `DELETE /users/{id}`（仅 admin）：删除指定用户，不存在则 404；如果 `user_id == current_user.id`，抛出 `HTTPException(400, "Cannot delete yourself")` — 防止管理员删除自己的账号
 
 **验证：** 用普通 token 测试资料读取和更新；用 admin token 测试列表和删除。
 
@@ -225,10 +225,13 @@ npm install react-router-dom
 
 **AdminRoute：** 如果 `user.role !== 'admin'` → 跳转到 `/`；否则渲染子组件。
 
+**兜底路由（catch-all）：** 在路由表最后加 `<Route path="*" element={<Navigate to="/" replace />} />`，防止访问未知 URL 时出现空白页面。
+
 **index.css — CSS 变量，确保全站样式一致（所有组件使用 CSS 类，禁止写 inline style）：**
-- 定义变量：`--primary`、`--primary-dark`、`--danger`、`--text`、`--bg`、`--border`、`--radius`、`--shadow`
-- 基础样式：body 字体、box-sizing、button/input 重置
-- 通用样式类：`.container`、`.card`、`.btn`、`.btn-danger`、`.form-group`、`.error-msg`、`.loading`
+- 定义变量：`--primary: #2563eb`、`--primary-dark: #1d4ed8`、`--danger: #dc2626`、`--text: #111827`、`--text-secondary: #6b7280`、`--bg: #f9fafb`、`--border: #e5e7eb`、`--radius: 8px`、`--shadow: 0 1px 3px rgba(0,0,0,0.1)`
+- 基础样式：body 字体（Inter 或系统字体）、box-sizing border-box、button/input 样式重置
+- 通用样式类：`.container`（最大宽度 1200px，居中）、`.card`、`.btn`、`.btn-danger`、`.form-group`、`.error-msg`、`.loading`
+- 响应式断点：最低支持 768px（平板）和 1280px（桌面）；商品网格用 `grid-template-columns: repeat(auto-fill, minmax(220px, 1fr))` 自动适配不同屏幕
 
 **验证：** `npm run dev` → `http://localhost:5173` 无报错加载。
 
