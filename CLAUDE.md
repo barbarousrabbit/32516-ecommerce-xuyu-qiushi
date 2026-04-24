@@ -36,6 +36,12 @@
   database/
     schema.sql       All CREATE TABLE statements
     seed.sql         Sample data for testing
+  docs/
+    Assignment 2 Requirements.docx   ← original brief (reference)
+    Assignment 2 Rubric.docx         ← marking rubric (reference)
+    plans/
+      2026-04-24-ecommerce-shopping-cart.md      ← English implementation plan
+      2026-04-24-ecommerce-shopping-cart_cn.md   ← Chinese translation (read only)
   README.md
   .gitignore
   CLAUDE.md          ← this file
