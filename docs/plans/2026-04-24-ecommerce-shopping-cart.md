@@ -8,6 +8,25 @@
 
 **Tech Stack:** React 18 + Vite + React Router v6 · FastAPI · SQLAlchemy · MySQL 8 · python-jose · passlib/bcrypt
 
+**Workload Split (Option B — Feature-based):**
+
+| Task | Owner | Area |
+|------|-------|------|
+| Task 1 — Database schema & seed | **Qiushi Huang (25668904)** | `database/` |
+| Task 2 — FastAPI project setup | **Xuyu Zhang (26025395)** | `backend/main.py`, `database.py`, `requirements.txt` |
+| Task 3 — User model + JWT auth | **Xuyu Zhang (26025395)** | `backend/auth/`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
+| Task 4a — Product model + routes | **Qiushi Huang (25668904)** | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
+| Task 4b — Cart model + routes | **Xuyu Zhang (26025395)** | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
+| Task 4c — Users admin route | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
+| Task 5 — Vite + React + routing | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx` |
+| Task 6 — AuthContext + services | **Xuyu Zhang (26025395)** | `frontend/src/context/`, `services/api.js`, `services/authService.js`, `services/cartService.js` |
+| Task 6b — Product service | **Qiushi Huang (25668904)** | `frontend/src/services/productService.js` |
+| Task 7 — Navbar + Login + Register | **Xuyu Zhang (26025395)** | `frontend/src/components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
+| Task 8 — HomePage + live search | **Qiushi Huang (25668904)** | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
+| Task 9 — CartPage + ProfilePage | **Xuyu Zhang (26025395)** | `frontend/src/pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
+| Task 10 — Admin pages | **Qiushi Huang (25668904)** | `frontend/src/pages/Admin*.jsx` |
+| Tasks 11–15 — Polish + submit | **Both** | shared |
+
 **Rubric checklist this plan satisfies:**
 - SPA (one .html file) ✓
 - CRUD on 3 entities ✓

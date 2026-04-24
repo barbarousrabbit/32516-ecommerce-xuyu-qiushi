@@ -8,6 +8,25 @@
 
 **技术栈：** React 18 + Vite + React Router v6 · FastAPI · SQLAlchemy · MySQL 8 · python-jose · passlib/bcrypt
 
+**工作量分配（方案 B — 按功能分工）：**
+
+| 任务 | 负责人 | 涉及文件 |
+|------|--------|---------|
+| 任务 1 — 数据库 Schema + 初始数据 | **Qiushi Huang (25668904)** | `database/` |
+| 任务 2 — FastAPI 项目初始化 | **Xuyu Zhang (26025395)** | `backend/main.py`, `database.py`, `requirements.txt` |
+| 任务 3 — 用户模型 + JWT 认证 | **Xuyu Zhang (26025395)** | `backend/auth/`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
+| 任务 4a — 商品模型 + 路由 | **Qiushi Huang (25668904)** | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
+| 任务 4b — 购物车模型 + 路由 | **Xuyu Zhang (26025395)** | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
+| 任务 4c — 用户管理路由（管理员） | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
+| 任务 5 — Vite + React + 路由配置 | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx` |
+| 任务 6 — AuthContext + 服务层 | **Xuyu Zhang (26025395)** | `frontend/src/context/`, `services/api.js`, `services/authService.js`, `services/cartService.js` |
+| 任务 6b — 商品服务层 | **Qiushi Huang (25668904)** | `frontend/src/services/productService.js` |
+| 任务 7 — 导航栏 + 登录 + 注册页 | **Xuyu Zhang (26025395)** | `frontend/src/components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
+| 任务 8 — 首页 + 实时搜索 | **Qiushi Huang (25668904)** | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
+| 任务 9 — 购物车页 + 个人资料页 | **Xuyu Zhang (26025395)** | `frontend/src/pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
+| 任务 10 — 管理员页面 | **Qiushi Huang (25668904)** | `frontend/src/pages/Admin*.jsx` |
+| 任务 11–15 — 收尾与提交 | **两人共同** | 共同完成 |
+
 **本计划满足的评分标准：**
 - 单页应用（只有一个 .html 文件）✓
 - 三个实体的完整 CRUD 操作 ✓

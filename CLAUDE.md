@@ -73,6 +73,28 @@ Every source code file must begin with an author header comment declaring both g
 | Product | `products` | Admin: CRUD; User: Read only |
 | Shopping Cart | `shopping_cart` + `cart_items` | User: own cart CRUD; Admin: read all |
 
+## Workload Allocation (Option B — Feature Split)
+
+### Xuyu Zhang (26025395) — Auth + Cart + Project Foundation
+
+| Area | Files |
+|------|-------|
+| Project setup | `backend/main.py`, `backend/database.py`, `backend/requirements.txt`, `frontend/src/main.jsx`, `frontend/src/App.jsx` |
+| Auth (frontend) | `frontend/src/context/AuthContext.jsx`, `frontend/src/services/api.js`, `frontend/src/services/authService.js`, `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/RegisterPage.jsx` |
+| Auth (backend) | `backend/auth/jwt.py`, `backend/routers/auth.py`, `backend/models/user.py`, `backend/schemas/user.py` |
+| Cart (frontend) | `frontend/src/services/cartService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
+| Cart (backend) | `backend/routers/cart.py`, `backend/models/cart.py`, `backend/schemas/cart.py` |
+
+### Qiushi Huang (25668904) — Products + Admin + Database
+
+| Area | Files |
+|------|-------|
+| Database | `database/schema.sql`, `database/seed.sql` |
+| Products (frontend) | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
+| Products (backend) | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
+| Admin (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx` |
+| Admin (backend) | `backend/routers/users.py` |
+
 ## Assignment Must-Haves (check before submitting)
 - [ ] Only ONE `.html` file in the entire project (`frontend/index.html`)
 - [ ] All four CRUD operations exist on all three entities

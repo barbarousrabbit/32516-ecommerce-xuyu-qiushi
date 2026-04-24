@@ -84,15 +84,26 @@ mysql -u root -p < database/seed.sql
 
 ## Workload Allocation
 
-| Member | Responsibilities |
-|--------|----------------|
-| Xuyu Zhang (20625395) | TBD |
-| Qiushi Huang | TBD |
+### Xuyu Zhang (26025395) — Auth + Cart + Project Foundation
+| Area | Files |
+|------|-------|
+| Project setup | `backend/main.py`, `backend/database.py`, `backend/requirements.txt`, `frontend/src/main.jsx`, `frontend/src/App.jsx` |
+| User auth (frontend) | `frontend/src/context/AuthContext.jsx`, `frontend/src/services/api.js`, `frontend/src/services/authService.js`, `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/RegisterPage.jsx` |
+| User auth (backend) | `backend/auth/jwt.py`, `backend/routers/auth.py`, `backend/models/user.py`, `backend/schemas/user.py` |
+| Shopping cart (frontend) | `frontend/src/services/cartService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
+| Shopping cart (backend) | `backend/routers/cart.py`, `backend/models/cart.py`, `backend/schemas/cart.py` |
 
-*To be updated as development progresses.*
+### Qiushi Huang (25668904) — Products + Admin + Database
+| Area | Files |
+|------|-------|
+| Database design | `database/schema.sql`, `database/seed.sql` |
+| Products (frontend) | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
+| Products (backend) | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
+| Admin panel (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx` |
+| Admin panel (backend) | `backend/routers/users.py` |
 
 ---
 
 ## Group Members
-- Xuyu Zhang (20625395)
-- Qiushi Huang
+- Xuyu Zhang (26025395)
+- Qiushi Huang (25668904)
