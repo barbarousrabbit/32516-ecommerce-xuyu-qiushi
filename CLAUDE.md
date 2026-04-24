@@ -61,6 +61,7 @@ Every source code file must begin with an author header comment declaring both g
     plans/
       2026-04-24-ecommerce-shopping-cart.md      ← English implementation plan
       2026-04-24-ecommerce-shopping-cart_cn.md   ← Chinese translation (read only)
+      分工说明.docx                               ← Chinese workload allocation (.docx)
   README.md
   .gitignore
   CLAUDE.md          ← this file
@@ -148,7 +149,7 @@ git config user.email "barbarousrabbit@gmail.com"
 GitHub records both `author` and `committer` per commit. If Qiushi's files are pushed with Xuyu's token, GitHub shows "authored by Qiushi, committed by Xuyu" — the grader can see this discrepancy. Using the correct token ensures author = committer = the right person, with no trace of the other.
 
 ### File ownership reference
-See `docs/plans/workload_cn.md` — Section 六 for the complete file-to-owner mapping.
+See `docs/plans/分工说明.docx` — Section 六 for the complete file-to-owner mapping.
 
 ## Code Conventions
 ### Frontend (React)
