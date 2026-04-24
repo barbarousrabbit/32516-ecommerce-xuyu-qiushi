@@ -4,7 +4,9 @@
 - **Subject**: 32516 Internet Programming, UTS 2026 Semester 1
 - **Members**: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 - **GitHub**: https://github.com/barbarousrabbit/32516-ecommerce-xuyu-qiushi
+- **Qiushi GitHub username**: qiushihuang-beep
 - **Due**: 24 May 2026 by 23:59
+- **Credentials**: stored locally in Claude memory — see `project_credentials.md` (never commit tokens)
 
 ## Language Policy
 - **README.md**: Full English — all sections, descriptions, and comments must be in English
