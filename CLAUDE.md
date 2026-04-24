@@ -115,6 +115,41 @@ Every source code file must begin with an author header comment declaring both g
 - **No secrets in code**: all passwords / DB credentials go in `.env` files (already in `.gitignore`)
 - **Branch strategy**: `main` = stable working code; `feature/<name>` = work in progress
 
+## Commit Identity Rules — MANDATORY
+Each member's files MUST be committed and pushed under their own GitHub identity. This is how the grader verifies individual contribution.
+
+### Committing Xuyu Zhang's files (default)
+```bash
+git config user.name "Xuyu Zhang"
+git config user.email "barbarousrabbit@gmail.com"
+git add <xuyu's files>
+git commit -m "feat: ..."
+# push with Xuyu's token (stored in ~/.claude/.mcp.json)
+```
+
+### Committing Qiushi Huang's files
+```bash
+# Step 1 — switch identity
+git config user.name "Qiushi Huang"
+git config user.email "Qiushi.Huang@student.uts.edu.au"
+
+# Step 2 — commit
+git add <qiushi's files>
+git commit -m "feat: ..."
+
+# Step 3 — push with Qiushi's token (stored in Claude memory: project_credentials.md)
+
+# Step 4 — switch back immediately
+git config user.name "Xuyu Zhang"
+git config user.email "barbarousrabbit@gmail.com"
+```
+
+### Why this matters
+GitHub records both `author` and `committer` per commit. If Qiushi's files are pushed with Xuyu's token, GitHub shows "authored by Qiushi, committed by Xuyu" — the grader can see this discrepancy. Using the correct token ensures author = committer = the right person, with no trace of the other.
+
+### File ownership reference
+See `docs/plans/workload_cn.md` — Section 六 for the complete file-to-owner mapping.
+
 ## Code Conventions
 ### Frontend (React)
 - Component files: `PascalCase.jsx` (e.g., `ProductCard.jsx`)
