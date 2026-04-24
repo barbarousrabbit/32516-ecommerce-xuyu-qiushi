@@ -2,7 +2,7 @@
 
 ## Project Info
 - **Subject**: 32516 Internet Programming, UTS 2026 Semester 1
-- **Members**: Xuyu Zhang (20625395), Qiushi Huang (25668904)
+- **Members**: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 - **GitHub**: https://github.com/barbarousrabbit/32516-ecommerce-xuyu-qiushi
 - **Due**: 24 May 2026 by 23:59
 
@@ -16,10 +16,10 @@ Every source code file must begin with an author header comment declaring both g
 
 | File type | Format |
 |-----------|--------|
-| Python (`.py`) | `# Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
-| JavaScript / JSX (`.js`, `.jsx`) | `// Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
-| CSS (`.css`) | `/* Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904) */` |
-| SQL (`.sql`) | `-- Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
+| Python (`.py`) | `# Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)` |
+| JavaScript / JSX (`.js`, `.jsx`) | `// Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)` |
+| CSS (`.css`) | `/* Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904) */` |
+| SQL (`.sql`) | `-- Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)` |
 
 **Rule**: Add this as the very first line of every new file created. No exceptions.
 
