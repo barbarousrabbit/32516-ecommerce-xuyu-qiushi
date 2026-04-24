@@ -76,25 +76,26 @@ Every source code file must begin with an author header comment declaring both g
 
 ## Workload Allocation (Option B — Feature Split)
 
-### Xuyu Zhang (26025395) — Auth + Cart + Project Foundation
+### Xuyu Zhang (26025395) — UI + Auth + Cart + Project Foundation
 
-| Area | Files |
-|------|-------|
-| Project setup | `backend/main.py`, `backend/database.py`, `backend/requirements.txt`, `frontend/src/main.jsx`, `frontend/src/App.jsx` |
-| Auth (frontend) | `frontend/src/context/AuthContext.jsx`, `frontend/src/services/api.js`, `frontend/src/services/authService.js`, `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/RegisterPage.jsx` |
-| Auth (backend) | `backend/auth/jwt.py`, `backend/routers/auth.py`, `backend/models/user.py`, `backend/schemas/user.py` |
-| Cart (frontend) | `frontend/src/services/cartService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
-| Cart (backend) | `backend/routers/cart.py`, `backend/models/cart.py`, `backend/schemas/cart.py` |
+| 模块 | 文件 |
+|------|------|
+| 项目初始化 | `backend/main.py`, `backend/database.py`, `backend/requirements.txt`, `frontend/src/main.jsx`, `frontend/src/App.jsx` |
+| 全局 UI 样式 | `frontend/src/index.css` (CSS variables, color scheme, responsive breakpoints, all utility classes) |
+| 认证（后端） | `backend/auth/jwt.py`, `backend/routers/auth.py`, `backend/models/user.py`, `backend/schemas/user.py` |
+| 认证（前端） | `frontend/src/context/AuthContext.jsx`, `frontend/src/services/api.js`, `frontend/src/services/authService.js`, `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/RegisterPage.jsx` |
+| 购物车（后端） | `backend/routers/cart.py`, `backend/models/cart.py`, `backend/schemas/cart.py` |
+| 购物车（前端） | `frontend/src/services/cartService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
 
-### Qiushi Huang (25668904) — Products + Admin + Database
+### Qiushi Huang (25668904) — Database + Products + Admin
 
-| Area | Files |
-|------|-------|
-| Database | `database/schema.sql`, `database/seed.sql` |
-| Products (frontend) | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
-| Products (backend) | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
-| Admin (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx` |
-| Admin (backend) | `backend/routers/users.py` |
+| 模块 | 文件 |
+|------|------|
+| 数据库设计 | `database/schema.sql`, `database/seed.sql` |
+| 商品（后端） | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
+| 商品（前端） | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
+| 管理员（后端） | `backend/routers/users.py` |
+| 管理员（前端） | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx` |
 
 ## Assignment Must-Haves (check before submitting)
 - [ ] Only ONE `.html` file in the entire project (`frontend/index.html`)

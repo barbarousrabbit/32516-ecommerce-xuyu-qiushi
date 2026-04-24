@@ -12,22 +12,32 @@
 
 ## 工作量分配（方案 B — 按功能分工）
 
-| 任务 | 负责人 | 涉及文件 |
+### Xuyu Zhang（26025395）— UI + 认证 + 购物车 + 项目基础
+
+| 模块 | 负责人 | 涉及文件 |
 |------|--------|---------|
-| 任务 1 — 数据库 Schema + 初始数据 | **Qiushi Huang (25668904)** | `database/` |
-| 任务 2 — FastAPI 项目初始化 | **Xuyu Zhang (26025395)** | `backend/main.py`, `database.py`, `requirements.txt` |
-| 任务 3 — 用户模型 + JWT 认证 | **Xuyu Zhang (26025395)** | `backend/auth/`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
-| 任务 4a — 商品模型 + 路由 | **Qiushi Huang (25668904)** | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
-| 任务 4b — 购物车模型 + 路由 | **Xuyu Zhang (26025395)** | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
-| 任务 4c — 用户路由（含管理员） | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
-| 任务 5 — Vite + React + 路由配置 | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx`, `index.css` |
-| 任务 6 — AuthContext + 服务层 | **Xuyu Zhang (26025395)** | `frontend/src/context/`, `services/api.js`, `services/authService.js`, `services/cartService.js` |
-| 任务 6b — 商品服务层 | **Qiushi Huang (25668904)** | `frontend/src/services/productService.js` |
-| 任务 7 — 导航栏 + 登录 + 注册页 | **Xuyu Zhang (26025395)** | `components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
-| 任务 8 — 首页 + 实时搜索 | **Qiushi Huang (25668904)** | `pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
-| 任务 9 — 购物车页 + 个人资料页 | **Xuyu Zhang (26025395)** | `pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
-| 任务 10 — 管理员页面 | **Qiushi Huang (25668904)** | `pages/Admin*.jsx` |
-| 任务 11–14 — 收尾与提交 | **两人共同** | 共同完成 |
+| 项目初始化 | Xuyu | `backend/main.py`, `database.py`, `requirements.txt`, `frontend/src/main.jsx`, `App.jsx` |
+| 全局 UI 样式 | Xuyu | `frontend/src/index.css`（CSS 变量、配色、响应式断点、通用样式类）|
+| 认证（后端） | Xuyu | `backend/auth/jwt.py`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
+| 认证（前端） | Xuyu | `frontend/src/context/AuthContext.jsx`, `services/api.js`, `services/authService.js`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
+| 购物车（后端） | Xuyu | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
+| 购物车（前端） | Xuyu | `frontend/src/services/cartService.js`, `pages/CartPage.jsx`, `pages/ProfilePage.jsx`, `components/Navbar.jsx` |
+
+### Qiushi Huang（25668904）— 数据库 + 商品 + 管理员
+
+| 模块 | 负责人 | 涉及文件 |
+|------|--------|---------|
+| 数据库设计 | Qiushi | `database/schema.sql`, `seed.sql` |
+| 商品（后端） | Qiushi | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
+| 商品（前端） | Qiushi | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js`, `services/productService.js` |
+| 管理员（后端） | Qiushi | `backend/routers/users.py` |
+| 管理员（前端） | Qiushi | `frontend/src/pages/AdminProductsPage.jsx`, `AdminUsersPage.jsx`, `AdminCartsPage.jsx` |
+
+### 两人共同
+
+| 模块 | 涉及内容 |
+|------|---------|
+| 收尾与提交 | 任务 11–14：错误处理审查、README 核对、数据库导出、视频录制 |
 
 ---
 

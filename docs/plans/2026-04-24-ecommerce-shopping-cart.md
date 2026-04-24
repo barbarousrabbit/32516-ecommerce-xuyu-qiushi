@@ -12,22 +12,31 @@
 
 ## Workload Split (Option B — Feature-based)
 
-| Task | Owner | Area |
-|------|-------|------|
-| Task 1 — Database schema & seed | **Qiushi Huang (25668904)** | `database/` |
-| Task 2 — FastAPI project setup | **Xuyu Zhang (26025395)** | `backend/main.py`, `database.py`, `requirements.txt` |
-| Task 3 — User model + JWT auth | **Xuyu Zhang (26025395)** | `backend/auth/`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
-| Task 4a — Product model + routes | **Qiushi Huang (25668904)** | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
-| Task 4b — Cart model + routes | **Xuyu Zhang (26025395)** | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
-| Task 4c — Users routes (incl. admin) | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
-| Task 5 — Vite + React + routing | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx`, `index.css` |
-| Task 6 — AuthContext + service layer | **Xuyu Zhang (26025395)** | `frontend/src/context/`, `services/api.js`, `services/authService.js`, `services/cartService.js` |
-| Task 6b — Product service | **Qiushi Huang (25668904)** | `frontend/src/services/productService.js` |
-| Task 7 — Navbar + Login + Register | **Xuyu Zhang (26025395)** | `frontend/src/components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
-| Task 8 — HomePage + live search | **Qiushi Huang (25668904)** | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
-| Task 9 — CartPage + ProfilePage | **Xuyu Zhang (26025395)** | `frontend/src/pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
-| Task 10 — Admin pages | **Qiushi Huang (25668904)** | `frontend/src/pages/Admin*.jsx` |
-| Tasks 11–14 — Polish + submit | **Both** | shared |
+### Xuyu Zhang (26025395) — UI + Auth + Cart + Project Foundation
+
+| Module | Owner | Files |
+|--------|-------|-------|
+| Project init | Xuyu | `backend/main.py`, `database.py`, `requirements.txt`, `frontend/src/main.jsx`, `App.jsx` |
+| Global UI styles | Xuyu | `frontend/src/index.css` — CSS variables, colours, responsive breakpoints, utility classes |
+| Auth (backend) | Xuyu | `backend/auth/jwt.py`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
+| Auth (frontend) | Xuyu | `frontend/src/context/AuthContext.jsx`, `services/api.js`, `services/authService.js`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
+| Cart (backend) | Xuyu | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
+| Cart (frontend) | Xuyu | `frontend/src/services/cartService.js`, `pages/CartPage.jsx`, `pages/ProfilePage.jsx`, `components/Navbar.jsx` |
+
+### Qiushi Huang (25668904) — Database + Products + Admin
+
+| Module | Owner | Files |
+|--------|-------|-------|
+| Database design | Qiushi | `database/schema.sql`, `seed.sql` |
+| Products (backend) | Qiushi | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
+| Products (frontend) | Qiushi | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js`, `services/productService.js` |
+| Admin (backend) | Qiushi | `backend/routers/users.py` |
+| Admin (frontend) | Qiushi | `frontend/src/pages/AdminProductsPage.jsx`, `AdminUsersPage.jsx`, `AdminCartsPage.jsx` |
+
+### Both
+| Module | Files |
+|--------|-------|
+| Polish + submit | Tasks 11–14 (error audit, README, DB export, video) |
 
 ---
 
