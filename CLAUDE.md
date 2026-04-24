@@ -2,9 +2,26 @@
 
 ## Project Info
 - **Subject**: 32516 Internet Programming, UTS 2026 Semester 1
-- **Members**: Xuyu Zhang (20625395), Qiushi Huang
+- **Members**: Xuyu Zhang (20625395), Qiushi Huang (25668904)
 - **GitHub**: https://github.com/barbarousrabbit/32516-ecommerce-xuyu-qiushi
 - **Due**: 24 May 2026 by 23:59
+
+## Language Policy
+- **README.md**: Full English — all sections, descriptions, and comments must be in English
+- **All source code files**: English only — variable names, function names, comments, commit messages
+- **No Chinese characters** in any source file (`.jsx`, `.js`, `.py`, `.css`, `.sql`, `.md` inside `frontend/` or `backend/`)
+
+## Author Signature — MANDATORY
+Every source code file must begin with an author header comment declaring both group members and student IDs.
+
+| File type | Format |
+|-----------|--------|
+| Python (`.py`) | `# Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
+| JavaScript / JSX (`.js`, `.jsx`) | `// Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
+| CSS (`.css`) | `/* Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904) */` |
+| SQL (`.sql`) | `-- Authors: Xuyu Zhang (20625395), Qiushi Huang (25668904)` |
+
+**Rule**: Add this as the very first line of every new file created. No exceptions.
 
 ## Tech Stack
 | Layer | Technology |
