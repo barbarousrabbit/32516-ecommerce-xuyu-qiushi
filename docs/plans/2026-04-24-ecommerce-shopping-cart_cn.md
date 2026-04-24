@@ -1,14 +1,16 @@
 # 电商购物车 — 中文实施计划
 
-> **说明：** 本文档是英文计划 `2026-04-24-ecommerce-shopping-cart.md` 的完整同步翻译，供阅读和理解使用。所有实际编码执行请参照英文计划。
+> **说明：** 本文档是英文计划 `2026-04-24-ecommerce-shopping-cart.md` 的完整同步翻译，供阅读和理解使用。所有实际编码执行请以英文计划为准。
 
-**目标：** 构建一个完整的全栈单页电商应用，包含商品浏览、购物车管理、JWT 认证、实时搜索和管理员后台，满足 32516 Assignment 2 评分标准的所有要求。
+**目标：** 构建一个功能完整的全栈单页电商应用，包含商品浏览、购物车、JWT 认证、实时搜索和管理员后台，满足 32516 Assignment 2 所有评分要求。
 
-**架构：** React 单页应用（仅一个 `index.html`）通过 `services/` 中集中管理的 fetch 函数与 FastAPI 后端通信。FastAPI 使用 JWT `Depends` 中间件保护路由。MySQL 存储三个核心实体（用户、商品、购物车）。
+**架构：** React 单页应用（唯一的 `index.html`）通过集中管理的 `services/` 层调用 FastAPI 后端接口。FastAPI 使用 JWT `Depends` 中间件保护路由。MySQL 存储三个核心实体（用户、商品、购物车）。
 
 **技术栈：** React 18 + Vite + React Router v6 · FastAPI · SQLAlchemy · MySQL 8 · python-jose · passlib/bcrypt
 
-**工作量分配（方案 B — 按功能分工）：**
+---
+
+## 工作量分配（方案 B — 按功能分工）
 
 | 任务 | 负责人 | 涉及文件 |
 |------|--------|---------|
@@ -17,521 +19,469 @@
 | 任务 3 — 用户模型 + JWT 认证 | **Xuyu Zhang (26025395)** | `backend/auth/`, `routers/auth.py`, `models/user.py`, `schemas/user.py` |
 | 任务 4a — 商品模型 + 路由 | **Qiushi Huang (25668904)** | `backend/routers/products.py`, `models/product.py`, `schemas/product.py` |
 | 任务 4b — 购物车模型 + 路由 | **Xuyu Zhang (26025395)** | `backend/routers/cart.py`, `models/cart.py`, `schemas/cart.py` |
-| 任务 4c — 用户管理路由（管理员） | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
-| 任务 5 — Vite + React + 路由配置 | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx` |
+| 任务 4c — 用户路由（含管理员） | **Qiushi Huang (25668904)** | `backend/routers/users.py` |
+| 任务 5 — Vite + React + 路由配置 | **Xuyu Zhang (26025395)** | `frontend/src/main.jsx`, `App.jsx`, `index.css` |
 | 任务 6 — AuthContext + 服务层 | **Xuyu Zhang (26025395)** | `frontend/src/context/`, `services/api.js`, `services/authService.js`, `services/cartService.js` |
 | 任务 6b — 商品服务层 | **Qiushi Huang (25668904)** | `frontend/src/services/productService.js` |
-| 任务 7 — 导航栏 + 登录 + 注册页 | **Xuyu Zhang (26025395)** | `frontend/src/components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
-| 任务 8 — 首页 + 实时搜索 | **Qiushi Huang (25668904)** | `frontend/src/pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
-| 任务 9 — 购物车页 + 个人资料页 | **Xuyu Zhang (26025395)** | `frontend/src/pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
-| 任务 10 — 管理员页面 | **Qiushi Huang (25668904)** | `frontend/src/pages/Admin*.jsx` |
-| 任务 11–15 — 收尾与提交 | **两人共同** | 共同完成 |
+| 任务 7 — 导航栏 + 登录 + 注册页 | **Xuyu Zhang (26025395)** | `components/Navbar.jsx`, `pages/LoginPage.jsx`, `pages/RegisterPage.jsx` |
+| 任务 8 — 首页 + 实时搜索 | **Qiushi Huang (25668904)** | `pages/HomePage.jsx`, `components/ProductCard.jsx`, `hooks/useSearch.js` |
+| 任务 9 — 购物车页 + 个人资料页 | **Xuyu Zhang (26025395)** | `pages/CartPage.jsx`, `pages/ProfilePage.jsx` |
+| 任务 10 — 管理员页面 | **Qiushi Huang (25668904)** | `pages/Admin*.jsx` |
+| 任务 11–14 — 收尾与提交 | **两人共同** | 共同完成 |
 
-**本计划满足的评分标准：**
-- 单页应用（只有一个 .html 文件）✓
-- 三个实体的完整 CRUD 操作 ✓
-- JWT 登录 + bcrypt 密码加密 ✓
-- 实时搜索 ✓
-- 管理员角色 + 查看所有购物车 ✓
-- 全程有意义的 commit 记录 ✓
-- 代码中无硬编码凭证 ✓
+---
+
+## 评分标准满足情况
+
+| 评分标准 | 满足方式 |
+|---------|---------|
+| 单页应用（唯一 .html 文件）| Vite 生成唯一 `frontend/index.html`；React Router 处理所有页面跳转 |
+| 三个实体的 CRUD | 用户（注册/查看/更新资料/管理员删除）、商品（管理员增删改查 + 公开读取）、购物车（加入/查看/修改数量/删除）|
+| JWT + bcrypt | `python-jose` 生成 token；`passlib/bcrypt` 加密密码；token 通过 `Authorization: Bearer` 请求头传递 |
+| 实时搜索 | `useSearch` Hook 加 300ms 防抖，每次击键调用 `GET /products?q=` |
+| 管理员角色 | `users` 表中 `role` 字段；`require_admin` 依赖保护所有管理员路由 |
+| 管理员查看所有购物车 | `GET /cart/all` 返回每位用户的完整购物车 |
+| 无硬编码凭证 | 所有密钥写入 `.env`（已加入 .gitignore）；CORS origin 也从 `.env` 读取 |
+| 有意义的 commit 记录 | 每个任务一个 commit，使用 `feat:`/`fix:`/`chore:`/`docs:` 前缀 |
 
 ---
 
 ## 第一阶段 — 数据库
 
-### 任务 1：编写数据库 Schema
+### 任务 1 — 数据库 Schema 与初始数据
+**负责人：** Qiushi Huang
+**文件：** `database/schema.sql`、`database/seed.sql`
 
-**涉及文件：**
-- 新建：`database/schema.sql`
+**schema.sql — 4 张表：**
+- `users`：id、username（唯一）、email（唯一）、password_hash、role 枚举('user','admin')、created_at
+- `products`：id、name、description、price DECIMAL(10,2)、stock INT、image_url、created_at、updated_at（ON UPDATE 自动更新）
+- `shopping_cart`：id、user_id（外键→users，唯一——每人只有一个购物车，CASCADE 级联删除）
+- `cart_items`：id、cart_id（外键→shopping_cart）、product_id（外键→products）、quantity INT、联合唯一(cart_id, product_id)
 
-**第 1 步：编写 schema.sql**
+**seed.sql — 初始数据：**
+- 1 个管理员账号（密码哈希占位，任务 12 中替换为真实 bcrypt 哈希）
+- 5 个示例商品，使用占位图片 URL
 
-创建四张表：
-- `users`：存储用户账号、邮箱、加密密码和角色（user/admin）
-- `products`：存储商品名称、描述、价格、库存和图片链接
-- `shopping_cart`：每个用户对应一个购物车（一对一关系）
-- `cart_items`：购物车内的具体商品条目，记录商品ID和数量
+**验证：** 执行 `mysql -u root -p < database/schema.sql`，然后 `SHOW TABLES;` — 应看到 4 张表。
 
-**第 2 步：应用到 MySQL**
-```bash
-mysql -u root -p < database/schema.sql
-```
-预期结果：无报错，`SHOW DATABASES;` 中能看到 `ecommerce` 数据库
-
-**第 3 步：编写初始测试数据**
-
-文件：`database/seed.sql`
-
-插入一个 admin 账号和 5 个示例商品（无线耳机、机械键盘、USB-C 扩展坞、高清摄像头、显示器支架）
-
-**第 4 步：提交代码**
-```bash
-git add database/
-git commit -m "feat: add database schema and seed data"
-```
+**提交：** `feat: add database schema and seed data`
 
 ---
 
 ## 第二阶段 — 后端基础
 
-### 任务 2：FastAPI 项目初始化
+### 任务 2 — FastAPI 项目初始化
+**负责人：** Xuyu Zhang
+**文件：** `backend/requirements.txt`、`backend/database.py`、`backend/main.py`、`backend/.env`（从 `.env.example` 复制）
 
-**涉及文件：**
-- 新建：`backend/requirements.txt`
-- 新建：`backend/database.py`
-- 新建：`backend/main.py`
-- 新建：`backend/.env`（不提交，从 `.env.example` 复制）
+**requirements.txt：** fastapi、uvicorn[standard]、sqlalchemy、pymysql、python-dotenv、passlib[bcrypt]、python-jose[cryptography]、python-multipart、email-validator
 
-**第 1 步：编写 requirements.txt**
+**database.py：**
+- 通过 `python-dotenv` 从 `.env` 读取数据库凭证
+- 创建 SQLAlchemy 引擎和 `SessionLocal`
+- 定义所有模型继承的 `Base`（DeclarativeBase）
+- 提供 `get_db()` 生成器依赖
 
-包含以下依赖：fastapi、uvicorn、sqlalchemy、pymysql、python-dotenv、passlib[bcrypt]、python-jose[cryptography]、python-multipart
+**main.py：**
+- 创建 FastAPI 应用实例
+- 配置 CORS — `allow_origins` 从 `CORS_ORIGIN` 环境变量读取（默认值 `http://localhost:5173`）— 绝对不能硬编码
+- 注册 4 个路由器：`/auth`、`/users`、`/products`、`/cart`
 
-**第 2 步：安装依赖**
-```bash
-cd backend
-python -m venv .venv
-source .venv/Scripts/activate   # Windows Git Bash
-pip install -r requirements.txt
-```
+**.env.example — 必须包含的变量：**
+`DB_HOST`、`DB_PORT`、`DB_NAME`、`DB_USER`、`DB_PASSWORD`、`SECRET_KEY`、`ALGORITHM`、`ACCESS_TOKEN_EXPIRE_MINUTES`、`CORS_ORIGIN`
 
-**第 3 步：编写 database.py**
+**验证：** `uvicorn main:app --reload` → 打开 `http://localhost:8000/docs` 能看到 Swagger 文档。
 
-功能：从 `.env` 读取数据库配置，创建 SQLAlchemy 引擎和 Session 工厂，提供 `get_db()` 依赖函数供路由使用
-
-**第 4 步：编写 main.py**
-
-功能：创建 FastAPI 应用实例，配置 CORS（允许前端 `localhost:5173` 访问），注册四个路由模块（auth、users、products、cart）
-
-**第 5 步：验证服务器启动**
-```bash
-uvicorn main:app --reload
-```
-预期结果：`Application startup complete`，打开 `http://localhost:8000/docs` 能看到 Swagger 文档
-
-**第 6 步：提交代码**
-```bash
-git add backend/requirements.txt backend/database.py backend/main.py
-git commit -m "chore: set up FastAPI project with DB connection and CORS"
-```
+**提交：** `chore: set up FastAPI project with DB connection and CORS`
 
 ---
 
-### 任务 3：用户模型、数据结构和 JWT 认证
+### 任务 3 — 用户模型、数据结构和 JWT 认证
+**负责人：** Xuyu Zhang
+**文件：** `backend/models/user.py`、`backend/schemas/user.py`、`backend/auth/jwt.py`、`backend/routers/auth.py`
 
-**涉及文件：**
-- 新建：`backend/models/user.py`
-- 新建：`backend/schemas/user.py`
-- 新建：`backend/auth/jwt.py`
-- 新建：`backend/routers/auth.py`
+**models/user.py：** `users` 表的 SQLAlchemy ORM 映射，包含全部 6 个字段。
 
-**第 1 步：编写 models/user.py**
+**schemas/user.py — 5 个 Pydantic 类：**
+- `UserRegister`：username（最短 3 位，最长 50 位）、email（EmailStr 格式验证）、password（最短 6 位）
+- `UserLogin`：email、password
+- `UserUpdate`：username（可选）、email（可选）— 用于 `PUT /users/me` 修改资料
+- `UserOut`：id、username、email、role — 返回给前端（绝不包含密码）
+- `Token`：access_token、token_type="bearer"、user（UserOut）
 
-使用 SQLAlchemy 定义 `users` 表对应的 ORM 模型，字段包括：id、username、email、password_hash、role、created_at
+**auth/jwt.py — 5 个函数：**
+- `hash_password(password)` → bcrypt 哈希
+- `verify_password(plain, hashed)` → 布尔值
+- `create_token(data)` → 带过期时间的 JWT 字符串（过期时间从 env 读取）
+- `get_current_user(credentials, db)` → 解析 Bearer token，返回 User 对象，否则抛出 401
+- `require_admin(current_user)` → 检查 role=="admin"，否则抛出 403
 
-**第 2 步：编写 schemas/user.py**
+**routers/auth.py — 2 个接口：**
+- `POST /auth/register`（201）：哈希密码 → 保存用户 → 调用 `db.flush()` 获取新用户的 id → 为该用户创建空购物车 → `db.commit()` → 返回 Token
+- `POST /auth/login`：验证邮箱和密码 → 返回 Token
 
-使用 Pydantic 定义：
-- `UserRegister`：注册请求体（username + email + password）
-- `UserLogin`：登录请求体（email + password）
-- `UserOut`：返回给前端的用户信息（不含密码）
-- `Token`：登录/注册成功后返回的 JWT token + 用户信息
+> **注意 `db.flush()`：** 在 `db.commit()` 之前调用，目的是在同一个事务内获取新用户的 `id`，从而立刻创建关联的购物车。这是一个非显然操作，必须加注释说明。
 
-**第 3 步：编写 auth/jwt.py**
+**验证：** 在 Swagger 中测试两个接口 → 期望响应中包含 JWT token。
 
-包含以下核心功能：
-- `hash_password()`：用 bcrypt 加密密码
-- `verify_password()`：验证密码是否匹配
-- `create_token()`：生成 JWT token，设置过期时间
-- `get_current_user()`：从请求头的 Bearer token 解析当前用户，供路由使用
-- `require_admin()`：在 `get_current_user` 基础上额外检查 role === 'admin'
-
-**第 4 步：编写 routers/auth.py**
-
-实现两个接口：
-- `POST /auth/register`：注册新用户，哈希密码，自动为新用户创建空购物车，返回 token
-- `POST /auth/login`：验证邮箱和密码，返回 token
-
-**第 5 步：在 Swagger 中验证**
-- 打开 `http://localhost:8000/docs`
-- 测试 `POST /auth/register`：期望返回 201 和 token
-- 测试 `POST /auth/login`：期望返回 200 和 token
-
-**第 6 步：提交代码**
-```bash
-git add backend/models/user.py backend/schemas/user.py backend/auth/jwt.py backend/routers/auth.py
-git commit -m "feat: implement JWT register and login with bcrypt"
-```
+**提交：** `feat: implement JWT register and login with bcrypt`
 
 ---
 
-### 任务 4：商品和购物车模型 + CRUD 路由
+### 任务 4a — 商品模型与 CRUD 路由
+**负责人：** Qiushi Huang
+**文件：** `backend/models/product.py`、`backend/schemas/product.py`、`backend/routers/products.py`
 
-**涉及文件：**
-- 新建：`backend/models/product.py`
-- 新建：`backend/models/cart.py`
-- 新建：`backend/schemas/product.py`
-- 新建：`backend/schemas/cart.py`
-- 新建：`backend/routers/products.py`
-- 新建：`backend/routers/cart.py`
-- 新建：`backend/routers/users.py`
+**models/product.py：** `products` 表的 ORM 映射，包含全部 7 个字段。
 
-**第 1 步：编写 models/product.py**
+**schemas/product.py — 3 个 Pydantic 类：**
+- `ProductCreate`：name、description（可选）、price、stock（默认 0）、image_url（可选）
+- `ProductUpdate`：所有字段均可选（支持局部更新）
+- `ProductOut`：所有字段，包括 id、created_at、updated_at
 
-定义 `products` 表 ORM 模型，字段：id、name、description、price、stock、image_url、created_at、updated_at
+**routers/products.py — 5 个接口：**
+- `GET /products?q=`（公开）：返回所有商品；提供 `q` 参数时，用 `name ILIKE %q%` 过滤（实时搜索的后端实现）
+- `GET /products/{id}`（公开）：返回单个商品，不存在则 404
+- `POST /products`（仅 admin）：创建商品
+- `PUT /products/{id}`（仅 admin）：用 `exclude_unset=True` 做局部更新
+- `DELETE /products/{id}`（仅 admin）：删除商品，不存在则 404
 
-**第 2 步：编写 models/cart.py**
+**验证：** 在 Swagger 中测试全部 5 个接口；用普通用户 token 访问 POST/PUT/DELETE 时应返回 403。
 
-定义两个模型：
-- `ShoppingCart`：关联 user_id，包含 items 关系
-- `CartItem`：关联 cart_id 和 product_id，记录数量；cart_id + product_id 组合唯一（防止重复添加）
+**提交：** `feat: add product CRUD routes with admin-only write access`
 
-**第 3 步：编写 schemas/product.py**
+---
 
-定义：`ProductCreate`（创建）、`ProductUpdate`（更新，所有字段可选）、`ProductOut`（返回给前端）
+### 任务 4b — 购物车模型与路由
+**负责人：** Xuyu Zhang
+**文件：** `backend/models/cart.py`、`backend/schemas/cart.py`、`backend/routers/cart.py`
 
-**第 4 步：编写 schemas/cart.py**
+**models/cart.py — 2 个 ORM 类：**
+- `ShoppingCart`：id、user_id（外键，唯一）、created_at；包含 `items` 关联关系
+- `CartItem`：id、cart_id（外键）、product_id（外键）、quantity；包含 `product` 关联关系；联合唯一(cart_id, product_id)
 
-定义：`CartItemAdd`（加入购物车）、`CartItemUpdate`（修改数量）、`CartItemOut`（含完整商品信息）、`CartOut`（整个购物车）、`UserCartOut`（管理员用：用户信息 + 购物车）
+**schemas/cart.py — 5 个 Pydantic 类：**
+- `CartItemAdd`：product_id、quantity（默认 1）
+- `CartItemUpdate`：quantity（整数）
+- `CartItemOut`：id、product（ProductOut）、quantity
+- `CartOut`：id、items（CartItemOut 列表）
+- `UserCartOut`：user_id、username、cart（CartOut）— 供管理员接口使用
 
-**第 5 步：编写 routers/products.py**
+**routers/cart.py — 5 个接口：**
+- `GET /cart/me`（需登录）：返回当前用户的购物车；处理购物车为 None 的边界情况
+- `POST /cart/items`（需登录）：加入商品；如果该商品已在购物车中，则累加数量而不是创建重复条目
+- `PUT /cart/items/{id}`（需登录）：修改数量；如果数量 ≤ 0，自动删除该条目
+- `DELETE /cart/items/{id}`（需登录）：删除购物车条目
+- `GET /cart/all`（仅 admin）：用 `joinedload` 预加载关联数据，返回所有用户的购物车（避免 N+1 查询问题）
 
-实现以下接口：
-- `GET /products?q=关键词`：获取商品列表，支持按名称模糊搜索（公开）
-- `GET /products/{id}`：获取单个商品（公开）
-- `POST /products`：新增商品（仅 admin）
-- `PUT /products/{id}`：修改商品（仅 admin）
-- `DELETE /products/{id}`：删除商品（仅 admin）
+**验证：** 依次加入商品、查看购物车、修改数量、删除商品 — 全部通过 Swagger 验证。
 
-**第 6 步：编写 routers/cart.py**
+**提交：** `feat: add shopping cart CRUD routes`
 
-实现以下接口：
-- `GET /cart/me`：查看自己的购物车（需登录）
-- `POST /cart/items`：加入商品；若已存在则累加数量（需登录）
-- `PUT /cart/items/{id}`：修改数量；数量 ≤ 0 则自动删除该条目（需登录）
-- `DELETE /cart/items/{id}`：删除购物车条目（需登录）
-- `GET /cart/all`：获取所有用户的购物车（仅 admin）
+---
 
-**第 7 步：编写 routers/users.py**
+### 任务 4c — 用户路由（资料 + 管理员）
+**负责人：** Qiushi Huang
+**文件：** `backend/routers/users.py`
 
-实现以下接口：
-- `GET /users/me`：查看自己的资料（需登录）
-- `GET /users`：获取所有用户列表（仅 admin）
-- `DELETE /users/{id}`：删除用户（仅 admin）
+**routers/users.py — 4 个接口：**
+- `GET /users/me`（需登录）：返回当前用户的资料
+- `PUT /users/me`（需登录）：允许用户更新自己的 username 或 email；用 `exclude_unset=True` 支持局部更新
+- `GET /users`（仅 admin）：返回所有用户列表
+- `DELETE /users/{id}`（仅 admin）：删除指定用户，不存在则 404
 
-**第 8 步：在 Swagger 中验证所有路由**
+**验证：** 用普通 token 测试资料读取和更新；用 admin token 测试列表和删除。
 
-**第 9 步：提交代码**
-```bash
-git add backend/models/ backend/schemas/ backend/routers/
-git commit -m "feat: add product, cart, and user CRUD routes with admin protection"
-```
+**提交：** `feat: add user profile and admin user management routes`
 
 ---
 
 ## 第三阶段 — 前端基础
 
-### 任务 5：Vite + React 项目初始化 + 路由配置
+### 任务 5 — Vite + React 初始化、路由与全局样式
+**负责人：** Xuyu Zhang
+**文件：** `frontend/` 脚手架、`main.jsx`、`App.jsx`、`index.css`
 
-**涉及文件：**
-- 新建：`frontend/`（Vite 脚手架）
-- 修改：`frontend/src/main.jsx`
-- 新建：`frontend/src/App.jsx`
-
-**第 1 步：创建 React 项目**
+**初始化命令：**
 ```bash
 cd frontend
 npm create vite@latest . -- --template react
-npm install
 npm install react-router-dom
 ```
 
-**第 2 步：编写 main.jsx**
+**main.jsx：** 用 `<BrowserRouter>` 和 `<AuthProvider>` 包裹整个应用，使每个组件都能访问路由和认证状态。
 
-用 `BrowserRouter` 和 `AuthProvider` 包裹整个应用
+**App.jsx — 路由表：**
+- `/` → `HomePage`（公开）
+- `/login` → `LoginPage`（公开）
+- `/register` → `RegisterPage`（公开）
+- `/cart` → `CartPage`（需登录 — `PrivateRoute` 包裹）
+- `/profile` → `ProfilePage`（需登录）
+- `/admin/products` → `AdminProductsPage`（需 admin 角色 — `AdminRoute` 包裹）
+- `/admin/users` → `AdminUsersPage`（需 admin 角色）
+- `/admin/carts` → `AdminCartsPage`（需 admin 角色）
 
-**第 3 步：编写 App.jsx**
+**PrivateRoute：** 如果 `user` 为 null → 跳转到 `/login`；否则渲染子组件。
 
-配置所有页面路由：
-- `/` → 首页（商品列表）
-- `/login` → 登录页
-- `/register` → 注册页
-- `/cart` → 购物车页（需登录）
-- `/profile` → 个人资料页（需登录）
-- `/admin/products` → 管理员商品管理（仅 admin）
-- `/admin/users` → 管理员用户管理（仅 admin）
-- `/admin/carts` → 管理员购物车查看（仅 admin）
+**AdminRoute：** 如果 `user.role !== 'admin'` → 跳转到 `/`；否则渲染子组件。
 
-用 `PrivateRoute` 组件保护需要登录的页面，用 `AdminRoute` 组件保护管理员页面
+**index.css — CSS 变量，确保全站样式一致（所有组件使用 CSS 类，禁止写 inline style）：**
+- 定义变量：`--primary`、`--primary-dark`、`--danger`、`--text`、`--bg`、`--border`、`--radius`、`--shadow`
+- 基础样式：body 字体、box-sizing、button/input 重置
+- 通用样式类：`.container`、`.card`、`.btn`、`.btn-danger`、`.form-group`、`.error-msg`、`.loading`
 
-**第 4 步：提交代码**
-```bash
-git add frontend/
-git commit -m "chore: scaffold React app with Vite and configure all routes"
-```
+**验证：** `npm run dev` → `http://localhost:5173` 无报错加载。
+
+**提交：** `chore: scaffold React app with Vite, configure routes and global CSS`
 
 ---
 
-### 任务 6：AuthContext 和 API 服务层
+### 任务 6 — AuthContext 与 API 服务层
+**负责人：** Xuyu Zhang
+**文件：** `frontend/src/context/AuthContext.jsx`、`services/api.js`、`services/authService.js`、`services/cartService.js`
 
-**涉及文件：**
-- 新建：`frontend/src/context/AuthContext.jsx`
-- 新建：`frontend/src/services/api.js`
-- 新建：`frontend/src/services/authService.js`
-- 新建：`frontend/src/services/productService.js`
-- 新建：`frontend/src/services/cartService.js`
-
-**第 1 步：编写 context/AuthContext.jsx**
-
-用 React Context 管理全局登录状态：
-- 初始化时从 `localStorage` 读取已保存的用户信息
-- `login(user, token)`：保存 token 和用户到 `localStorage`，更新状态
+**AuthContext.jsx：**
+- 从 `localStorage` 初始化 `user` 状态（刷新页面后保持登录）
+- `login(userData, token)`：将 token 和用户信息保存到 `localStorage`，更新状态
 - `logout()`：清除 `localStorage`，重置状态
+- 导出 `useAuth()` hook，方便任意组件调用
 
-**第 2 步：编写 services/api.js**
+**api.js — 统一 fetch 封装：**
+- `request(method, path, body)`：自动从 `localStorage` 读取 token，设置 `Authorization: Bearer` 请求头
+- 处理 204 No Content 响应（返回 null）
+- 请求失败时抛出含 `data.detail` 的 `Error` — 保证错误明确暴露，不静默失败
+- 导出 `api.get`、`api.post`、`api.put`、`api.delete`
+- 基础 URL 从 `import.meta.env.VITE_API_URL` 读取 — 绝不硬编码
 
-封装一个通用 `request()` 函数：
-- 自动从 `localStorage` 读取 token，加到 `Authorization: Bearer` 请求头
-- 统一处理 204 No Content 响应
-- 请求失败时抛出错误信息（而不是让页面崩溃）
-- 导出 `api.get` / `api.post` / `api.put` / `api.delete` 四个快捷方法
+**authService.js：** `register(data)`、`login(data)` — 封装 `api.post` 的简单调用
 
-**第 3 步：编写 services/authService.js**
+**cartService.js：** `getMyCart()`、`addToCart(productId, qty)`、`updateCartItem(itemId, qty)`、`removeCartItem(itemId)`、`getAllCarts()`
 
-封装注册和登录接口调用
+**提交：** `feat: add AuthContext and centralised API service layer`
 
-**第 4 步：编写 services/productService.js**
+---
 
-封装商品列表查询（含搜索参数）、创建、更新、删除接口
+### 任务 6b — 商品服务层
+**负责人：** Qiushi Huang
+**文件：** `frontend/src/services/productService.js`
 
-**第 5 步：编写 services/cartService.js**
+**productService.js：** `getProducts(q)` — 提供搜索词时自动添加 `?q=` 参数；`createProduct(data)`、`updateProduct(id, data)`、`deleteProduct(id)`
 
-封装查看购物车、加入商品、修改数量、删除条目、管理员查看所有购物车接口
-
-**第 6 步：提交代码**
-```bash
-git add frontend/src/context/ frontend/src/services/
-git commit -m "feat: add AuthContext and centralised API service layer"
-```
+**提交：** `feat: add product service layer`
 
 ---
 
 ## 第四阶段 — 前端页面
 
-### 任务 7：导航栏 + 登录页 + 注册页
+### 任务 7 — 导航栏 + 登录页 + 注册页
+**负责人：** Xuyu Zhang
+**文件：** `components/Navbar.jsx`、`pages/LoginPage.jsx`、`pages/RegisterPage.jsx`
 
-**涉及文件：**
-- 新建：`frontend/src/components/Navbar.jsx`
-- 新建：`frontend/src/pages/LoginPage.jsx`
-- 新建：`frontend/src/pages/RegisterPage.jsx`
+**Navbar.jsx：**
+- 通过 `useAuth()` 读取 `user` 状态
+- 未登录：显示 Login 和 Register 链接
+- 已登录（普通用户）：显示 Cart、用户名（链接到 Profile）、Logout 按钮
+- 已登录（admin）：额外显示 Admin 链接
+- `handleLogout()`：调用 `logout()` 后跳转到 `/login`
 
-**第 1 步：编写 components/Navbar.jsx**
+**LoginPage.jsx：**
+- 受控表单：邮箱 + 密码字段
+- 提交时：调用 `authService.login()` → 成功则调用 `AuthContext.login()` 并跳转到 `/`
+- 失败时：在表单下方内联显示错误信息（红色文字，不跳转、不白屏）
+- 提供跳转到 `/register` 的链接
 
-根据登录状态显示不同导航项：
-- 未登录：显示「Login」和「Register」链接
-- 已登录（普通用户）：显示「Cart」、用户名、「Logout」
-- 已登录（admin）：额外显示金色的「Admin」链接
+**RegisterPage.jsx：**
+- 与登录页结构相同；字段：用户名 + 邮箱 + 密码
+- 注册成功后调用 `AuthContext.login()` 并跳转到 `/`
 
-**第 2 步：编写 pages/LoginPage.jsx**
+**验证：** 登录成功后跳转到 `/`；密码错误时显示行内错误提示；不出现白屏。
 
-表单包含邮箱和密码输入框，提交后：
-- 调用 `authService.login()`
-- 成功：调用 `AuthContext.login()` 保存状态，跳转到首页
-- 失败：在表单上方显示错误信息（红色文字，不跳转、不白屏）
-
-**第 3 步：编写 pages/RegisterPage.jsx**
-
-与登录页结构相同，调用 `authService.register()`，字段：用户名 + 邮箱 + 密码
-
-**第 4 步：在浏览器中验证**
-
-登录成功后跳转到 `/`；出错时显示行内错误提示（不出现白屏）
-
-**第 5 步：提交代码**
-```bash
-git add frontend/src/components/Navbar.jsx frontend/src/pages/LoginPage.jsx frontend/src/pages/RegisterPage.jsx
-git commit -m "feat: add Navbar, LoginPage, and RegisterPage"
-```
+**提交：** `feat: add Navbar, LoginPage, and RegisterPage`
 
 ---
 
-### 任务 8：首页 + 实时搜索
+### 任务 8 — 首页与实时搜索
+**负责人：** Qiushi Huang
+**文件：** `pages/HomePage.jsx`、`components/ProductCard.jsx`、`hooks/useSearch.js`
 
-**涉及文件：**
-- 新建：`frontend/src/pages/HomePage.jsx`
-- 新建：`frontend/src/components/ProductCard.jsx`
-- 新建：`frontend/src/hooks/useSearch.js`
+**useSearch.js（自定义 Hook）：**
+- 状态：`query`、`products`、`loading`、`error`
+- `useEffect` 监听 `query` 变化：设置 300ms `setTimeout` 后再调用 `getProducts(query)`（防抖，避免每次击键都请求接口）
+- 重新渲染时用 `clearTimeout` 清理定时器
+- API 失败时设置友好的错误信息 — 不向 UI 抛出异常
 
-**第 1 步：编写 hooks/useSearch.js**
+**ProductCard.jsx：**
+- 展示：商品图片、名称、描述、价格、库存状态（绿色"X in stock" / 红色"Out of stock"）
+- "Add to Cart" 按钮：库存为 0 时禁用（disabled）
+- 未登录时点击：行内显示"Please login"提示
+- 加入成功：显示"Added!"反馈 2 秒后消失
+- 加入失败：行内显示错误信息
 
-自定义 Hook，核心逻辑：
-- 用 `useState` 管理搜索词和商品列表
-- 用 `useEffect` 监听搜索词变化，加 300ms 防抖（避免每次击键都请求接口）
-- 请求失败时设置友好的错误信息（不崩溃）
+**HomePage.jsx：**
+- 搜索框绑定 `useSearch` 的 `setQuery`
+- 用 flex-wrap 网格渲染 `products.map(p => <ProductCard .../>)`
+- `loading === true` 时显示"Loading..."
+- 加载失败时显示错误信息
+- 结果为空且不在加载时显示"No products found."
 
-**第 2 步：编写 components/ProductCard.jsx**
+**验证：** 在搜索框输入关键词 → 商品列表即时更新，不需要点击搜索按钮，不刷新页面。
 
-展示单个商品：图片、名称、描述、价格、库存状态、「Add to Cart」按钮：
-- 未登录点击按钮：提示「请先登录」
-- 已登录点击：调用 `cartService.addToCart()`，成功显示「Added!」绿色提示
-- 库存为 0：按钮 disabled
-
-**第 3 步：编写 pages/HomePage.jsx**
-
-页面布局：搜索框 + 商品卡片网格（flex wrap）：
-- 搜索框 `onChange` 直接更新 `useSearch` 的 query
-- 加载中显示 `Loading...`
-- 无结果显示 `No products found.`
-- 请求失败显示红色错误信息
-
-**第 4 步：在浏览器中验证实时搜索**
-
-在搜索框输入关键词，商品列表应即时更新，无需点击搜索按钮，无需刷新页面
-
-**第 5 步：提交代码**
-```bash
-git add frontend/src/hooks/useSearch.js frontend/src/components/ProductCard.jsx frontend/src/pages/HomePage.jsx
-git commit -m "feat: add HomePage with live search and ProductCard"
-```
+**提交：** `feat: add HomePage with live search and ProductCard`
 
 ---
 
-### 任务 9：购物车页 + 个人资料页
+### 任务 9 — 购物车页与个人资料页
+**负责人：** Xuyu Zhang
+**文件：** `pages/CartPage.jsx`、`pages/ProfilePage.jsx`
 
-**涉及文件：**
-- 新建：`frontend/src/pages/CartPage.jsx`
-- 新建：`frontend/src/pages/ProfilePage.jsx`
+**CartPage.jsx：**
+- 页面加载时调用 `getMyCart()` → 渲染购物车条目
+- 每行显示：商品图片、名称、单价、数量输入框（min=1）、Remove 按钮
+- 修改数量：调用 `updateCartItem(itemId, newQty)` → 更新显示
+- 点击 Remove：调用 `removeCartItem(itemId)` → 重新加载购物车
+- 底部右侧显示购物车总价（所有 `price × quantity` 之和）
+- 空购物车：显示"Your cart is empty."
+- 错误状态：行内显示错误信息，不出现白屏
 
-**第 1 步：编写 pages/CartPage.jsx**
+**ProfilePage.jsx：**
+- 页面加载时调用 `GET /users/me` → 显示用户名、邮箱、角色
+- 提供编辑表单，允许通过 `PUT /users/me` 更新用户名或邮箱
+- 更新成功：刷新显示的数据并显示"Profile updated!"提示
+- 更新失败：行内显示错误信息
 
-功能：
-- 页面加载时调用 `cartService.getMyCart()` 获取购物车
-- 每行显示：商品图片、名称、单价、数量输入框、「Remove」按钮
-- 修改数量：调用 `cartService.updateCartItem()`
-- 删除条目：调用 `cartService.removeCartItem()`
-- 底部显示购物车总价
-- 空购物车显示 `Your cart is empty.`
+**验证：** 在首页加入商品 → 进入购物车页查看和修改；在资料页更新用户名。
 
-**第 2 步：编写 pages/ProfilePage.jsx**
-
-调用 `GET /users/me` 显示用户名、邮箱、角色
-
-**第 3 步：提交代码**
-```bash
-git add frontend/src/pages/CartPage.jsx frontend/src/pages/ProfilePage.jsx
-git commit -m "feat: add CartPage and ProfilePage"
-```
+**提交：** `feat: add CartPage and ProfilePage with edit support`
 
 ---
 
-### 任务 10：管理员页面
+### 任务 10 — 管理员页面
+**负责人：** Qiushi Huang
+**文件：** `pages/AdminProductsPage.jsx`、`pages/AdminUsersPage.jsx`、`pages/AdminCartsPage.jsx`
 
-**涉及文件：**
-- 新建：`frontend/src/pages/AdminProductsPage.jsx`
-- 新建：`frontend/src/pages/AdminUsersPage.jsx`
-- 新建：`frontend/src/pages/AdminCartsPage.jsx`
+**AdminProductsPage.jsx：**
+- 页面加载时获取所有商品
+- 表格：id、名称、价格、库存、操作（编辑 / 删除）
+- "Add Product"表单：name、description、price、stock、image_url 字段 → 调用 `createProduct()`
+- 编辑：每行的行内编辑模式 → 点击保存调用 `updateProduct(id, data)`
+- 删除：确认后调用 `deleteProduct(id)`
+- 所有操作失败时行内显示错误信息（不白屏）
 
-**AdminProductsPage（商品管理）**：列出所有商品 + 新增表单 + 编辑 + 删除按钮
+**AdminUsersPage.jsx：**
+- 页面加载时获取所有用户（`GET /users`）
+- 表格：id、用户名、邮箱、角色
+- 每行有删除按钮 → 调用 `DELETE /users/{id}` → 刷新列表
+- 禁止删除自己的账号（对比 AuthContext 中的 `user.id`）
 
-**AdminUsersPage（用户管理）**：列出所有用户（ID、用户名、邮箱、角色）+ 删除按钮
+**AdminCartsPage.jsx：**
+- 页面加载时获取所有购物车（`getAllCarts()`）
+- 每位用户显示：用户名、商品数量、购物车总价、可展开的商品列表
+- 只读视图（无修改操作）
 
-**AdminCartsPage（购物车查看）**：列出所有用户及其购物车内容和总价
+**三个页面共同规则：** 每个 API 调用都用 try/catch 包裹，失败时显示错误信息，绝不出现白屏。
 
-每个页面：API 失败时显示错误信息（不出现白屏）
-
-**提交代码：**
-```bash
-git add frontend/src/pages/Admin*.jsx
-git commit -m "feat: add Admin pages for products, users, and cart management"
-```
+**提交：** `feat: add Admin pages for products, users, and cart management`
 
 ---
 
 ## 第五阶段 — 收尾与提交
 
-### 任务 11：错误处理与加载状态
+### 任务 11 — 错误处理与加载状态审核
+**负责人：** 两人共同
 
-- 检查所有页面的 API 调用是否都有 try-catch（上面各步骤已完成，逐一核查）
-- 为加载时间较长的 fetch 添加 loading 状态提示
-- 确保没有任何页面在 API 失败时出现白屏
-- 验证 `AdminRoute` 能正确将非管理员用户重定向到首页
+检查每个页面和组件：
+- 所有 `fetch` 调用都在 `try/catch` 内，且有用户可见的错误信息 ✓
+- 每个异步操作在等待期间都有加载提示
+- 没有任何页面在 API 失败时显示空白/白屏
+- `PrivateRoute` 和 `AdminRoute` 能正确重定向 — 未登录访问受保护 URL 时验证
 
-**提交代码：**
-```bash
-git commit -m "fix: ensure all API failures show user-friendly error messages"
-```
+**提交：** `fix: ensure all pages handle API errors and loading states`
 
 ---
 
-### 任务 12：生成真实 admin 密码哈希 + 完善初始数据
+### 任务 12 — 生成真实管理员密码哈希
+**负责人：** Qiushi Huang
 
+在 Python 中运行以下命令生成真实的 bcrypt 哈希：
 ```bash
-cd backend
 python3 -c "from passlib.context import CryptContext; print(CryptContext(schemes=['bcrypt']).hash('admin123'))"
 ```
-复制输出的哈希值 → 替换 `database/seed.sql` 中的占位符 → 重新导入数据
+将输出的哈希值替换 `database/seed.sql` 中的占位符 → 重新导入数据。
 
-**提交代码：**
-```bash
-git add database/seed.sql
-git commit -m "chore: update seed data with real bcrypt admin password hash"
-```
+**提交：** `chore: replace seed admin password with real bcrypt hash`
 
 ---
 
-### 任务 13：补全 README 工作量分配部分
+### 任务 13 — 最终 README 核对
+**负责人：** 两人共同
 
-在 `README.md` 的 Workload Allocation 表格中填写每位成员实际负责的文件列表
+验证以下 3 项评分内容是否完整且最新：
+1. 项目标题 + 描述（这个网站解决了什么问题）
+2. 技术栈 + 运行方法 + 依赖项
+3. 目录结构说明 + 工作量分配表（文件级别）
 
-```bash
-git add README.md
-git commit -m "docs: complete README with final workload allocation"
-```
+**提交：** `docs: finalise README for submission`
 
 ---
 
-### 任务 14：导出数据库 + 最终检查
+### 任务 14 — 数据库导出 + 最终提交检查
+**负责人：** 两人共同
 
+导出数据库：
 ```bash
-mysqldump -u root -p ecommerce > database/schema_export.sql
+mysqldump -u root -p ecommerce > database/ecommerce_export.sql
+git add database/ecommerce_export.sql
+git commit -m "chore: add database export for submission"
 ```
 
-**最终检查清单（来自 CLAUDE.md）：**
+**提交前最终检查清单：**
 - [ ] 整个项目中只有一个 `.html` 文件（`frontend/index.html`）
-- [ ] 三个实体的增删改查全部正常工作
-- [ ] JWT 登录/注销正常；受保护路由能正确重定向未登录用户
-- [ ] 实时搜索在输入时即时过滤商品
-- [ ] admin 能在 `/admin/carts` 查看所有用户的购物车
-- [ ] 没有 `.env` 文件被提交（执行 `git status` 确认）
-- [ ] 所有 commit 信息有意义
+- [ ] 三个实体的全部 4 种 CRUD 操作正常工作（users、products、cart）
+- [ ] 用户可以更新自己的资料（`PUT /users/me`）
+- [ ] JWT 登录/登出正常；受保护路由能正确重定向未登录用户
+- [ ] 实时搜索在输入时即时过滤商品 — 不需要点击搜索按钮
+- [ ] 管理员可以在 `/admin/carts` 查看所有用户的购物车
+- [ ] 没有 `.env` 文件被提交 — 执行 `git status` 确认
+- [ ] 所有 commit 信息有意义（`feat:`、`fix:`、`chore:`、`docs:` 前缀）
+- [ ] 每个源码文件第一行都有 `// Authors:` / `# Authors:` 签名
 
-```bash
-git add database/schema_export.sql
-git commit -m "chore: add final database export for submission"
-```
-
----
-
-### 任务 15：录制视频演示（≤3 分钟）
-
-**演示脚本：**
-1. 展示首页商品列表，在搜索框输入关键词 → 列表即时过滤
+**视频演示脚本（≤ 3 分钟）：**
+1. 首页：展示商品列表 → 在搜索框输入关键词 → 列表即时过滤
 2. 注册新用户 → 跳转到首页
-3. 添加 2-3 件商品到购物车 → 进入购物车页 → 修改数量 → 删除一件商品
-4. 退出登录 → 用 admin 账号登录 → 进入管理员后台 → 展示商品 CRUD → 展示所有购物车
+3. 添加 2–3 件商品到购物车 → 进入购物车页 → 修改数量 → 删除一件商品
+4. 进入个人资料页 → 更新用户名
+5. 退出登录 → 用 admin 账号登录 → 管理员商品页（展示增删改）→ 管理员用户页 → 管理员购物车页（查看所有人的购物车）
 
-在 Canvas 提交：GitHub 仓库链接 + 视频链接
+> ⚠️ 录制时不要展示：源代码、终端窗口、数据库内容 — 只展示浏览器界面。
 
 ---
 
-## 整体进度总结
+## Q&A 备考（Week 12 Tutorial）
 
-| 阶段 | 任务 | 预计时间 |
+导师会针对你个人负责的功能提问，务必能清晰解释。
+
+**Xuyu（认证 + 购物车）准备以下问题：**
+- 为什么用 `useState` 管理表单状态，而用 `useContext` 管理认证状态？
+- JWT 的原理是什么 — token 里存了什么？它保存在浏览器的哪里？
+- 为什么在注册路由里要用 `db.flush()` 而不是直接 `db.commit()`？
+- 如果有人不带 token 访问 `/cart/me` 会发生什么？
+
+**Qiushi（商品 + 管理员 + 数据库）准备以下问题：**
+- 为什么用 `ILIKE` 做商品搜索？`%q%` 是什么意思？
+- 为什么 `cart_items` 表要设置 `UNIQUE(cart_id, product_id)` 联合唯一约束？
+- `joinedload` 是什么，为什么在 `GET /cart/all` 中使用它？
+- `require_admin` 依赖是如何工作的？
+
+---
+
+## 开发时间线
+
+| 阶段 | 任务 | 目标时间 |
 |------|------|---------|
-| 数据库 | 任务 1 | 1天 |
-| 后端基础 | 任务 2-3 | 2天 |
-| 后端 CRUD | 任务 4 | 2天 |
-| 前端基础 | 任务 5-6 | 2天 |
-| 前端页面 | 任务 7-10 | 4天 |
-| 收尾提交 | 任务 11-15 | 2天 |
-| **合计** | **15个任务** | **约13天** |
+| 数据库 | 任务 1 | 第 1 周（5月1日前）|
+| 后端基础 | 任务 2–3 | 第 1–2 周（5月8日前）|
+| 后端 CRUD | 任务 4a–4c | 第 2 周（5月8日前）|
+| 前端基础 | 任务 5–6b | 第 2–3 周（5月15日前）|
+| 前端页面 | 任务 7–10 | 第 3–4 周（5月19日前）|
+| 收尾提交 | 任务 11–14 | 第 5 周（5月24日前）|
+| **Week 12 Tutorial 演示** | 已完成 50% 以上 | **约 5月19日** |
