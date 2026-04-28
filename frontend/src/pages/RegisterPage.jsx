@@ -69,6 +69,8 @@ export default function RegisterPage() {
                 <input
                   id="username"
                   type="text"
+                  name="username"
+                  autoComplete="username"
                   placeholder="yourname"
                   value={form.username}
                   onChange={e => setForm({ ...form, username: e.target.value })}
@@ -92,6 +94,8 @@ export default function RegisterPage() {
               <input
                 id="email"
                 type="email"
+                name="email"
+                autoComplete="email"
                 placeholder="you@example.com"
                 value={form.email}
                 onChange={e => setForm({ ...form, email: e.target.value })}
@@ -109,6 +113,8 @@ export default function RegisterPage() {
                 <input
                   id="password"
                   type={showPw ? 'text' : 'password'}
+                  name="password"
+                  autoComplete="new-password"
                   placeholder="Create a password"
                   value={form.password}
                   onChange={e => setForm({ ...form, password: e.target.value })}

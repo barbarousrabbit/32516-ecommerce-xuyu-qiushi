@@ -24,6 +24,13 @@ export default function CartPage() {
   const [placed, setPlaced]     = useState(false)
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (!showCheckout || placing) return
+    const handler = (e) => { if (e.key === 'Escape') setShowCheckout(false) }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [showCheckout, placing])
+
   async function load() {
     try {
       setCart(await getMyCart())
@@ -198,8 +205,15 @@ export default function CartPage() {
 
       {/* Checkout modal */}
       {showCheckout && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-          <div className="bg-surface-container-lowest rounded-2xl shadow-amber w-full max-w-[480px] p-8">
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+             onClick={() => !placing && setShowCheckout(false)}>
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="checkout-dialog-title"
+            className="bg-surface-container-lowest rounded-2xl shadow-amber w-full max-w-[480px] p-8"
+            onClick={e => e.stopPropagation()}
+          >
             {placed ? (
               <div className="text-center py-4">
                 <CheckCircle size={56} className="text-green-600 mx-auto mb-4" />
@@ -210,7 +224,7 @@ export default function CartPage() {
               </div>
             ) : (
               <>
-                <h2 className="font-heading font-bold text-[22px] text-on-surface mb-6">Confirm Your Order</h2>
+                <h2 id="checkout-dialog-title" className="font-heading font-bold text-[22px] text-on-surface mb-6">Confirm Your Order</h2>
 
                 <div className="space-y-2 mb-4">
                   {cart?.items?.map(item => (

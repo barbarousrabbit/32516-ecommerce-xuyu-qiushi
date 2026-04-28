@@ -65,7 +65,7 @@ export default function Navbar() {
               value={navQuery}
               onChange={handleSearch}
               aria-label="Search products"
-              className="w-full pl-10 pr-4 py-2 bg-surface-container-highest border border-outline-variant rounded-full text-body-sm font-body focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface placeholder:text-on-surface-variant"
+              className="w-full pl-10 pr-4 py-2 bg-surface-container-highest border border-outline-variant rounded-full text-body-sm font-body focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-[border-color,box-shadow] duration-200 text-on-surface placeholder:text-on-surface-variant"
             />
           </div>
         </div>
@@ -111,7 +111,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="font-heading font-semibold bg-primary text-on-primary px-4 py-2 rounded-full text-sm hover:bg-surface-tint active:scale-95 transition-all duration-200 shadow-sm"
+                className="font-heading font-semibold bg-primary text-on-primary px-4 py-2 rounded-full text-sm hover:bg-surface-tint active:scale-95 transition-colors duration-200 shadow-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none"
               >
                 Register
               </Link>

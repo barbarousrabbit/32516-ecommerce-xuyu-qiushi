@@ -68,6 +68,8 @@ export default function LoginPage() {
                   <input
                     id="email"
                     type="email"
+                    name="email"
+                    autoComplete="email"
                     placeholder="you@example.com"
                     value={form.email}
                     onChange={e => setForm({ ...form, email: e.target.value })}
@@ -88,6 +90,8 @@ export default function LoginPage() {
                     <input
                       id="password"
                       type={showPw ? 'text' : 'password'}
+                      name="password"
+                      autoComplete="current-password"
                       placeholder="••••••••"
                       value={form.password}
                       onChange={e => setForm({ ...form, password: e.target.value })}

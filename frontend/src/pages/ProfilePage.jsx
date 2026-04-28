@@ -65,6 +65,8 @@ export default function ProfilePage() {
                 <input
                   id="username"
                   type="text"
+                  name="username"
+                  autoComplete="username"
                   value={form.username}
                   onChange={e => setForm({ ...form, username: e.target.value })}
                   className="input-base"
@@ -78,6 +80,8 @@ export default function ProfilePage() {
                 <input
                   id="email"
                   type="email"
+                  name="email"
+                  autoComplete="email"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
                   className="input-base"
