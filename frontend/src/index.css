@@ -20,14 +20,16 @@
     @apply bg-primary text-on-primary font-heading text-button py-3 px-6
            rounded-lg shadow-sm border-t border-white/20
            hover:bg-surface-tint active:scale-[0.98]
-           transition-all duration-200 cursor-pointer;
+           transition-colors duration-200 cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
 
   .btn-ghost {
     @apply bg-transparent text-primary font-heading text-button py-3 px-6
            rounded-lg border border-outline-variant
            hover:bg-surface-container active:scale-[0.98]
-           transition-all duration-200 cursor-pointer;
+           transition-colors duration-200 cursor-pointer
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2;
   }
 
   /* ── Form input ─── */
@@ -35,14 +37,14 @@
     @apply w-full bg-surface-container-lowest border border-outline-variant
            rounded-lg px-4 py-3 font-body text-body-md text-on-surface
            focus:outline-none focus:border-primary focus:shadow-input-focus
-           transition-all duration-200;
+           transition-[border-color,box-shadow] duration-200;
   }
 
   .input-error {
     @apply w-full bg-error-container/20 border border-error
            rounded-lg px-4 py-3 font-body text-body-md text-on-surface
            focus:outline-none focus:border-error
-           transition-all duration-200;
+           transition-[border-color,box-shadow] duration-200;
   }
 
   /* ── Card ─── */
@@ -55,7 +57,7 @@
     @apply bg-surface-container-lowest rounded-[16px] shadow-amber
            border border-outline-variant/10 overflow-hidden flex flex-col
            hover:shadow-amber-hover hover:-translate-y-1
-           transition-all duration-300;
+           transition-[transform,box-shadow] duration-300;
   }
 
   /* ── Admin sidebar item ─── */
@@ -63,7 +65,8 @@
     @apply flex items-center gap-3 px-3 py-3 rounded-lg
            text-admin-muted font-heading font-medium text-sm
            hover:bg-admin-sidebar-hover hover:text-white
-           transition-all duration-200 cursor-pointer;
+           transition-colors duration-200 cursor-pointer
+           focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-admin-accent;
   }
 
   .sidebar-item-active {

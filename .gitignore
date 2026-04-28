@@ -28,6 +28,9 @@ database/local_*.sql
 .DS_Store
 Thumbs.db
 
+# Office lock files
+~$*
+
 # Logs
 *.log
 npm-debug.log*

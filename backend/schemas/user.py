@@ -70,6 +70,6 @@ class AdminUserCreate(BaseModel):
 
 
 class AdminUserUpdate(BaseModel):
-    username: Optional[str] = None
+    username: Optional[str] = Field(default=None, min_length=3, max_length=50)
     email: Optional[EmailStr] = None
     role: Optional[Literal["user", "admin"]] = None
