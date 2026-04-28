@@ -72,7 +72,7 @@ export default function ProductCard({ product }) {
         <div className="mt-auto space-y-1">
           <button
             onClick={handleAdd}
-            className="w-full bg-primary text-on-primary font-heading text-button py-3 rounded-lg shadow-sm border-t border-white/20 hover:bg-surface-tint active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            className="w-full bg-primary text-on-primary font-heading text-button py-3 rounded-lg shadow-sm border-t border-white/20 hover:bg-surface-tint active:scale-[0.98] transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             {feedback === 'Added!' ? 'Added ✓' : 'Add to Cart'}
           </button>

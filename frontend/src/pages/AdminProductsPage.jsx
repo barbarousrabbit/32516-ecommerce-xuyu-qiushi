@@ -18,6 +18,17 @@ export default function AdminProductsPage() {
   }
   useEffect(() => { load() }, [])
 
+  useEffect(() => {
+    if (!showAdd && !deleteTarget) return
+    const handler = (e) => {
+      if (e.key !== 'Escape') return
+      setShowAdd(false)
+      setDeleteTarget(null)
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [showAdd, deleteTarget])
+
   async function handleCreate(e) {
     e.preventDefault()
     try {
@@ -138,10 +149,11 @@ export default function AdminProductsPage() {
       </main>
 
       {showAdd && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex justify-end">
-          <div className="w-[380px] bg-white h-full shadow-xl p-6 flex flex-col">
+        <div className="fixed inset-0 bg-black/40 z-50 flex justify-end" onClick={() => setShowAdd(false)}>
+          <div role="dialog" aria-modal="true" aria-labelledby="add-product-title"
+               className="w-[380px] bg-white h-full shadow-xl p-6 flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-6">
-              <h2 className="font-heading font-semibold text-xl text-admin-text">Add Product</h2>
+              <h2 id="add-product-title" className="font-heading font-semibold text-xl text-admin-text">Add Product</h2>
               <button onClick={() => setShowAdd(false)} className="text-admin-muted hover:text-admin-text cursor-pointer">
                 <X size={20} />
               </button>
@@ -155,8 +167,9 @@ export default function AdminProductsPage() {
                 ['image_url',   'Image URL',   'text'],
               ].map(([key, label, type]) => (
                 <div key={key}>
-                  <label className="block font-body text-sm font-medium text-admin-text mb-1">{label}</label>
+                  <label htmlFor={`ap-${key}`} className="block font-body text-sm font-medium text-admin-text mb-1">{label}</label>
                   <input
+                    id={`ap-${key}`}
                     type={type}
                     step={key === 'price' ? '0.01' : undefined}
                     value={newP[key]}
@@ -180,12 +193,13 @@ export default function AdminProductsPage() {
 
       {/* Delete confirmation modal */}
       {deleteTarget && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-xl p-10 w-[440px] text-center">
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4" onClick={() => setDeleteTarget(null)}>
+          <div role="dialog" aria-modal="true" aria-labelledby="delete-product-title"
+               className="bg-white rounded-2xl shadow-xl p-10 w-[440px] text-center" onClick={e => e.stopPropagation()}>
             <div className="w-14 h-14 rounded-full border-2 border-red-500 flex items-center justify-center mx-auto mb-4">
               <Trash2 size={22} className="text-red-500" />
             </div>
-            <h2 className="font-heading font-bold text-xl text-admin-text mb-3">Delete Product?</h2>
+            <h2 id="delete-product-title" className="font-heading font-bold text-xl text-admin-text mb-3">Delete Product?</h2>
             <p className="font-body text-body-sm text-admin-muted mb-8">
               Permanently delete <strong>{deleteTarget.name}</strong>.<br />
               This cannot be undone.
