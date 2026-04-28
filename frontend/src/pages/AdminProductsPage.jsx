@@ -92,22 +92,22 @@ export default function AdminProductsPage() {
                   <tr key={p.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
                     <td className="px-6 py-3">
                       {isEditing
-                        ? <input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary" />
+                        ? <input aria-label="Product name" value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
                         : <span className="font-body text-body-sm font-medium">{p.name}</span>
                       }
                     </td>
                     <td className="px-6 py-3">
                       {isEditing
-                        ? <input type="number" step="0.01" value={editData.price} onChange={e => setEditData({ ...editData, price: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-24 focus:outline-none focus:border-admin-primary" />
+                        ? <input type="number" step="0.01" aria-label="Product price" value={editData.price} onChange={e => setEditData({ ...editData, price: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-24 focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
                         : <span className="font-body text-body-sm">${p.price}</span>
                       }
                     </td>
                     <td className="px-6 py-3">
                       {isEditing
-                        ? <input type="number" value={editData.stock} onChange={e => setEditData({ ...editData, stock: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-20 focus:outline-none focus:border-admin-primary" />
+                        ? <input type="number" aria-label="Product stock quantity" value={editData.stock} onChange={e => setEditData({ ...editData, stock: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-20 focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
                         : <span className="font-body text-body-sm">{p.stock}</span>
                       }
                     </td>
@@ -154,7 +154,7 @@ export default function AdminProductsPage() {
                className="w-[380px] bg-white h-full shadow-xl p-6 flex flex-col" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-6">
               <h2 id="add-product-title" className="font-heading font-semibold text-xl text-admin-text">Add Product</h2>
-              <button onClick={() => setShowAdd(false)} className="text-admin-muted hover:text-admin-text cursor-pointer">
+              <button onClick={() => setShowAdd(false)} aria-label="Close" className="text-admin-muted hover:text-admin-text cursor-pointer">
                 <X size={20} />
               </button>
             </div>
