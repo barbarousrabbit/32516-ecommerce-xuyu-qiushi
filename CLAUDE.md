@@ -109,6 +109,7 @@ Every source code file must begin with an author header comment declaring both g
 - [ ] README includes: description, tech stack, how to run, folder structure, workload split
 
 ## Git Rules (affects Individual — Professional Practices score)
+- **Never auto-push**: after writing code, always stop and wait for user review before pushing. Only push when user explicitly says "push" or "推送". Commit locally first, push separately on instruction.
 - **Commit often**: after every completed feature or meaningful change
 - **Commit message format**: `type: short description`
   - Types: `feat` `fix` `style` `refactor` `docs` `chore`
