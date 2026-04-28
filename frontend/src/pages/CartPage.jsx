@@ -108,7 +108,7 @@ export default function CartPage() {
                 <div key={item.id} className={`flex items-center gap-4 p-6 ${idx < cart.items.length - 1 ? 'border-b border-surface-container' : ''}`}>
                   <div className="w-[72px] h-[72px] rounded-lg overflow-hidden bg-surface-variant flex-shrink-0">
                     {item.product.image_url
-                      ? <img src={item.product.image_url} alt={item.product.name} loading="lazy" className="w-full h-full object-cover" />
+                      ? <img src={item.product.image_url} alt={item.product.name} loading="lazy" width="72" height="72" className="w-full h-full object-cover" />
                       : <div className="w-full h-full bg-surface-container-high" />
                     }
                   </div>
