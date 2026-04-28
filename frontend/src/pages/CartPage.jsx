@@ -217,7 +217,7 @@ export default function CartPage() {
             {placed ? (
               <div className="text-center py-4">
                 <CheckCircle size={56} className="text-green-600 mx-auto mb-4" />
-                <h2 className="font-heading font-bold text-[24px] text-on-surface mb-2">Order Placed!</h2>
+                <h2 id="checkout-dialog-title" className="font-heading font-bold text-[24px] text-on-surface mb-2">Order Placed!</h2>
                 <p className="font-body text-body-md text-on-surface-variant">
                   Thank you for your purchase. Redirecting you to the home page…
                 </p>
