@@ -1,30 +1,12 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-// TODO: Replace with Stitch-generated design (Prompt B — Admin Carts screen)
 import { useState, useEffect } from 'react'
 import { ChevronDown, ChevronUp, ShoppingCart } from 'lucide-react'
 import { getAllCarts } from '../services/cartService'
-
-function Sidebar({ active }) {
-  const items = ['Products', 'Users', 'All Carts']
-  const hrefs = ['/admin/products', '/admin/users', '/admin/carts']
-  return (
-    <aside className="w-[240px] bg-admin-sidebar min-h-screen flex flex-col flex-shrink-0">
-      <div className="px-6 py-5 border-b border-white/10">
-        <span className="text-white font-heading font-bold text-xl">ShopCart</span>
-        <span className="ml-2 px-2 py-0.5 bg-admin-accent text-white font-heading text-[10px] font-bold uppercase rounded">ADMIN</span>
-      </div>
-      <nav className="flex-1 px-3 py-4 space-y-1">
-        {items.map((label, i) => (
-          <a key={label} href={hrefs[i]} className={active === label ? 'sidebar-item-active' : 'sidebar-item'}>{label}</a>
-        ))}
-      </nav>
-    </aside>
-  )
-}
+import AdminSidebar from '../components/AdminSidebar'
 
 export default function AdminCartsPage() {
-  const [carts, setCarts]     = useState([])
-  const [error, setError]     = useState('')
+  const [carts, setCarts]       = useState([])
+  const [error, setError]       = useState('')
   const [expanded, setExpanded] = useState({})
 
   useEffect(() => {
@@ -33,23 +15,22 @@ export default function AdminCartsPage() {
       .catch(() => setError('Failed to load carts.'))
   }, [])
 
-  const totalItems   = carts.reduce((s, c) => s + (c.cart?.items?.length ?? 0), 0)
+  const totalItems    = carts.reduce((s, c) => s + (c.cart?.items?.length ?? 0), 0)
   const combinedValue = carts.reduce((s, c) => {
-    const cartTotal = c.cart?.items?.reduce((cs, i) => cs + Number(i.product.price) * i.quantity, 0) ?? 0
-    return s + cartTotal
+    const t = c.cart?.items?.reduce((cs, i) => cs + Number(i.product.price) * i.quantity, 0) ?? 0
+    return s + t
   }, 0)
 
   return (
     <div className="flex min-h-screen bg-admin-bg font-body text-admin-text">
-      <Sidebar active="All Carts" />
-      <main className="flex-1 p-8 overflow-y-auto">
+      <AdminSidebar />
+      <main className="flex-1 p-8 overflow-y-auto overflow-x-auto min-w-0">
         <h1 className="font-heading font-bold text-2xl text-admin-text mb-6">All Carts</h1>
 
-        {/* Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
           {[
-            ['Total Carts', carts.length, 'text-admin-primary'],
-            ['Total Items', totalItems, 'text-sky-600'],
+            ['Total Carts',    carts.length,                   'text-admin-primary'],
+            ['Total Items',    totalItems,                      'text-sky-600'],
             ['Combined Value', `$${combinedValue.toFixed(2)}`, 'text-primary'],
           ].map(([label, value, color]) => (
             <div key={label} className="bg-white rounded-xl shadow-admin p-5">
@@ -61,27 +42,28 @@ export default function AdminCartsPage() {
 
         {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
-        {/* Cart cards */}
         <div className="space-y-3">
           {carts.map(({ user_id, username, cart }) => {
-            const items    = cart?.items ?? []
+            const items     = cart?.items ?? []
             const cartTotal = items.reduce((s, i) => s + Number(i.product.price) * i.quantity, 0)
-            const isOpen   = expanded[user_id]
+            const isOpen    = expanded[user_id]
 
             return (
               <div key={user_id} className="bg-white rounded-xl shadow-admin overflow-hidden">
-                {/* Card header */}
                 <div
+                  role={items.length > 0 ? 'button' : undefined}
+                  tabIndex={items.length > 0 ? 0 : undefined}
+                  aria-expanded={items.length > 0 ? isOpen : undefined}
+                  aria-label={items.length > 0 ? `${username}'s cart — ${items.length} items` : undefined}
                   className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-admin-bg/30 transition-colors border-b border-admin-border/50"
                   onClick={() => items.length > 0 && setExpanded(p => ({ ...p, [user_id]: !p[user_id] }))}
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && items.length > 0 && setExpanded(p => ({ ...p, [user_id]: !p[user_id] }))}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-heading font-bold">
                       {username?.[0]?.toUpperCase()}
                     </div>
-                    <div>
-                      <p className="font-heading font-semibold text-admin-text">{username}</p>
-                    </div>
+                    <p className="font-heading font-semibold text-admin-text">{username}</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="bg-admin-badge-blue-bg text-admin-badge-blue-text text-xs font-heading font-bold px-2.5 py-1 rounded-full">
@@ -94,7 +76,6 @@ export default function AdminCartsPage() {
                   </div>
                 </div>
 
-                {/* Expanded items */}
                 {isOpen && items.length > 0 && (
                   <div className="bg-admin-bg/40 divide-y divide-admin-border/30">
                     {items.map(item => (
@@ -121,9 +102,10 @@ export default function AdminCartsPage() {
                   </div>
                 )}
 
-                {/* Empty cart message */}
                 {items.length === 0 && (
-                  <p className="px-6 py-4 font-body text-body-sm text-admin-muted italic">This user has no items in their cart.</p>
+                  <p className="px-6 py-4 font-body text-body-sm text-admin-muted italic">
+                    This user has no items in their cart.
+                  </p>
                 )}
               </div>
             )

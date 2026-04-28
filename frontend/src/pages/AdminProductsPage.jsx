@@ -1,38 +1,17 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-// TODO: Replace with Stitch-generated design (Prompt B — Admin Products screen)
 import { useState, useEffect } from 'react'
-import { Plus, Pencil, Trash2, Package, CheckCircle, XCircle } from 'lucide-react'
+import { Plus, Pencil, Trash2, Check, X, CheckCircle, XCircle } from 'lucide-react'
 import { getProducts, createProduct, updateProduct, deleteProduct } from '../services/productService'
-
-function Sidebar({ active }) {
-  const items = [
-    { label: 'Products', href: '/admin/products', icon: Package },
-    { label: 'Users',    href: '/admin/users',    icon: null },
-    { label: 'All Carts',href: '/admin/carts',   icon: null },
-  ]
-  return (
-    <aside className="w-[240px] bg-admin-sidebar min-h-screen flex flex-col flex-shrink-0">
-      <div className="px-6 py-5 border-b border-white/10">
-        <span className="text-white font-heading font-bold text-xl">ShopCart</span>
-        <span className="ml-2 px-2 py-0.5 bg-admin-accent text-white font-heading text-[10px] font-bold uppercase rounded">ADMIN</span>
-      </div>
-      <nav className="flex-1 px-3 py-4 space-y-1">
-        {items.map(({ label, href }) => (
-          <a key={label} href={href}
-            className={active === label ? 'sidebar-item-active' : 'sidebar-item'}>
-            {label}
-          </a>
-        ))}
-      </nav>
-    </aside>
-  )
-}
+import AdminSidebar from '../components/AdminSidebar'
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([])
   const [error, setError]       = useState('')
   const [showAdd, setShowAdd]   = useState(false)
   const [newP, setNewP]         = useState({ name: '', description: '', price: '', stock: 0, image_url: '' })
+  const [editId, setEditId]         = useState(null)
+  const [editData, setEditData]     = useState({})
+  const [deleteTarget, setDeleteTarget] = useState(null)
 
   async function load() {
     try { setProducts(await getProducts()) } catch { setError('Failed to load products.') }
@@ -49,28 +28,43 @@ export default function AdminProductsPage() {
     } catch (err) { setError(err.message) }
   }
 
-  async function handleDelete(id) {
-    if (!confirm('Delete this product?')) return
-    try { await deleteProduct(id); load() } catch (err) { setError(err.message) }
+  function startEdit(p) {
+    setEditId(p.id)
+    setEditData({ name: p.name, description: p.description ?? '', price: p.price, stock: p.stock, image_url: p.image_url ?? '' })
+  }
+
+  async function handleSave(id) {
+    try {
+      await updateProduct(id, { ...editData, price: parseFloat(editData.price), stock: parseInt(editData.stock) })
+      setEditId(null)
+      load()
+    } catch (err) { setError(err.message) }
+  }
+
+  async function doDelete() {
+    try { await deleteProduct(deleteTarget.id); setDeleteTarget(null); load() }
+    catch (err) { setError(err.message); setDeleteTarget(null) }
   }
 
   return (
     <div className="flex min-h-screen bg-admin-bg font-body text-admin-text">
-      <Sidebar active="Products" />
+      <AdminSidebar />
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="font-heading font-bold text-2xl text-admin-text">Products</h1>
             <p className="font-body text-body-sm text-admin-muted">({products.length} items)</p>
           </div>
-          <button onClick={() => setShowAdd(true)} className="flex items-center gap-2 bg-admin-primary text-white font-heading font-semibold text-sm px-4 py-2.5 rounded-lg hover:bg-admin-primary-hover transition-colors cursor-pointer">
+          <button
+            onClick={() => setShowAdd(true)}
+            className="flex items-center gap-2 bg-admin-primary text-white font-heading font-semibold text-sm px-4 py-2.5 rounded-lg hover:bg-admin-primary-hover transition-colors cursor-pointer"
+          >
             <Plus size={16} /> Add Product
           </button>
         </div>
 
         {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
-        {/* Table */}
         <div className="bg-white rounded-xl shadow-admin overflow-hidden">
           <table className="w-full">
             <thead>
@@ -81,29 +75,60 @@ export default function AdminProductsPage() {
               </tr>
             </thead>
             <tbody>
-              {products.map(p => (
-                <tr key={p.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
-                  <td className="px-6 py-4 font-body text-body-sm font-medium text-admin-text">{p.name}</td>
-                  <td className="px-6 py-4 font-body text-body-sm">${p.price}</td>
-                  <td className="px-6 py-4 font-body text-body-sm">{p.stock}</td>
-                  <td className="px-6 py-4">
-                    {p.stock > 0
-                      ? <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-heading font-bold px-2.5 py-1 rounded-full"><CheckCircle size={12} />In Stock</span>
-                      : <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 text-xs font-heading font-bold px-2.5 py-1 rounded-full"><XCircle size={12} />Out of Stock</span>
-                    }
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex gap-2">
-                      <button className="text-admin-primary border border-admin-primary px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-blue-50 cursor-pointer transition-colors">
-                        <Pencil size={12} className="inline mr-1" />Edit
-                      </button>
-                      <button onClick={() => handleDelete(p.id)} className="text-red-600 border border-red-300 px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-red-50 cursor-pointer transition-colors">
-                        <Trash2 size={12} className="inline mr-1" />Delete
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {products.map(p => {
+                const isEditing = editId === p.id
+                return (
+                  <tr key={p.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
+                    <td className="px-6 py-3">
+                      {isEditing
+                        ? <input value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary" />
+                        : <span className="font-body text-body-sm font-medium">{p.name}</span>
+                      }
+                    </td>
+                    <td className="px-6 py-3">
+                      {isEditing
+                        ? <input type="number" step="0.01" value={editData.price} onChange={e => setEditData({ ...editData, price: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-24 focus:outline-none focus:border-admin-primary" />
+                        : <span className="font-body text-body-sm">${p.price}</span>
+                      }
+                    </td>
+                    <td className="px-6 py-3">
+                      {isEditing
+                        ? <input type="number" value={editData.stock} onChange={e => setEditData({ ...editData, stock: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-20 focus:outline-none focus:border-admin-primary" />
+                        : <span className="font-body text-body-sm">{p.stock}</span>
+                      }
+                    </td>
+                    <td className="px-6 py-3">
+                      {(isEditing ? parseInt(editData.stock) > 0 : p.stock > 0)
+                        ? <span className="inline-flex items-center gap-1 bg-green-100 text-green-700 text-xs font-heading font-bold px-2.5 py-1 rounded-full"><CheckCircle size={12} />In Stock</span>
+                        : <span className="inline-flex items-center gap-1 bg-red-100 text-red-700 text-xs font-heading font-bold px-2.5 py-1 rounded-full"><XCircle size={12} />Out of Stock</span>
+                      }
+                    </td>
+                    <td className="px-6 py-3">
+                      {isEditing
+                        ? <div className="flex gap-2">
+                            <button onClick={() => handleSave(p.id)} className="flex items-center gap-1 bg-admin-primary text-white px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-admin-primary-hover cursor-pointer transition-colors">
+                              <Check size={12} />Save
+                            </button>
+                            <button onClick={() => setEditId(null)} className="flex items-center gap-1 text-admin-muted border border-admin-border px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-admin-bg cursor-pointer transition-colors">
+                              <X size={12} />Cancel
+                            </button>
+                          </div>
+                        : <div className="flex gap-2">
+                            <button onClick={() => startEdit(p)} className="flex items-center gap-1 text-admin-primary border border-admin-primary px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-blue-50 cursor-pointer transition-colors">
+                              <Pencil size={12} />Edit
+                            </button>
+                            <button onClick={() => setDeleteTarget(p)} className="flex items-center gap-1 text-red-600 border border-red-300 px-3 py-1.5 rounded text-xs font-heading font-semibold hover:bg-red-50 cursor-pointer transition-colors">
+                              <Trash2 size={12} />Delete
+                            </button>
+                          </div>
+                      }
+                    </td>
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
           {products.length === 0 && (
@@ -112,19 +137,30 @@ export default function AdminProductsPage() {
         </div>
       </main>
 
-      {/* Add panel */}
       {showAdd && (
         <div className="fixed inset-0 bg-black/40 z-50 flex justify-end">
           <div className="w-[380px] bg-white h-full shadow-xl p-6 flex flex-col">
             <div className="flex justify-between items-center mb-6">
               <h2 className="font-heading font-semibold text-xl text-admin-text">Add Product</h2>
-              <button onClick={() => setShowAdd(false)} className="text-admin-muted hover:text-admin-text cursor-pointer">✕</button>
+              <button onClick={() => setShowAdd(false)} className="text-admin-muted hover:text-admin-text cursor-pointer">
+                <X size={20} />
+              </button>
             </div>
             <form onSubmit={handleCreate} className="flex-1 flex flex-col gap-4">
-              {[['name','Name','text'],['description','Description','text'],['price','Price','number'],['stock','Stock','number'],['image_url','Image URL','text']].map(([key, label, type]) => (
+              {[
+                ['name',        'Name',        'text'],
+                ['description', 'Description', 'text'],
+                ['price',       'Price',       'number'],
+                ['stock',       'Stock',       'number'],
+                ['image_url',   'Image URL',   'text'],
+              ].map(([key, label, type]) => (
                 <div key={key}>
                   <label className="block font-body text-sm font-medium text-admin-text mb-1">{label}</label>
-                  <input type={type} value={newP[key]} onChange={e => setNewP({ ...newP, [key]: e.target.value })}
+                  <input
+                    type={type}
+                    step={key === 'price' ? '0.01' : undefined}
+                    value={newP[key]}
+                    onChange={e => setNewP({ ...newP, [key]: e.target.value })}
                     className="w-full border border-admin-border rounded-lg px-3 py-2 text-sm font-body focus:outline-none focus:border-admin-primary transition-colors"
                   />
                 </div>
@@ -138,6 +174,30 @@ export default function AdminProductsPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete confirmation modal */}
+      {deleteTarget && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl shadow-xl p-10 w-[440px] text-center">
+            <div className="w-14 h-14 rounded-full border-2 border-red-500 flex items-center justify-center mx-auto mb-4">
+              <Trash2 size={22} className="text-red-500" />
+            </div>
+            <h2 className="font-heading font-bold text-xl text-admin-text mb-3">Delete Product?</h2>
+            <p className="font-body text-body-sm text-admin-muted mb-8">
+              Permanently delete <strong>{deleteTarget.name}</strong>.<br />
+              This cannot be undone.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <button onClick={() => setDeleteTarget(null)} className="w-[140px] border border-admin-border py-2.5 rounded-lg font-heading font-semibold text-sm text-admin-muted hover:text-admin-text transition-colors cursor-pointer">
+                Cancel
+              </button>
+              <button onClick={doDelete} className="w-[140px] bg-red-600 text-white py-2.5 rounded-lg font-heading font-semibold text-sm hover:bg-red-700 transition-colors cursor-pointer">
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       )}

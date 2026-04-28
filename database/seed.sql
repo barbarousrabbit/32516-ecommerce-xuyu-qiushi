@@ -1,13 +1,10 @@
 -- Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 USE ecommerce;
 
--- Admin user
--- Password: admin123
--- Regenerate this hash before final submission:
---   python -c "from passlib.context import CryptContext; print(CryptContext(schemes=['bcrypt']).hash('admin123'))"
+-- Admin user (password: admin123)
 INSERT INTO users (username, email, password_hash, role) VALUES
 ('admin', 'admin@shopcart.com',
- '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/Ake.7URF15HJN9mhS',
+ '$2b$12$2dbqEp8hj1pGvgudZt6Umu3aZPJ.JE6kQX47qHz8FrAWSogw4pROK',
  'admin');
 
 -- Empty shopping cart for the admin account
@@ -26,7 +23,7 @@ INSERT INTO products (name, description, price, stock, image_url) VALUES
  'https://images.unsplash.com/photo-1595225353618-f5a4e9620e67?w=400'),
 
 ('USB-C Hub',
- '7-in-1 USB-C hub: 4K HDMI, 3× USB-A, SD/microSD, 100W PD passthrough.',
+ '7-in-1 USB-C hub: 4K HDMI, 3x USB-A, SD/microSD, 100W PD passthrough.',
  49.99, 100,
  'https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400'),
 
@@ -46,11 +43,11 @@ INSERT INTO products (name, description, price, stock, image_url) VALUES
  'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=400'),
 
 ('Cable Organizer',
- 'Silicone cable management sleeve bundle — keeps your desk tidy in minutes.',
+ 'Silicone cable management sleeve bundle - keeps your desk tidy in minutes.',
  19.99, 80,
  'https://images.unsplash.com/photo-1589763472885-46dd5b282f52?w=400'),
 
 ('Mouse Pad XL',
- 'Extended non-slip gaming mouse pad, 900×400 mm, stitched edges.',
+ 'Extended non-slip gaming mouse pad, 900x400 mm, stitched edges.',
  29.99, 40,
  'https://images.unsplash.com/photo-1625948515291-3c63d40dae97?w=400');
