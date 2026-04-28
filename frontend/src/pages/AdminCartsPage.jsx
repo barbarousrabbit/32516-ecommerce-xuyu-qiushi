@@ -82,7 +82,7 @@ export default function AdminCartsPage() {
                       <div key={item.id} className="flex items-center gap-3 px-6 py-3">
                         <div className="w-9 h-9 rounded bg-white flex-shrink-0 overflow-hidden">
                           {item.product.image_url
-                            ? <img src={item.product.image_url} alt={item.product.name} loading="lazy" className="w-full h-full object-cover" />
+                            ? <img src={item.product.image_url} alt={item.product.name} loading="lazy" width="36" height="36" className="w-full h-full object-cover" />
                             : <ShoppingCart size={20} className="text-admin-muted m-auto mt-1.5" />
                           }
                         </div>

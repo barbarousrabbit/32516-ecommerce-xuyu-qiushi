@@ -29,7 +29,7 @@ export default function ProductCard({ product }) {
       <div className="bg-surface-container-lowest rounded-[16px] shadow-amber border border-outline-variant/10 overflow-hidden flex flex-col opacity-75">
         <div className="relative aspect-square overflow-hidden bg-surface-variant">
           {product.image_url
-            ? <img src={product.image_url} alt={product.name} loading="lazy" className="w-full h-full object-cover grayscale" />
+            ? <img src={product.image_url} alt={product.name} loading="lazy" width="400" height="400" className="w-full h-full object-cover grayscale" />
             : <div className="w-full h-full bg-surface-container-high" />
           }
           <div className="absolute inset-0 bg-surface-container-lowest/30 flex items-center justify-center backdrop-blur-[2px]">
@@ -57,7 +57,7 @@ export default function ProductCard({ product }) {
     <div className="product-card group">
       <div className="relative aspect-square overflow-hidden bg-surface-variant">
         {product.image_url
-          ? <img src={product.image_url} alt={product.name} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          ? <img src={product.image_url} alt={product.name} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
           : <div className="w-full h-full bg-surface-container-high" />
         }
       </div>
