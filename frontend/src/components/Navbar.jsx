@@ -1,22 +1,39 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-import { Link, useNavigate } from 'react-router-dom'
-import { ShoppingCart, Search, UserCircle, LayoutGrid } from 'lucide-react'
+import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
+import { ShoppingCart, Search, LayoutGrid, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function Navbar() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
+  const { user, logout }                  = useAuth()
+  const navigate                          = useNavigate()
+  const location                          = useLocation()
+  const [searchParams, setSearchParams]   = useSearchParams()
+  const navQuery                          = searchParams.get('q') || ''
 
   function handleLogout() {
     logout()
     navigate('/login')
   }
 
+  function handleSearch(e) {
+    const val = e.target.value
+    if (location.pathname === '/') {
+      // Already on home — update URL in place; useSearch reacts automatically
+      if (val) {
+        setSearchParams({ q: val }, { replace: true })
+      } else {
+        setSearchParams({}, { replace: true })
+      }
+    } else {
+      navigate(val ? `/?q=${encodeURIComponent(val)}` : '/')
+    }
+  }
+
   return (
     <header className="bg-white/95 backdrop-blur-sm sticky top-0 h-[68px] z-50 border-b border-surface-variant shadow-amber w-full">
       <div className="flex justify-between items-center px-6 max-w-container mx-auto w-full h-full">
 
-        {/* Left: Logo */}
+        {/* Left: Logo + admin link */}
         <div className="flex items-center gap-8 h-full">
           <Link
             to="/"
@@ -25,7 +42,6 @@ export default function Navbar() {
             ShopCart
           </Link>
 
-          {/* Admin link — only shown to admins while browsing user area */}
           {user?.role === 'admin' && (
             <nav className="hidden md:flex h-full items-center">
               <Link
@@ -39,39 +55,51 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Center: Search (hidden on small screens) */}
+        {/* Center: Search — connected to URL, syncs with useSearch on HomePage */}
         <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
           <div className="relative w-full">
             <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" />
             <input
-              type="text"
+              type="search"
               placeholder="Search products..."
+              value={navQuery}
+              onChange={handleSearch}
+              aria-label="Search products"
               className="w-full pl-10 pr-4 py-2 bg-surface-container-highest border border-outline-variant rounded-full text-body-sm font-body focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20 transition-all text-on-surface placeholder:text-on-surface-variant"
             />
           </div>
         </div>
 
-        {/* Right: Auth actions */}
-        <div className="flex items-center gap-4">
+        {/* Right: Auth */}
+        <div className="flex items-center gap-3">
           {user ? (
             <>
-              {/* Cart */}
-              <Link to="/cart" className="relative text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95 cursor-pointer">
+              {/* Cart icon */}
+              <Link to="/cart" className="text-on-surface-variant hover:text-primary transition-colors duration-200 active:scale-95">
                 <ShoppingCart size={24} />
-                <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                  0
-                </span>
               </Link>
 
-              {/* Avatar + Username */}
-              <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" onClick={handleLogout}>
+              {/* Avatar → Profile */}
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+              >
                 <div className="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-sm font-heading">
                   {user.username?.[0]?.toUpperCase() ?? 'U'}
                 </div>
                 <span className="hidden md:block font-heading font-medium text-on-surface text-sm">
                   {user.username}
                 </span>
-              </div>
+              </Link>
+
+              {/* Logout */}
+              <button
+                onClick={handleLogout}
+                aria-label="Log out"
+                className="text-on-surface-variant hover:text-error transition-colors p-1.5 rounded-lg hover:bg-error-container/30 cursor-pointer"
+              >
+                <LogOut size={20} />
+              </button>
             </>
           ) : (
             <>
@@ -86,12 +114,6 @@ export default function Navbar() {
                 className="font-heading font-semibold bg-primary text-on-primary px-4 py-2 rounded-full text-sm hover:bg-surface-tint active:scale-95 transition-all duration-200 shadow-sm"
               >
                 Register
-              </Link>
-              <Link to="/cart" className="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-container">
-                <ShoppingCart size={22} />
-              </Link>
-              <Link to="/profile" className="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-surface-container">
-                <UserCircle size={22} />
               </Link>
             </>
           )}

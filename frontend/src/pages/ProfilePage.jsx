@@ -1,23 +1,22 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-// TODO: Replace with Stitch-generated design (Prompt A — Profile screen)
 import { useState } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { api } from '../services/api'
+import { updateMyProfile } from '../services/userService'
 import Navbar from '../components/Navbar'
 
 export default function ProfilePage() {
   const { user, login: setAuth } = useAuth()
-  const [form, setForm]     = useState({ username: user?.username ?? '', email: user?.email ?? '' })
+  const [form, setForm]       = useState({ username: user?.username ?? '', email: user?.email ?? '' })
   const [success, setSuccess] = useState(false)
-  const [error, setError]   = useState('')
+  const [error, setError]     = useState('')
 
   async function handleSave(e) {
     e.preventDefault()
     setError('')
     setSuccess(false)
     try {
-      const updated = await api.put('/users/me', form)
+      const updated = await updateMyProfile(form)
       setAuth(updated, localStorage.getItem('token'))
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
@@ -32,7 +31,6 @@ export default function ProfilePage() {
       <main className="flex-grow flex items-start justify-center px-gutter py-[48px]">
         <div className="w-full max-w-[640px] bg-surface-container-lowest rounded-2xl shadow-amber p-xl">
 
-          {/* Profile header */}
           <div className="flex items-center gap-6 pb-8 border-b border-surface-container">
             <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-on-primary font-heading font-bold text-3xl flex-shrink-0">
               {user?.username?.[0]?.toUpperCase() ?? 'U'}
@@ -46,7 +44,6 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Edit form */}
           <div className="pt-8">
             <h2 className="font-heading font-semibold text-[18px] text-on-surface mb-5">Account Information</h2>
 
@@ -87,7 +84,11 @@ export default function ProfilePage() {
                 />
               </div>
               <div className="flex justify-end gap-3 pt-4">
-                <button type="button" className="btn-ghost" onClick={() => setForm({ username: user?.username, email: user?.email })}>
+                <button
+                  type="button"
+                  className="btn-ghost"
+                  onClick={() => setForm({ username: user?.username, email: user?.email })}
+                >
                   Cancel
                 </button>
                 <button type="submit" className="btn-primary">Save Changes</button>

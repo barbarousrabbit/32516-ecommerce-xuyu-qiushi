@@ -1,16 +1,16 @@
 # Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List, Optional
 from schemas.product import ProductOut
 
 
 class CartItemAdd(BaseModel):
     product_id: int
-    quantity: int = 1
+    quantity: int = Field(default=1, ge=1)
 
 
 class CartItemUpdate(BaseModel):
-    quantity: int
+    quantity: int = Field(..., ge=1)
 
 
 class CartItemOut(BaseModel):

@@ -6,15 +6,37 @@ async function request(method, path, body = null) {
   const headers = { 'Content-Type': 'application/json' }
   if (token) headers['Authorization'] = `Bearer ${token}`
 
-  const res = await fetch(`${BASE_URL}${path}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : null,
-  })
+  let res
+  try {
+    res = await fetch(`${BASE_URL}${path}`, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : null,
+    })
+  } catch {
+    // Network error (offline, CORS, server down)
+    throw new Error('Cannot reach the server. Please check your connection.')
+  }
 
   if (res.status === 204) return null
+
+  // Guard against non-JSON responses (HTML 500 pages, nginx errors)
+  const contentType = res.headers.get('content-type') || ''
+  if (!contentType.includes('application/json')) {
+    if (!res.ok) throw new Error(`Server error (${res.status})`)
+    return null
+  }
+
   const data = await res.json()
-  if (!res.ok) throw new Error(data.detail || 'Request failed')
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      // Notify AuthContext so it can clear the expired session automatically
+      window.dispatchEvent(new CustomEvent('auth:expired'))
+    }
+    throw new Error(data.detail || 'Request failed')
+  }
+
   return data
 }
 

@@ -20,11 +20,13 @@ Built for UTS 32516 Internet Programming — Assignment 2.
 ## Features
 
 - User registration and login (JWT authentication)
-- Browse and live-search products
-- Add / update / remove items in shopping cart
-- View order summary and checkout
-- Admin: manage products (CRUD)
-- Admin: view all users and their shopping carts
+- Browse and live-search products (live filtering as you type)
+- Add / update / remove items in shopping cart with stock validation
+- Checkout flow: order confirmation modal, clears cart on placement
+- User profile management (edit username and email)
+- Admin: full CRUD on products (create, inline edit, delete)
+- Admin: full CRUD on users (create, inline edit role, delete)
+- Admin: view all users' shopping carts with expandable item lists
 
 ---
 
@@ -90,7 +92,7 @@ mysql -u root -p < database/seed.sql
 | Project setup | `backend/main.py`, `backend/database.py`, `backend/requirements.txt`, `frontend/src/main.jsx`, `frontend/src/App.jsx` |
 | User auth (frontend) | `frontend/src/context/AuthContext.jsx`, `frontend/src/services/api.js`, `frontend/src/services/authService.js`, `frontend/src/pages/LoginPage.jsx`, `frontend/src/pages/RegisterPage.jsx` |
 | User auth (backend) | `backend/auth/jwt.py`, `backend/routers/auth.py`, `backend/models/user.py`, `backend/schemas/user.py` |
-| Shopping cart (frontend) | `frontend/src/services/cartService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
+| Shopping cart (frontend) | `frontend/src/services/cartService.js`, `frontend/src/services/userService.js`, `frontend/src/pages/CartPage.jsx`, `frontend/src/pages/ProfilePage.jsx`, `frontend/src/components/Navbar.jsx` |
 | Shopping cart (backend) | `backend/routers/cart.py`, `backend/models/cart.py`, `backend/schemas/cart.py` |
 
 ### Qiushi Huang (25668904) — Products + Admin + Database
@@ -99,7 +101,7 @@ mysql -u root -p < database/seed.sql
 | Database design | `database/schema.sql`, `database/seed.sql` |
 | Products (frontend) | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
 | Products (backend) | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
-| Admin panel (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx` |
+| Admin panel (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx`, `frontend/src/components/AdminSidebar.jsx` |
 | Admin panel (backend) | `backend/routers/users.py` |
 
 ---

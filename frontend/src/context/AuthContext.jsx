@@ -1,5 +1,5 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 const AuthContext = createContext(null)
 
@@ -13,17 +13,23 @@ export function AuthProvider({ children }) {
     }
   })
 
+  const logout = useCallback(() => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUser(null)
+  }, [])
+
   function login(userData, token) {
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(userData))
     setUser(userData)
   }
 
-  function logout() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setUser(null)
-  }
+  // Auto-logout when any API call receives 401 (expired/invalid token)
+  useEffect(() => {
+    window.addEventListener('auth:expired', logout)
+    return () => window.removeEventListener('auth:expired', logout)
+  }, [logout])
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
