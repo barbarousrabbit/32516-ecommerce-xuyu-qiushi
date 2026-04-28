@@ -77,7 +77,7 @@ function ProductCard({ product }) {
 
 function Footer() {
   return (
-    <footer className="bg-[#FDFBF7] w-full h-[48px] border-t border-surface-variant mt-auto">
+    <footer className="bg-surface-container-low w-full h-[48px] border-t border-surface-variant mt-auto">
       <div className="flex flex-row justify-center items-center gap-8 px-4 w-full h-full">
         <span className="font-heading font-bold text-primary">ShopCart</span>
         <span className="font-body text-sm text-on-surface-variant">© 2026 ShopCart. All rights reserved.</span>
