@@ -5,12 +5,12 @@
 
 @layer base {
   body {
-    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    font-family: 'Nunito Sans', system-ui, sans-serif;
     @apply antialiased text-on-surface bg-background;
   }
 
   h1, h2, h3, h4, h5, h6, button, label, nav {
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: 'Rubik', system-ui, sans-serif;
   }
 }
 

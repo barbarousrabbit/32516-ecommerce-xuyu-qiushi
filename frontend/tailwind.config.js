@@ -5,75 +5,75 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
-      // ── Warm palette (user pages) ─────────────────────────────
+      // ── Warm Orange palette (user pages) — Shopee/Etsy energy ──
       colors: {
-        // Surface hierarchy
-        'background':               '#fff8f4',
-        'surface':                  '#fff8f4',
-        'surface-bright':           '#fff8f4',
-        'surface-dim':              '#e8d7ca',
-        'surface-variant':          '#f0e0d2',
+        // Surfaces: nearly white with the faintest warm tint — not creamy/beige
+        'background':               '#fafaf8',
+        'surface':                  '#ffffff',
+        'surface-bright':           '#ffffff',
+        'surface-dim':              '#ede8e2',
+        'surface-variant':          '#f3ede7',
         'surface-container-lowest': '#ffffff',
-        'surface-container-low':    '#fff1e7',
-        'surface-container':        '#fcebdd',
-        'surface-container-high':   '#f6e5d7',
-        'surface-container-highest':'#f0e0d2',
+        'surface-container-low':    '#faf6f2',
+        'surface-container':        '#f4ede7',
+        'surface-container-high':   '#ece5de',
+        'surface-container-highest':'#e5ddd6',
 
-        // Primary (warm amber)
-        'primary':              '#895100',
+        // Primary — vivid orange, not dark/brown; high contrast on white
+        'primary':              '#e8590c',
         'on-primary':           '#ffffff',
-        'primary-container':    '#ff9f1c',
-        'on-primary-container': '#683c00',
-        'primary-fixed':        '#ffdcbc',
-        'primary-fixed-dim':    '#ffb86b',
-        'on-primary-fixed':     '#2c1700',
-        'on-primary-fixed-variant': '#683d00',
-        'inverse-primary':      '#ffb86b',
-        'surface-tint':         '#895100',
+        'primary-container':    '#ffead5',
+        'on-primary-container': '#6c2500',
+        'primary-fixed':        '#ffcca8',
+        'primary-fixed-dim':    '#ff9a5c',
+        'on-primary-fixed':     '#360f00',
+        'on-primary-fixed-variant': '#9d3800',
+        'inverse-primary':      '#ff9a5c',
+        'surface-tint':         '#c44800',
 
-        // Secondary
-        'secondary':            '#685c55',
+        // Secondary — warm neutral for subtler elements
+        'secondary':            '#7a6358',
         'on-secondary':         '#ffffff',
-        'secondary-container':  '#eddcd3',
-        'on-secondary-container':'#6c6059',
-        'secondary-fixed':      '#f0dfd6',
-        'secondary-fixed-dim':  '#d3c3ba',
-        'on-secondary-fixed':   '#221a14',
-        'on-secondary-fixed-variant': '#4f453e',
+        'secondary-container':  '#ffede5',
+        'on-secondary-container':'#5a3d33',
+        'secondary-fixed':      '#f5dfd8',
+        'secondary-fixed-dim':  '#d4bdb6',
+        'on-secondary-fixed':   '#2e1710',
+        'on-secondary-fixed-variant': '#5f4039',
 
-        // Tertiary (cool blue accent)
-        'tertiary':             '#006686',
+        // Tertiary — teal accent for badges/highlights (cool contrast)
+        'tertiary':             '#00757a',
         'on-tertiary':          '#ffffff',
-        'tertiary-container':   '#00c3fd',
-        'on-tertiary-container':'#004d66',
-        'tertiary-fixed':       '#c0e8ff',
-        'tertiary-fixed-dim':   '#70d2ff',
-        'on-tertiary-fixed':    '#001e2b',
-        'on-tertiary-fixed-variant': '#004d66',
+        'tertiary-container':   '#c8f4f6',
+        'on-tertiary-container':'#00494d',
+        'tertiary-fixed':       '#aaeef2',
+        'tertiary-fixed-dim':   '#6dd6db',
+        'on-tertiary-fixed':    '#002022',
+        'on-tertiary-fixed-variant': '#00494d',
 
-        // Text
-        'on-background':        '#221a12',
-        'on-surface':           '#221a12',
-        'on-surface-variant':   '#544434',
-        'outline':              '#877462',
-        'outline-variant':      '#dac2ae',
+        // Text — dark near-black with very faint warmth; avoids brown reads
+        'on-background':        '#1a1110',
+        'on-surface':           '#1a1110',
+        'on-surface-variant':   '#6b5850',
+        'outline':              '#9a8680',
+        'outline-variant':      '#e8ddd9',
 
         // Inverse
-        'inverse-surface':      '#382f25',
-        'inverse-on-surface':   '#ffeee0',
+        'inverse-surface':      '#352523',
+        'inverse-on-surface':   '#fff0eb',
 
         // Error
-        'error':                '#ba1a1a',
+        'error':                '#c41818',
         'on-error':             '#ffffff',
-        'error-container':      '#ffdad6',
-        'on-error-container':   '#93000a',
+        'error-container':      '#ffe5e5',
+        'on-error-container':   '#8a0000',
 
-        // ── Cool palette (admin pages) ─────────────────────────
-        'admin-sidebar':        '#1e293b',
-        'admin-sidebar-hover':  '#334155',
-        'admin-primary':        '#1e40af',
-        'admin-primary-hover':  '#1e3a8a',
-        'admin-accent':         '#0ea5e9',
+        // ── Admin palette — cool deep navy/blue (unchanged) ──────
+        'admin-sidebar':        '#0f172a',
+        'admin-sidebar-hover':  '#1e293b',
+        'admin-primary':        '#1a56db',
+        'admin-primary-hover':  '#1347c0',
+        'admin-accent':         '#3b82f6',
         'admin-bg':             '#f1f5f9',
         'admin-border':         '#e2e8f0',
         'admin-text':           '#0f172a',
@@ -103,9 +103,9 @@ export default {
       },
 
       fontFamily: {
-        'sans':      ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-        'body':      ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
-        'heading':   ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        'sans':    ['"Rubik"', 'system-ui', 'sans-serif'],
+        'body':    ['"Nunito Sans"', 'system-ui', 'sans-serif'],
+        'heading': ['"Rubik"', 'system-ui', 'sans-serif'],
       },
 
       fontSize: {
@@ -122,9 +122,9 @@ export default {
       },
 
       boxShadow: {
-        'amber':       '0 4px 20px rgba(139, 94, 0, 0.08)',
-        'amber-hover': '0 12px 32px rgba(139, 94, 0, 0.12)',
-        'input-focus': '0 0 0 3px rgba(137, 81, 0, 0.2)',
+        'amber':       '0 4px 20px rgba(232, 89, 12, 0.08)',
+        'amber-hover': '0 12px 32px rgba(232, 89, 12, 0.14)',
+        'input-focus': '0 0 0 3px rgba(232, 89, 12, 0.20)',
         'admin':       '0 1px 4px rgba(0, 0, 0, 0.07)',
       },
 

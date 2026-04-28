@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar'
 
 function Footer() {
   return (
-    <footer className="bg-[#FDFBF7] w-full h-[48px] border-t border-surface-variant mt-auto">
+    <footer className="bg-surface-container-low w-full h-[48px] border-t border-surface-variant mt-auto">
       <div className="flex justify-center items-center h-full">
         <span className="font-body text-sm text-on-surface-variant">© 2026 ShopCart. All rights reserved.</span>
       </div>
