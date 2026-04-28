@@ -72,12 +72,14 @@ def update_user(
     user_id: int,
     data: AdminUserUpdate,
     db: Session = Depends(get_db),
-    _=Depends(require_admin),
+    current_admin: User = Depends(require_admin),
 ):
     user = db.query(User).filter(User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     updates = data.model_dump(exclude_unset=True)
+    if "role" in updates and user_id == current_admin.id:
+        raise HTTPException(status_code=400, detail="Cannot change your own role")
     if "email" in updates and db.query(User).filter(User.email == updates["email"], User.id != user_id).first():
         raise HTTPException(status_code=400, detail="Email already in use")
     if "username" in updates and db.query(User).filter(User.username == updates["username"], User.id != user_id).first():

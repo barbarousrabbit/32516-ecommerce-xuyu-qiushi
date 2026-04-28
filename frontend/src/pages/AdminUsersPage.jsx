@@ -97,8 +97,8 @@ export default function AdminUsersPage() {
                   <tr key={u.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
                     <td className="px-6 py-4">
                       {isEditing
-                        ? <input value={editData.username} onChange={e => setEditData({ ...editData, username: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary" />
+                        ? <input aria-label="Username" value={editData.username} onChange={e => setEditData({ ...editData, username: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
                         : <div className="flex items-center gap-3">
                             <div className="w-9 h-9 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-heading font-bold text-sm flex-shrink-0">
                               {u.username?.[0]?.toUpperCase()}
@@ -109,15 +109,21 @@ export default function AdminUsersPage() {
                     </td>
                     <td className="px-6 py-4">
                       {isEditing
-                        ? <input type="email" value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary" />
+                        ? <input type="email" aria-label="Email" value={editData.email} onChange={e => setEditData({ ...editData, email: e.target.value })}
+                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
                         : <span className="font-body text-body-sm text-admin-muted">{u.email}</span>
                       }
                     </td>
                     <td className="px-6 py-4">
                       {isEditing
-                        ? <select value={editData.role} onChange={e => setEditData({ ...editData, role: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm focus:outline-none focus:border-admin-primary">
+                        ? <select
+                            aria-label="Role"
+                            disabled={isMe}
+                            value={editData.role}
+                            onChange={e => setEditData({ ...editData, role: e.target.value })}
+                            title={isMe ? 'Cannot change your own role' : undefined}
+                            className={`border border-admin-border rounded px-2 py-1 text-sm focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50 ${isMe ? 'cursor-not-allowed opacity-60' : ''}`}
+                          >
                             <option value="user">User</option>
                             <option value="admin">Admin</option>
                           </select>
