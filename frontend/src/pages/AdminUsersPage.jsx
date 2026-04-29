@@ -65,6 +65,19 @@ export default function AdminUsersPage() {
     <div className="flex min-h-screen bg-admin-bg font-body text-admin-text">
       <AdminSidebar />
       <main className="flex-1 p-8 overflow-y-auto overflow-x-auto">
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          {[
+            ['Total Users',  users.length,                                        'text-admin-primary'],
+            ['Admins',       users.filter(u => u.role === 'admin').length,        'text-blue-600'],
+            ['Regular Users',users.filter(u => u.role === 'user').length,         'text-gray-600'],
+          ].map(([label, value, color]) => (
+            <div key={label} className="bg-white rounded-xl shadow-admin p-5">
+              <p className="font-body text-body-sm text-admin-muted mb-1">{label}</p>
+              <p className={`font-heading font-bold text-2xl ${color}`}>{value}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="font-heading font-bold text-2xl text-admin-text">Users</h1>
