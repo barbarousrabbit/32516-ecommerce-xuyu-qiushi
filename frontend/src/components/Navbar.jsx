@@ -80,30 +80,17 @@ export default function Navbar() {
 
         {/* Right: Auth */}
         <div className="flex items-center gap-3">
+          {/* Cart — always visible; PrivateRoute redirects guests to /login */}
+          <Link
+            to="/cart"
+            aria-label="Shopping cart"
+            className="group flex items-center justify-center w-10 h-10 rounded-xl text-on-surface-variant hover:text-primary hover:bg-primary-container active:scale-95 transition-[color,background-color,transform] duration-200"
+          >
+            <ShoppingCart size={22} className="group-hover:-translate-y-0.5 group-hover:rotate-6 transition-transform duration-200" />
+          </Link>
+
           {user ? (
             <>
-              {/* Cart icon */}
-              <Link
-                to="/cart"
-                aria-label="Shopping cart"
-                className="relative self-stretch flex items-center px-2.5 -mx-1 group"
-              >
-                {/* Hover background bubble */}
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 inset-y-[10px] rounded-lg bg-primary-container
-                             opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100
-                             transition-[opacity,transform] duration-200"
-                />
-                {/* Icon lifts + rotates slightly + turns orange on hover */}
-                <ShoppingCart
-                  size={22}
-                  className="relative text-on-surface-variant
-                             group-hover:text-primary group-hover:-translate-y-0.5 group-hover:rotate-6
-                             transition-[color,transform] duration-200"
-                />
-              </Link>
-
               {/* Avatar → Profile */}
               <Link
                 to="/profile"
