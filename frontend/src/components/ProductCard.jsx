@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { addToCart } from '../services/cartService'
+import { addToGuestCart } from '../services/guestCart'
 
 function ProductImage({ url, alt, className }) {
   const [errored, setErrored] = useState(false)
@@ -39,7 +40,8 @@ export default function ProductCard({ product }) {
 
   async function handleAdd() {
     if (!user) {
-      setFeedback('Please login to add items.')
+      addToGuestCart(product.id, 1)
+      setFeedback('Saved! Sign in to checkout.')
       setTimeout(() => setFeedback(''), 2500)
       return
     }
