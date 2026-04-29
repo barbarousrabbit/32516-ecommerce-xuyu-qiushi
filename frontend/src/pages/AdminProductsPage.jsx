@@ -12,11 +12,14 @@ export default function AdminProductsPage() {
   const [editId, setEditId]         = useState(null)
   const [editData, setEditData]     = useState({})
   const [deleteTarget, setDeleteTarget] = useState(null)
+  const [addError, setAddError]         = useState('')
 
   async function load() {
     try { setProducts(await getProducts()) } catch { setError('Failed to load products.') }
   }
   useEffect(() => { load() }, [])
+
+  useEffect(() => { if (!showAdd) setAddError('') }, [showAdd])
 
   useEffect(() => {
     if (!showAdd && !deleteTarget) return
@@ -31,12 +34,19 @@ export default function AdminProductsPage() {
 
   async function handleCreate(e) {
     e.preventDefault()
+    setAddError('')
+    const price = parseFloat(newP.price)
+    const stock = parseInt(newP.stock, 10)
+    if (!newP.name.trim())       return setAddError('Name is required.')
+    if (isNaN(price) || price <= 0) return setAddError('Price must be a positive number.')
+    if (isNaN(stock) || stock < 0)  return setAddError('Stock must be 0 or greater.')
     try {
-      await createProduct({ ...newP, price: parseFloat(newP.price), stock: parseInt(newP.stock) })
+      await createProduct({ ...newP, price, stock })
       setShowAdd(false)
+      setAddError('')
       setNewP({ name: '', description: '', price: '', stock: 0, image_url: '' })
       load()
-    } catch (err) { setError(err.message) }
+    } catch (err) { setAddError(err.message) }
   }
 
   function startEdit(p) {
@@ -160,24 +170,27 @@ export default function AdminProductsPage() {
             </div>
             <form onSubmit={handleCreate} className="flex-1 flex flex-col gap-4">
               {[
-                ['name',        'Name',        'text'],
-                ['description', 'Description', 'text'],
-                ['price',       'Price',       'number'],
-                ['stock',       'Stock',       'number'],
-                ['image_url',   'Image URL',   'text'],
-              ].map(([key, label, type]) => (
+                ['name',        'Name *',       'text',   { required: true, placeholder: 'e.g. Wireless Mouse' }],
+                ['description', 'Description',  'text',   { placeholder: 'Optional' }],
+                ['price',       'Price ($) *',  'number', { required: true, min: '0.01', step: '0.01', placeholder: '0.00' }],
+                ['stock',       'Stock *',      'number', { required: true, min: '0',    step: '1' }],
+                ['image_url',   'Image URL',    'text',   { placeholder: 'https://...' }],
+              ].map(([key, label, type, attrs]) => (
                 <div key={key}>
                   <label htmlFor={`ap-${key}`} className="block font-body text-sm font-medium text-admin-text mb-1">{label}</label>
                   <input
                     id={`ap-${key}`}
                     type={type}
-                    step={key === 'price' ? '0.01' : undefined}
                     value={newP[key]}
                     onChange={e => setNewP({ ...newP, [key]: e.target.value })}
                     className="w-full border border-admin-border rounded-lg px-3 py-2 text-sm font-body focus:outline-none focus:border-admin-primary transition-colors"
+                    {...attrs}
                   />
                 </div>
               ))}
+              {addError && (
+                <p className="text-red-600 text-sm font-body bg-red-50 rounded-lg px-3 py-2">{addError}</p>
+              )}
               <div className="mt-auto pt-4 border-t border-admin-border">
                 <button type="submit" className="w-full bg-admin-primary text-white font-heading font-semibold py-2.5 rounded-lg hover:bg-admin-primary-hover transition-colors cursor-pointer">
                   Save Product
