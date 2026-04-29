@@ -62,7 +62,8 @@ Built for UTS 32516 Internet Programming — Assignment 2.
 ```bash
 cd backend
 python -m venv .venv
-source .venv/Scripts/activate   # Windows
+source .venv/Scripts/activate    # Git Bash / WSL
+# .venv\Scripts\Activate.ps1   # PowerShell
 pip install -r requirements.txt
 cp .env.example .env            # fill in DB credentials
 uvicorn main:app --reload

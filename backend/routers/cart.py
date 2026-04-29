@@ -7,7 +7,7 @@ from database import get_db
 from models.user import User
 from models.cart import ShoppingCart, CartItem
 from models.product import Product
-from schemas.cart import CartItemAdd, CartItemUpdate, CartOut, UserCartOut
+from schemas.cart import CartItemAdd, CartItemUpdate, CartOut, UserCartOut, CheckoutResponse
 from auth.jwt import get_current_user, require_admin
 
 router = APIRouter()
@@ -130,7 +130,7 @@ def remove_cart_item(
     db.commit()
 
 
-@router.post("/checkout", status_code=200)
+@router.post("/checkout", status_code=200, response_model=CheckoutResponse)
 def checkout(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),

@@ -34,7 +34,15 @@ async function request(method, path, body = null) {
       // Notify AuthContext so it can clear the expired session automatically
       window.dispatchEvent(new CustomEvent('auth:expired'))
     }
-    throw new Error(data.detail || 'Request failed')
+    // FastAPI 422 validation errors return detail as an array of objects
+    const detail = data.detail
+    if (Array.isArray(detail)) {
+      const msg = detail
+        .map(e => `${e.loc?.at(-1) ?? 'field'}: ${e.msg}`)
+        .join('; ')
+      throw new Error(msg)
+    }
+    throw new Error(typeof detail === 'string' ? detail : 'Request failed')
   }
 
   return data

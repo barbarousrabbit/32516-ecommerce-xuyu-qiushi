@@ -22,6 +22,7 @@ export default function CartPage() {
   const [showCheckout, setShowCheckout] = useState(false)
   const [placing, setPlacing]   = useState(false)
   const [placed, setPlaced]     = useState(false)
+  const [modalError, setModalError] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -55,6 +56,7 @@ export default function CartPage() {
 
   async function handlePlaceOrder() {
     setPlacing(true)
+    setModalError('')
     try {
       await checkout()
       setPlaced(true)
@@ -64,7 +66,7 @@ export default function CartPage() {
       }, 2000)
     } catch (err) {
       setPlacing(false)
-      setError(err.message || 'Order failed. Please try again.')
+      setModalError(err.message || 'Order failed. Please try again.')
     }
   }
 
@@ -247,9 +249,14 @@ export default function CartPage() {
                   </div>
                 </div>
 
+                {modalError && (
+                  <p className="text-error text-body-sm font-body bg-error-container/40 rounded-lg px-4 py-2 mb-2 text-center">
+                    {modalError}
+                  </p>
+                )}
                 <div className="flex gap-3">
                   <button
-                    onClick={() => setShowCheckout(false)}
+                    onClick={() => { setShowCheckout(false); setModalError('') }}
                     className="btn-ghost flex-1"
                     disabled={placing}
                   >

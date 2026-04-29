@@ -34,3 +34,7 @@ class UserCartOut(BaseModel):
     cart: Optional[CartOut] = None
 
     model_config = {"from_attributes": True}
+
+
+class CheckoutResponse(BaseModel):
+    message: str
