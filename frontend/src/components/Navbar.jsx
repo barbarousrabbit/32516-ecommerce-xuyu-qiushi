@@ -89,9 +89,9 @@ export default function Navbar() {
 
         {/* Right: Auth */}
         <div className="flex items-center gap-3">
-          {/* Cart — always visible; pure CSS :hover on .cart-nav-btn */}
+          {/* Cart — always visible; guests go to /login, members go to /cart */}
           <button
-            onClick={() => navigate(user ? '/cart' : '/')}
+            onClick={() => navigate(user ? '/cart' : '/login')}
             aria-label="Shopping cart"
             className="cart-nav-btn"
           >
