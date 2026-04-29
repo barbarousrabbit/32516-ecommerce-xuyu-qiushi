@@ -55,9 +55,15 @@ export default function AdminProductsPage() {
   }
 
   async function handleSave(id) {
+    const price = parseFloat(editData.price)
+    const stock = parseInt(editData.stock, 10)
+    if (!editData.name?.trim())      return setError('Name cannot be empty.')
+    if (isNaN(price) || price <= 0)  return setError('Price must be a positive number.')
+    if (isNaN(stock) || stock < 0)   return setError('Stock must be 0 or greater.')
     try {
-      await updateProduct(id, { ...editData, price: parseFloat(editData.price), stock: parseInt(editData.stock) })
+      await updateProduct(id, { ...editData, price, stock })
       setEditId(null)
+      setError('')
       load()
     } catch (err) { setError(err.message) }
   }
