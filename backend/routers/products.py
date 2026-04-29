@@ -1,5 +1,6 @@
 # Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
@@ -15,7 +16,12 @@ router = APIRouter()
 def list_products(q: Optional[str] = None, db: Session = Depends(get_db)):
     query = db.query(Product)
     if q:
-        query = query.filter(Product.name.ilike(f"%{q}%"))
+        query = query.filter(
+            or_(
+                Product.name.ilike(f"%{q}%"),
+                Product.description.ilike(f"%{q}%"),
+            )
+        )
     return query.all()
 
 
