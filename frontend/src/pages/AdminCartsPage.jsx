@@ -15,7 +15,7 @@ export default function AdminCartsPage() {
       .catch(() => setError('Failed to load carts.'))
   }, [])
 
-  const totalItems    = carts.reduce((s, c) => s + (c.cart?.items?.length ?? 0), 0)
+  const totalItems    = carts.reduce((s, c) => s + (c.cart?.items?.reduce((qs, i) => qs + i.quantity, 0) ?? 0), 0)
   const combinedValue = carts.reduce((s, c) => {
     const t = c.cart?.items?.reduce((cs, i) => cs + Number(i.product.price) * i.quantity, 0) ?? 0
     return s + t
@@ -54,7 +54,7 @@ export default function AdminCartsPage() {
                   role={items.length > 0 ? 'button' : undefined}
                   tabIndex={items.length > 0 ? 0 : undefined}
                   aria-expanded={items.length > 0 ? isOpen : undefined}
-                  aria-label={items.length > 0 ? `${username}'s cart — ${items.length} items` : undefined}
+                  aria-label={items.length > 0 ? `${username}'s cart — ${items.reduce((s, i) => s + i.quantity, 0)} items` : undefined}
                   className="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-admin-bg/30 transition-colors border-b border-admin-border/50"
                   onClick={() => items.length > 0 && setExpanded(p => ({ ...p, [user_id]: !p[user_id] }))}
                   onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && items.length > 0 && setExpanded(p => ({ ...p, [user_id]: !p[user_id] }))}

@@ -3,6 +3,35 @@ import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { addToCart } from '../services/cartService'
 
+function ProductImage({ url, alt, className }) {
+  const [errored, setErrored] = useState(false)
+
+  if (!url || errored) {
+    return (
+      <div className={`${className} flex flex-col items-center justify-center gap-2 bg-surface-container-highest px-4`}>
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-outline opacity-60">
+          <rect x="6" y="10" width="36" height="28" rx="3" stroke="currentColor" strokeWidth="2.5"/>
+          <circle cx="17" cy="20" r="4" stroke="currentColor" strokeWidth="2"/>
+          <path d="M6 30 l10-10 8 8 6-6 12 14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <p className="font-body text-[11px] text-on-surface-variant text-center leading-tight max-w-[120px]">{alt}</p>
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={url}
+      alt={alt}
+      loading="lazy"
+      width="400"
+      height="400"
+      onError={() => setErrored(true)}
+      className={className}
+    />
+  )
+}
+
 export default function ProductCard({ product }) {
   const { user } = useAuth()
   const [feedback, setFeedback] = useState('')
@@ -28,10 +57,7 @@ export default function ProductCard({ product }) {
     return (
       <div className="bg-surface-container-lowest rounded-[16px] shadow-amber border border-outline-variant/10 overflow-hidden flex flex-col opacity-75">
         <div className="relative aspect-square overflow-hidden bg-surface-variant">
-          {product.image_url
-            ? <img src={product.image_url} alt={product.name} loading="lazy" width="400" height="400" className="w-full h-full object-cover grayscale" />
-            : <div className="w-full h-full bg-surface-container-high" />
-          }
+          <ProductImage url={product.image_url} alt={product.name} className="w-full h-full object-cover grayscale" />
           <div className="absolute inset-0 bg-surface-container-lowest/30 flex items-center justify-center backdrop-blur-[2px]">
             <span className="bg-surface-container-highest text-on-surface px-3 py-1.5 rounded-full text-[12px] font-heading font-bold uppercase tracking-wider shadow-sm">
               Out of Stock
@@ -56,10 +82,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="product-card group">
       <div className="relative aspect-square overflow-hidden bg-surface-variant">
-        {product.image_url
-          ? <img src={product.image_url} alt={product.name} loading="lazy" width="400" height="400" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-          : <div className="w-full h-full bg-surface-container-high" />
-        }
+        <ProductImage url={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
       </div>
       <div className="p-lg flex flex-col flex-grow">
         <h3 className="font-heading font-semibold text-[18px] text-on-surface leading-tight mb-2">
