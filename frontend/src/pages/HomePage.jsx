@@ -48,15 +48,26 @@ export default function HomePage() {
             </span>
           </div>
           <div className="flex items-center gap-3 w-full sm:w-auto">
-            {/* Mobile search */}
-            <input
-              type="search"
-              placeholder="Search products..."
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              aria-label="Search products"
-              className="md:hidden flex-1 input-base"
-            />
+            {/* Mobile search + clear */}
+            <div className="md:hidden flex-1 relative">
+              <input
+                type="search"
+                placeholder="Search products..."
+                value={query}
+                onChange={e => setQuery(e.target.value)}
+                aria-label="Search products"
+                className="w-full input-base pr-8"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery('')}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer"
+                >
+                  ×
+                </button>
+              )}
+            </div>
             {/* Sort dropdown */}
             <select
               value={sortBy}
