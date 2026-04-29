@@ -97,11 +97,15 @@ export default function Navbar() {
             aria-label="Shopping cart"
             onMouseEnter={() => setCartHovered(true)}
             onMouseLeave={() => setCartHovered(false)}
-            className="flex items-center justify-center w-10 h-10 rounded-xl transition-[color,background-color] duration-200"
-            style={{ color: cartHovered ? '#e8590c' : '', background: cartHovered ? '#ffead5' : '' }}
+            className="flex items-center justify-center w-10 h-10 rounded-xl"
+            style={{
+              color:           cartHovered ? '#e8590c' : '#6b5850',
+              backgroundColor: cartHovered ? '#ffead5' : 'transparent',
+              transition:      'color 0.2s ease, background-color 0.2s ease',
+            }}
           >
             <div style={{
-              transform: cartHovered ? 'translateY(-2px) rotate(6deg)' : 'translateY(0) rotate(0deg)',
+              transform:  cartHovered ? 'translateY(-2px) rotate(6deg)' : 'none',
               transition: 'transform 0.2s ease-out',
             }}>
               <ShoppingCart size={22} />
