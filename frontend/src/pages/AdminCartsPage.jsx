@@ -45,6 +45,7 @@ export default function AdminCartsPage() {
         <div className="space-y-3">
           {carts.map(({ user_id, username, cart }) => {
             const items     = cart?.items ?? []
+            const itemQty   = items.reduce((s, i) => s + i.quantity, 0)
             const cartTotal = items.reduce((s, i) => s + Number(i.product.price) * i.quantity, 0)
             const isOpen    = expanded[user_id]
 
@@ -67,7 +68,7 @@ export default function AdminCartsPage() {
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="bg-admin-badge-blue-bg text-admin-badge-blue-text text-xs font-heading font-bold px-2.5 py-1 rounded-full">
-                      {items.length} item{items.length !== 1 ? 's' : ''}
+                      {itemQty} item{itemQty !== 1 ? 's' : ''}
                     </span>
                     <span className="font-heading font-bold text-[18px] text-admin-primary">${cartTotal.toFixed(2)}</span>
                     {items.length > 0 && (
