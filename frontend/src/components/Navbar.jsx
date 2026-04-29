@@ -1,5 +1,4 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-import { useState } from 'react'
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { ShoppingCart, Search, LayoutGrid, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -11,8 +10,6 @@ export default function Navbar() {
   const location                          = useLocation()
   const [searchParams, setSearchParams]   = useSearchParams()
   const navQuery                          = searchParams.get('q') || ''
-  const [cartActive, setCartActive]       = useState(false)
-  const [cartBouncing, setCartBouncing]   = useState(false)
 
   function handleLogoClick(e) {
     if (location.pathname === '/') {
@@ -92,26 +89,13 @@ export default function Navbar() {
 
         {/* Right: Auth */}
         <div className="flex items-center gap-3">
-          {/* Cart — always visible; button avoids <a> colour inheritance issues */}
+          {/* Cart — always visible; pure CSS :hover on .cart-nav-btn */}
           <button
             onClick={() => navigate(user ? '/cart' : '/')}
-            onMouseEnter={() => { setCartActive(true); setCartBouncing(true) }}
-            onMouseLeave={() => setCartActive(false)}
             aria-label="Shopping cart"
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: '2.5rem', height: '2.5rem', borderRadius: '0.75rem',
-              border: 'none', cursor: 'pointer', padding: 0,
-              color:           cartActive ? '#e8590c' : '#6b5850',
-              backgroundColor: cartActive ? '#ffead5' : 'transparent',
-              transition: 'color 0.18s ease, background-color 0.18s ease',
-            }}
+            className="cart-nav-btn"
           >
-            <ShoppingCart
-              size={22}
-              className={cartBouncing ? 'cart-bounce' : ''}
-              onAnimationEnd={() => setCartBouncing(false)}
-            />
+            <ShoppingCart size={22} />
           </button>
 
           {user ? (
