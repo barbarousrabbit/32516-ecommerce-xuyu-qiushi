@@ -78,6 +78,7 @@ npm run dev
 ```
 
 ### Database
+Run from the **project root** (not inside `backend/` or `frontend/`):
 ```bash
 mysql -u root -p < database/schema.sql
 mysql -u root -p < database/seed.sql
