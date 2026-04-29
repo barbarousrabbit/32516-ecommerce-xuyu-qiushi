@@ -1,4 +1,5 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
+import { useState } from 'react'
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { ShoppingCart, Search, LayoutGrid, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -10,6 +11,15 @@ export default function Navbar() {
   const location                          = useLocation()
   const [searchParams, setSearchParams]   = useSearchParams()
   const navQuery                          = searchParams.get('q') || ''
+  const [cartHovered, setCartHovered]     = useState(false)
+
+  function handleLogoClick(e) {
+    if (location.pathname === '/') {
+      e.preventDefault()
+      window.location.reload()
+    }
+    // other pages: normal Link navigation to /
+  }
 
   function handleLogout() {
     logout()
@@ -38,6 +48,7 @@ export default function Navbar() {
         <div className="flex items-center gap-8 h-full">
           <Link
             to="/"
+            onClick={handleLogoClick}
             className="flex items-center gap-2.5 group self-stretch px-2 -mx-2"
             aria-label="ShopCart home"
           >
@@ -84,11 +95,15 @@ export default function Navbar() {
           <Link
             to={user ? '/cart' : '/'}
             aria-label="Shopping cart"
-            className="group flex items-center justify-center w-10 h-10 rounded-xl
-                       text-on-surface-variant hover:text-primary hover:bg-primary-container
-                       active:scale-95 transition-[color,background-color,transform] duration-200"
+            onMouseEnter={() => setCartHovered(true)}
+            onMouseLeave={() => setCartHovered(false)}
+            className="flex items-center justify-center w-10 h-10 rounded-xl transition-[color,background-color] duration-200"
+            style={{ color: cartHovered ? '#e8590c' : '', background: cartHovered ? '#ffead5' : '' }}
           >
-            <div className="group-hover:-translate-y-0.5 group-hover:rotate-6 transition-transform duration-200">
+            <div style={{
+              transform: cartHovered ? 'translateY(-2px) rotate(6deg)' : 'translateY(0) rotate(0deg)',
+              transition: 'transform 0.2s ease-out',
+            }}>
               <ShoppingCart size={22} />
             </div>
           </Link>
