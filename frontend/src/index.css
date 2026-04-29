@@ -60,6 +60,30 @@
            transition-[transform,box-shadow] duration-300;
   }
 
+  /* ── Navbar cart button ─── */
+  .cart-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    color: #6b5850;
+    background-color: transparent;
+    transition: color 0.2s ease, background-color 0.2s ease;
+    text-decoration: none;
+  }
+  .cart-btn:hover {
+    color: #e8590c;
+    background-color: #ffead5;
+  }
+  .cart-btn .cart-icon {
+    transition: transform 0.2s ease-out;
+  }
+  .cart-btn:hover .cart-icon {
+    transform: translateY(-3px) rotate(8deg);
+  }
+
   /* ── Admin sidebar item ─── */
   .sidebar-item {
     @apply flex items-center gap-3 px-3 py-3 rounded-lg

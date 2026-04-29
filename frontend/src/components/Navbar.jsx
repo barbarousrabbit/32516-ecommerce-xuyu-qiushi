@@ -1,5 +1,4 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-import { useState } from 'react'
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { ShoppingCart, Search, LayoutGrid, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
@@ -11,7 +10,6 @@ export default function Navbar() {
   const location                          = useLocation()
   const [searchParams, setSearchParams]   = useSearchParams()
   const navQuery                          = searchParams.get('q') || ''
-  const [cartHovered, setCartHovered]     = useState(false)
 
   function handleLogoClick(e) {
     if (location.pathname === '/') {
@@ -92,22 +90,8 @@ export default function Navbar() {
         {/* Right: Auth */}
         <div className="flex items-center gap-3">
           {/* Cart — always visible; guests go to home, logged-in users go to /cart */}
-          <Link
-            to={user ? '/cart' : '/'}
-            aria-label="Shopping cart"
-            onMouseEnter={() => setCartHovered(true)}
-            onMouseLeave={() => setCartHovered(false)}
-            className="flex items-center justify-center w-10 h-10 rounded-xl"
-            style={{
-              color:           cartHovered ? '#e8590c' : '#6b5850',
-              backgroundColor: cartHovered ? '#ffead5' : 'transparent',
-              transition:      'color 0.2s ease, background-color 0.2s ease',
-            }}
-          >
-            <div style={{
-              transform:  cartHovered ? 'translateY(-2px) rotate(6deg)' : 'none',
-              transition: 'transform 0.2s ease-out',
-            }}>
+          <Link to={user ? '/cart' : '/'} aria-label="Shopping cart" className="cart-btn">
+            <div className="cart-icon">
               <ShoppingCart size={22} />
             </div>
           </Link>
