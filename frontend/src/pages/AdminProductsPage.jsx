@@ -13,11 +13,21 @@ export default function AdminProductsPage() {
   const [editData, setEditData]     = useState({})
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [addError, setAddError]         = useState('')
+  const [search, setSearch]             = useState('')
+  const [stockFilter, setStockFilter]   = useState('all')
 
   async function load() {
     try { setProducts(await getProducts()) } catch { setError('Failed to load products.') }
   }
   useEffect(() => { load() }, [])
+
+  const displayed = products.filter(p => {
+    const matchName  = p.name.toLowerCase().includes(search.toLowerCase())
+    const matchStock = stockFilter === 'all' ? true
+                     : stockFilter === 'in'  ? p.stock > 0
+                     :                         p.stock === 0
+    return matchName && matchStock
+  })
 
   useEffect(() => { if (!showAdd) setAddError('') }, [showAdd])
 
@@ -77,10 +87,36 @@ export default function AdminProductsPage() {
     <div className="flex min-h-screen bg-admin-bg font-body text-admin-text">
       <AdminSidebar />
       <main className="flex-1 p-8 overflow-y-auto">
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="font-heading font-bold text-2xl text-admin-text">Products</h1>
-            <p className="font-body text-body-sm text-admin-muted">({products.length} items)</p>
+            <p className="font-body text-body-sm text-admin-muted">
+              {displayed.length === products.length
+                ? `${products.length} items`
+                : `${displayed.length} of ${products.length} items`}
+            </p>
+          </div>
+          <div className="flex items-center gap-2 flex-wrap">
+            <input
+              type="search"
+              placeholder="Search products…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="border border-admin-border rounded-lg px-3 py-2 text-sm font-body focus:outline-none focus:border-admin-primary transition-colors w-48"
+            />
+            {['all','in','out'].map(f => (
+              <button
+                key={f}
+                onClick={() => setStockFilter(f)}
+                className={`px-3 py-2 rounded-lg text-xs font-heading font-semibold transition-colors cursor-pointer border ${
+                  stockFilter === f
+                    ? 'bg-admin-primary text-white border-admin-primary'
+                    : 'bg-white text-admin-muted border-admin-border hover:border-admin-primary'
+                }`}
+              >
+                {f === 'all' ? 'All' : f === 'in' ? 'In Stock' : 'Out of Stock'}
+              </button>
+            ))}
           </div>
           <button
             onClick={() => setShowAdd(true)}
@@ -102,7 +138,7 @@ export default function AdminProductsPage() {
               </tr>
             </thead>
             <tbody>
-              {products.map(p => {
+              {displayed.map(p => {
                 const isEditing = editId === p.id
                 return (
                   <tr key={p.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
@@ -158,8 +194,10 @@ export default function AdminProductsPage() {
               })}
             </tbody>
           </table>
-          {products.length === 0 && (
-            <div className="text-center py-12 text-admin-muted font-body text-body-sm">No products yet.</div>
+          {displayed.length === 0 && (
+            <div className="text-center py-12 text-admin-muted font-body text-body-sm">
+              {products.length === 0 ? 'No products yet.' : 'No products match the current filter.'}
+            </div>
           )}
         </div>
       </main>
