@@ -55,7 +55,7 @@ export default function Navbar() {
             </div>
             <span className="font-heading font-bold text-[22px] tracking-tight leading-none">
               <span className="text-on-surface group-hover:text-primary transition-colors duration-200">Shop</span>
-              <span className="text-primary">Cart</span>
+              <span className="text-primary group-hover:text-surface-tint transition-colors duration-200">Cart</span>
             </span>
           </Link>
 
