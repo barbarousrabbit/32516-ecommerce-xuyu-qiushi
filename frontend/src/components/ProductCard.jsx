@@ -67,9 +67,14 @@ export default function ProductCard({ product }) {
           </div>
         </div>
         <div className="p-lg flex flex-col flex-grow">
-          <h3 className="font-heading font-semibold text-[18px] text-on-surface-variant leading-tight mb-2">
+          <h3 className="font-heading font-semibold text-[18px] text-on-surface-variant leading-tight mb-1">
             {product.name}
           </h3>
+          {product.description && (
+            <p className="font-body text-body-sm text-on-surface-variant/70 line-clamp-2 mb-2 leading-relaxed">
+              {product.description}
+            </p>
+          )}
           <p className="font-body text-body-lg text-on-surface-variant font-bold mb-4">${product.price}</p>
           <div className="mt-auto">
             <button disabled className="w-full bg-surface-container-highest text-on-surface-variant font-heading text-button py-3 rounded-lg cursor-not-allowed">
@@ -87,9 +92,14 @@ export default function ProductCard({ product }) {
         <ProductImage url={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
       </div>
       <div className="p-lg flex flex-col flex-grow">
-        <h3 className="font-heading font-semibold text-[18px] text-on-surface leading-tight mb-2">
+        <h3 className="font-heading font-semibold text-[18px] text-on-surface leading-tight mb-1">
           {product.name}
         </h3>
+        {product.description && (
+          <p className="font-body text-body-sm text-on-surface-variant line-clamp-2 mb-2 leading-relaxed">
+            {product.description}
+          </p>
+        )}
         <div className="flex items-center gap-2 mb-4">
           <p className="font-body text-body-lg text-primary font-bold">${product.price}</p>
           <span className="font-body text-body-sm text-on-surface-variant">• {product.stock} in stock</span>
