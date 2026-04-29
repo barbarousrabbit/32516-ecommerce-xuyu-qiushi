@@ -70,6 +70,7 @@ export default function CartPage() {
     }
   }
 
+  const totalQty = cart?.items?.reduce((s, i) => s + i.quantity, 0) ?? 0
   const subtotal = cart?.items?.reduce((sum, i) => sum + Number(i.product.price) * i.quantity, 0) ?? 0
   const tax      = subtotal * 0.08
   const total    = subtotal + tax
@@ -83,9 +84,9 @@ export default function CartPage() {
 
         <h1 className="font-heading font-bold text-[32px] text-on-surface mb-6">
           My Cart
-          {cart?.items?.length > 0 && (
+          {totalQty > 0 && (
             <span className="font-body text-body-md text-on-surface-variant font-normal ml-3">
-              ({cart.items.length} item{cart.items.length !== 1 ? 's' : ''})
+              ({totalQty} item{totalQty !== 1 ? 's' : ''})
             </span>
           )}
         </h1>
@@ -169,7 +170,7 @@ export default function CartPage() {
                 </h2>
                 <div className="space-y-3 font-body text-body-md">
                   <div className="flex justify-between">
-                    <span className="text-on-surface-variant">Subtotal ({cart.items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+                    <span className="text-on-surface-variant">Subtotal ({totalQty} item{totalQty !== 1 ? 's' : ''})</span>
                     <span className="text-on-surface">${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
