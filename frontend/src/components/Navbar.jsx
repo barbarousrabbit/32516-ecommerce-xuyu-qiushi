@@ -80,13 +80,17 @@ export default function Navbar() {
 
         {/* Right: Auth */}
         <div className="flex items-center gap-3">
-          {/* Cart — always visible; PrivateRoute redirects guests to /login */}
+          {/* Cart — always visible; guests go to home, logged-in users go to /cart */}
           <Link
-            to="/cart"
+            to={user ? '/cart' : '/'}
             aria-label="Shopping cart"
-            className="group flex items-center justify-center w-10 h-10 rounded-xl text-on-surface-variant hover:text-primary hover:bg-primary-container active:scale-95 transition-[color,background-color,transform] duration-200"
+            className="group flex items-center justify-center w-10 h-10 rounded-xl
+                       text-on-surface-variant hover:text-primary hover:bg-primary-container
+                       active:scale-95 transition-[color,background-color,transform] duration-200"
           >
-            <ShoppingCart size={22} className="group-hover:-translate-y-0.5 group-hover:rotate-6 transition-transform duration-200" />
+            <div className="group-hover:-translate-y-0.5 group-hover:rotate-6 transition-transform duration-200">
+              <ShoppingCart size={22} />
+            </div>
           </Link>
 
           {user ? (
