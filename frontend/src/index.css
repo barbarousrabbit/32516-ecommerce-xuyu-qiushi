@@ -60,30 +60,6 @@
            transition-[transform,box-shadow] duration-300;
   }
 
-  /* ── Navbar cart button ─── */
-  .cart-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.75rem;
-    color: #6b5850;
-    background-color: transparent;
-    transition: color 0.2s ease, background-color 0.2s ease;
-    text-decoration: none;
-  }
-  .cart-btn:hover {
-    color: #e8590c;
-    background-color: #ffead5;
-  }
-  .cart-btn .cart-icon {
-    transition: transform 0.2s ease-out;
-  }
-  .cart-btn:hover .cart-icon {
-    transform: translateY(-3px) rotate(8deg);
-  }
-
   /* ── Admin sidebar item ─── */
   .sidebar-item {
     @apply flex items-center gap-3 px-3 py-3 rounded-lg
@@ -98,4 +74,33 @@
            bg-admin-primary text-white font-heading font-medium text-sm
            border-l-2 border-admin-accent cursor-pointer;
   }
+}
+
+/* ── Navbar cart button — outside @layer so it wins over utilities ────────── */
+@keyframes cart-bounce {
+  0%   { transform: translateY(0)    rotate(0deg);  }
+  30%  { transform: translateY(-6px) rotate(-12deg);}
+  60%  { transform: translateY(-3px) rotate(8deg);  }
+  80%  { transform: translateY(-1px) rotate(-4deg); }
+  100% { transform: translateY(0)    rotate(0deg);  }
+}
+
+.cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  color: #6b5850;
+  background-color: transparent;
+  transition: color 0.18s ease, background-color 0.18s ease;
+  text-decoration: none;
+}
+.cart-btn:hover {
+  color: #e8590c;
+  background-color: #ffead5;
+}
+.cart-btn:hover .cart-icon {
+  animation: cart-bounce 0.45s ease-out;
 }
