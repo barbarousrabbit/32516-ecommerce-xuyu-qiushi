@@ -76,14 +76,39 @@
   }
 }
 
-/* ── Logo mark bounce (triggered by :hover on parent .logo-link) ────────── */
-@keyframes logo-bounce {
-  0%   { transform: scale(1)    rotate(0deg);  }
-  30%  { transform: scale(1.18) rotate(-8deg); }
-  65%  { transform: scale(1.06) rotate(4deg);  }
-  100% { transform: scale(1)    rotate(0deg);  }
+/* ── Logo hover: elastic pop on mark + underline draw on wordmark ────────── */
+@keyframes logo-pop {
+  0%   { transform: scale(1);    }
+  20%  { transform: scale(0.82); }
+  50%  { transform: scale(1.28); }
+  72%  { transform: scale(0.94); }
+  88%  { transform: scale(1.07); }
+  100% { transform: scale(1);    }
 }
-.logo-link:hover .logo-mark { animation: logo-bounce 0.4s ease-out; }
+
+/* Mark elastic pop */
+.logo-link:hover .logo-mark {
+  animation: logo-pop 0.48s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+/* Wordmark underline draw */
+.logo-wordmark {
+  position: relative;
+}
+.logo-wordmark::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(to right, #e8590c, #ff9a5c, #e8590c);
+  border-radius: 1px;
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.logo-link:hover .logo-wordmark::after {
+  width: 100%;
+}
 
 /* ── Navbar cart button ────────────────────────────────────────────────────── */
 @keyframes cart-bounce {

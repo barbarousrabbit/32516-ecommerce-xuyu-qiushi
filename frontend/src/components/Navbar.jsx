@@ -53,9 +53,9 @@ export default function Navbar() {
             <div className="logo-mark flex-shrink-0">
               <LogoMark size={28} />
             </div>
-            <span className="font-heading font-bold text-[22px] tracking-tight leading-none">
+            <span className="logo-wordmark font-heading font-bold text-[22px] tracking-tight leading-none">
               <span className="text-on-surface group-hover:text-primary transition-colors duration-200">Shop</span>
-              <span className="text-primary inline-block group-hover:scale-105 transition-transform duration-200">Cart</span>
+              <span className="text-primary">Cart</span>
             </span>
           </Link>
 
