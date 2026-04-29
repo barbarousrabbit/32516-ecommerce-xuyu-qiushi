@@ -158,6 +158,37 @@ git log origin/master..HEAD --format="%H %an" --reverse
 **Ideal workflow (prevents mixing entirely):**
 Push each author's commits **immediately** after committing — before any commits from the other author are added on top.
 
+### Contribution Balance Rules — MANDATORY
+
+Graders check GitHub Insights → Contributors. Target ratio: **≤ 2:1** (Xuyu:Qiushi).
+
+**Check current balance before every work session:**
+```bash
+git log --format="%an" | sort | uniq -c | sort -rn
+```
+
+**The 2-for-1 rule:**
+- For every **2 consecutive Xuyu commits**, assign the next task to Qiushi.
+- Never let Xuyu's count exceed Qiushi's by more than 2× at push time.
+- If ratio is drifting past 2:1, the next work item MUST go to Qiushi regardless of domain.
+
+**Qiushi's file domain (always assign first):**
+| Module | Files |
+|--------|-------|
+| Database | `database/schema.sql`, `database/seed.sql`, `database/ecommerce_export.sql` |
+| Products (backend) | `backend/routers/products.py`, `backend/models/product.py`, `backend/schemas/product.py` |
+| Products (frontend) | `frontend/src/pages/HomePage.jsx`, `frontend/src/components/ProductCard.jsx`, `frontend/src/hooks/useSearch.js`, `frontend/src/services/productService.js` |
+| Admin (backend) | `backend/routers/users.py` |
+| Admin (frontend) | `frontend/src/pages/AdminProductsPage.jsx`, `frontend/src/pages/AdminUsersPage.jsx`, `frontend/src/pages/AdminCartsPage.jsx`, `frontend/src/components/AdminSidebar.jsx` |
+
+**When Qiushi's domain has no obvious task**, pick from:
+1. Any bug fix touching his files
+2. A polish/UX improvement to any admin or product page
+3. An enhancement to the backend products route (sorting, filtering, validation)
+4. Updating `database/ecommerce_export.sql` after any data change
+
+**Never batch all Qiushi commits at the end of a session.** Interleave them throughout.
+
 ### Why this matters
 GitHub records `author`, `committer`, and who **pushed**. If Qiushi's commits are pushed with Xuyu's token the push log shows "pushed by barbarousrabbit" for Qiushi's work — a discrepancy graders can spot. Correct token per push = clean contribution graph.
 
