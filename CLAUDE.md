@@ -109,7 +109,7 @@ Every source code file must begin with an author header comment declaring both g
 - [ ] README includes: description, tech stack, how to run, folder structure, workload split
 
 ## Git Rules (affects Individual — Professional Practices score)
-- **Never auto-push**: after writing code, always stop and wait for user review before pushing. Only push when user explicitly says "push" or "推送". Commit locally first, push separately on instruction.
+- **Never auto-push**: only push when user explicitly says "push" or "推送" — commit locally first
 - **Commit often**: after every completed feature or meaningful change
 - **Commit message format**: `type: short description`
   - Types: `feat` `fix` `style` `refactor` `docs` `chore`
@@ -119,36 +119,50 @@ Every source code file must begin with an author header comment declaring both g
 - **Branch strategy**: `main` = stable working code; `feature/<name>` = work in progress
 
 ## Commit Identity Rules — MANDATORY
-Each member's files MUST be committed and pushed under their own GitHub identity. This is how the grader verifies individual contribution.
+Each member's files MUST be committed **and pushed** under their own GitHub identity.
 
-### Committing Xuyu Zhang's files (default)
+### Step-by-step: committing Xuyu Zhang's files
 ```bash
 git config user.name "Xuyu Zhang"
 git config user.email "barbarousrabbit@gmail.com"
 git add <xuyu's files>
 git commit -m "feat: ..."
-# push with Xuyu's token (stored in ~/.claude/.mcp.json)
+# → push immediately with Xuyu's token (see project_credentials.md in Claude memory)
 ```
 
-### Committing Qiushi Huang's files
+### Step-by-step: committing Qiushi Huang's files
 ```bash
-# Step 1 — switch identity
 git config user.name "Qiushi Huang"
 git config user.email "Qiushi.Huang@student.uts.edu.au"
-
-# Step 2 — commit
 git add <qiushi's files>
 git commit -m "feat: ..."
-
-# Step 3 — push with Qiushi's token (stored in Claude memory: project_credentials.md)
-
-# Step 4 — switch back immediately
+# → push immediately with Qiushi's token (see project_credentials.md in Claude memory)
 git config user.name "Xuyu Zhang"
-git config user.email "barbarousrabbit@gmail.com"
+git config user.email "barbarousrabbit@gmail.com"   # restore immediately
 ```
 
+### Push procedure — MANDATORY (prevents mixed-token mistakes)
+
+**Before every push**, check which authors have pending commits:
+```bash
+git log origin/master..HEAD --format="%H %an" --reverse
+```
+
+**Rule: push-per-author, never mixed-token.**
+| Situation | Action |
+|-----------|--------|
+| All pending = Xuyu only | One push with Xuyu's token |
+| All pending = Qiushi only | One push with Qiushi's token |
+| Mixed authors | Push Xuyu's commits first (Xuyu token), then Qiushi's (Qiushi token) |
+
+**Ideal workflow (prevents mixing entirely):**
+Push each author's commits **immediately** after committing — before any commits from the other author are added on top.
+
 ### Why this matters
-GitHub records both `author` and `committer` per commit. If Qiushi's files are pushed with Xuyu's token, GitHub shows "authored by Qiushi, committed by Xuyu" — the grader can see this discrepancy. Using the correct token ensures author = committer = the right person, with no trace of the other.
+GitHub records `author`, `committer`, and who **pushed**. If Qiushi's commits are pushed with Xuyu's token the push log shows "pushed by barbarousrabbit" for Qiushi's work — a discrepancy graders can spot. Correct token per push = clean contribution graph.
+
+### Tokens
+Stored in Claude memory: `project_credentials.md` — **never paste into source code or CLAUDE.md**.
 
 ### File ownership reference
 See `docs/plans/分工说明.docx` — Section 六 for the complete file-to-owner mapping.
