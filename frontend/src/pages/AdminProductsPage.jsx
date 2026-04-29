@@ -117,6 +117,14 @@ export default function AdminProductsPage() {
                 {f === 'all' ? 'All' : f === 'in' ? 'In Stock' : 'Out of Stock'}
               </button>
             ))}
+            {(search || stockFilter !== 'all') && (
+              <button
+                onClick={() => { setSearch(''); setStockFilter('all') }}
+                className="px-3 py-2 rounded-lg text-xs font-heading font-semibold text-red-500 border border-red-200 hover:bg-red-50 transition-colors cursor-pointer"
+              >
+                Reset
+              </button>
+            )}
           </div>
           <button
             onClick={() => setShowAdd(true)}
