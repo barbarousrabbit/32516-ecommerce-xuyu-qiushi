@@ -5,3 +5,4 @@ export const addToCart      = (productId, quantity = 1) => api.post('/cart/items
 export const updateCartItem = (itemId, quantity)        => api.put(`/cart/items/${itemId}`, { quantity })
 export const removeCartItem = (itemId)                  => api.delete(`/cart/items/${itemId}`)
 export const getAllCarts     = ()                        => api.get('/cart/all')
+export const checkout       = ()                        => api.post('/cart/checkout')

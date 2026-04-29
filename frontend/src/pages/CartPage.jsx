@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Trash2, Minus, Plus, ShoppingBag, Lock, CheckCircle } from 'lucide-react'
-import { getMyCart, updateCartItem, removeCartItem } from '../services/cartService'
+import { getMyCart, updateCartItem, removeCartItem, checkout } from '../services/cartService'
 import Navbar from '../components/Navbar'
 
 function Footer() {
@@ -56,17 +56,15 @@ export default function CartPage() {
   async function handlePlaceOrder() {
     setPlacing(true)
     try {
-      // Remove all items to clear the cart on order placement
-      const items = cart?.items ?? []
-      await Promise.all(items.map(i => removeCartItem(i.id)))
+      await checkout()
       setPlaced(true)
       setTimeout(() => {
         setShowCheckout(false)
         navigate('/')
       }, 2000)
-    } catch {
+    } catch (err) {
       setPlacing(false)
-      setError('Order failed. Please try again.')
+      setError(err.message || 'Order failed. Please try again.')
     }
   }
 

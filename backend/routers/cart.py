@@ -128,3 +128,42 @@ def remove_cart_item(
 
     db.delete(item)
     db.commit()
+
+
+@router.post("/checkout", status_code=200)
+def checkout(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    cart = (
+        db.query(ShoppingCart)
+        .options(joinedload(ShoppingCart.items))
+        .filter(ShoppingCart.user_id == current_user.id)
+        .first()
+    )
+    if not cart or not cart.items:
+        raise HTTPException(status_code=400, detail="Cart is empty")
+
+    # Pass 1: lock rows and verify every item has enough stock
+    locked = []
+    for item in cart.items:
+        product = (
+            db.query(Product)
+            .filter(Product.id == item.product_id)
+            .with_for_update()
+            .first()
+        )
+        if product.stock < item.quantity:
+            raise HTTPException(
+                status_code=400,
+                detail=f"'{product.name}' only has {product.stock} in stock",
+            )
+        locked.append((item, product))
+
+    # Pass 2: deduct stock and clear cart — both inside the same transaction
+    for item, product in locked:
+        product.stock -= item.quantity
+        db.delete(item)
+
+    db.commit()
+    return {"message": "Order placed successfully"}
