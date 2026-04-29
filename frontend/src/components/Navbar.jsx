@@ -38,7 +38,7 @@ export default function Navbar() {
         <div className="flex items-center gap-8 h-full">
           <Link
             to="/"
-            className="flex items-center gap-2.5 group"
+            className="flex items-center gap-2.5 group self-stretch px-2 -mx-2"
             aria-label="ShopCart home"
           >
             <div className="flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
