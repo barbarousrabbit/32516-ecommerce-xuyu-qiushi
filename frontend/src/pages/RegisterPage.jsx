@@ -1,10 +1,11 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, CheckCircle2, XCircle, ShoppingBag, ArrowRight } from 'lucide-react'
+import { Eye, EyeOff, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { register } from '../services/authService'
 import Navbar from '../components/Navbar'
+import LogoMark from '../components/LogoMark'
 
 export default function RegisterPage() {
   const [form, setForm]       = useState({ username: '', email: '', password: '' })
@@ -45,7 +46,9 @@ export default function RegisterPage() {
 
           {/* Header */}
           <div className="text-center mb-xl">
-            <ShoppingBag size={36} className="text-primary mx-auto mb-sm" />
+            <div className="flex justify-center mb-sm">
+              <LogoMark size={48} />
+            </div>
             <h1 className="font-heading text-h2 text-on-surface">Create your account</h1>
             <p className="font-body text-body-md text-on-surface-variant mt-1">
               Join ShopCart to start shopping

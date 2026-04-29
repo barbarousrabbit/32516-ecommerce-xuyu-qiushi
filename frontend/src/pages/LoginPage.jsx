@@ -1,10 +1,11 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Store, AlertCircle } from 'lucide-react'
+import { Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { login } from '../services/authService'
 import Navbar from '../components/Navbar'
+import LogoMark from '../components/LogoMark'
 
 export default function LoginPage() {
   const [form, setForm]       = useState({ email: '', password: '' })
@@ -40,8 +41,8 @@ export default function LoginPage() {
           {/* Login Card */}
           <div className="bg-surface-container-lowest rounded-2xl shadow-amber p-xl">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-surface-container mb-4">
-                <Store size={28} className="text-primary" />
+              <div className="flex justify-center mb-4">
+                <LogoMark size={48} />
               </div>
               <h1 className="font-heading text-[28px] font-bold text-on-surface mb-2">Welcome back</h1>
               <p className="font-body text-body-md text-on-surface-variant">Sign in to your account</p>

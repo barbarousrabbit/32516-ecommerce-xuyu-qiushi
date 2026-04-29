@@ -2,6 +2,7 @@
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { ShoppingCart, Search, LayoutGrid, LogOut } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import LogoMark from './LogoMark'
 
 export default function Navbar() {
   const { user, logout }                  = useAuth()
@@ -37,9 +38,16 @@ export default function Navbar() {
         <div className="flex items-center gap-8 h-full">
           <Link
             to="/"
-            className="text-2xl font-bold tracking-tight text-primary hover:text-surface-tint transition-colors duration-200 font-heading"
+            className="flex items-center gap-2.5 group"
+            aria-label="ShopCart home"
           >
-            ShopCart
+            <div className="flex-shrink-0 group-hover:scale-105 transition-transform duration-200">
+              <LogoMark size={28} />
+            </div>
+            <span className="font-heading font-bold text-[22px] tracking-tight leading-none">
+              <span className="text-on-surface group-hover:text-primary transition-colors duration-200">Shop</span>
+              <span className="text-primary">Cart</span>
+            </span>
           </Link>
 
           {user?.role === 'admin' && (
