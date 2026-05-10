@@ -23,6 +23,7 @@ database/local_*.sql
 .vscode/settings.json
 .idea/
 *.swp
+CLAUDE.md
 
 # OS
 .DS_Store
