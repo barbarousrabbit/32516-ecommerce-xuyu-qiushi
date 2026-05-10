@@ -14,6 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import pytest
 from fastapi.testclient import TestClient
+from conftest import requires_db
 from main import app
 
 client = TestClient(app)
@@ -35,12 +36,14 @@ def auth_header(token: str) -> dict:
 
 # ── Products (public) ──────────────────────────────────────────────────────────
 
+@requires_db
 def test_products_returns_list():
     resp = client.get("/products")
     assert resp.status_code == 200
     assert isinstance(resp.json(), list)
 
 
+@requires_db
 def test_products_search_filters():
     resp = client.get("/products?q=headphones")
     assert resp.status_code == 200
@@ -49,6 +52,7 @@ def test_products_search_filters():
                for p in results)
 
 
+@requires_db
 def test_product_not_found():
     resp = client.get("/products/99999")
     assert resp.status_code == 404
@@ -56,6 +60,7 @@ def test_product_not_found():
 
 # ── Auth ────────────────────────────────────────────────────────────────────────
 
+@requires_db
 def test_login_success():
     resp = client.post("/auth/login", json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD})
     assert resp.status_code == 200
@@ -64,11 +69,13 @@ def test_login_success():
     assert data["user"]["role"] == "admin"
 
 
+@requires_db
 def test_login_wrong_password():
     resp = client.post("/auth/login", json={"email": ADMIN_EMAIL, "password": "wrongpassword"})
     assert resp.status_code == 401
 
 
+@requires_db
 def test_login_unknown_email():
     resp = client.post("/auth/login", json={"email": "nobody@nowhere.com", "password": "anything"})
     assert resp.status_code == 401
@@ -98,6 +105,7 @@ def test_admin_users_requires_auth():
 
 # ── Role guard (user cannot access admin routes) ───────────────────────────────
 
+@requires_db
 def test_user_cannot_access_admin_users(tmp_path):
     # Register a fresh user for this test
     unique_email = "smoketest_role@example.com"
@@ -121,6 +129,7 @@ def test_user_cannot_access_admin_users(tmp_path):
 
 # ── Cart CRUD (happy path, requires seeded DB) ─────────────────────────────────
 
+@requires_db
 def test_cart_add_view_update_remove():
     token = get_token(ADMIN_EMAIL, ADMIN_PASSWORD)
     headers = auth_header(token)
