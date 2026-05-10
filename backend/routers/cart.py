@@ -16,17 +16,18 @@ router = APIRouter()
 @router.get("/all", response_model=List[UserCartOut])
 def get_all_carts(db: Session = Depends(get_db), _=Depends(require_admin)):
     # Route defined before /me so FastAPI doesn't interpret "all" as {item_id}
+    # 2 queries instead of N+1: one for users, one for all carts with items
     users = db.query(User).all()
-    result = []
-    for user in users:
-        cart = (
-            db.query(ShoppingCart)
-            .options(joinedload(ShoppingCart.items).joinedload(CartItem.product))
-            .filter(ShoppingCart.user_id == user.id)
-            .first()
-        )
-        result.append(UserCartOut(user_id=user.id, username=user.username, cart=cart))
-    return result
+    carts = (
+        db.query(ShoppingCart)
+        .options(joinedload(ShoppingCart.items).joinedload(CartItem.product))
+        .all()
+    )
+    cart_map = {c.user_id: c for c in carts}
+    return [
+        UserCartOut(user_id=u.id, username=u.username, cart=cart_map.get(u.id))
+        for u in users
+    ]
 
 
 @router.get("/me", response_model=CartOut)
