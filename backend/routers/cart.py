@@ -97,6 +97,12 @@ def update_cart_item(
     if not cart:
         raise HTTPException(status_code=403, detail="Not your cart")
 
+    if data.quantity <= 0:
+        db.delete(item)
+        db.commit()
+        db.refresh(cart)
+        return cart
+
     product = db.query(Product).filter(Product.id == item.product_id).first()
     if product and data.quantity > product.stock:
         raise HTTPException(

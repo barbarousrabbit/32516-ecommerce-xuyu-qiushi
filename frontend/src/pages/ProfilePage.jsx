@@ -1,15 +1,32 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { updateMyProfile } from '../services/userService'
+import { getMyProfile, updateMyProfile } from '../services/userService'
 import Navbar from '../components/Navbar'
 
 export default function ProfilePage() {
-  const { user, login: setAuth } = useAuth()
+  const { user, updateUser } = useAuth()
   const [form, setForm]       = useState({ username: user?.username ?? '', email: user?.email ?? '' })
   const [success, setSuccess] = useState(false)
   const [error, setError]     = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function loadProfile() {
+      try {
+        const current = await getMyProfile()
+        updateUser(current)
+        setForm({ username: current.username, email: current.email })
+      } catch (err) {
+        setError(err.message || 'Failed to load profile.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadProfile()
+  }, [updateUser])
 
   async function handleSave(e) {
     e.preventDefault()
@@ -17,7 +34,7 @@ export default function ProfilePage() {
     setSuccess(false)
     try {
       const updated = await updateMyProfile(form)
-      setAuth(updated, localStorage.getItem('token'))
+      updateUser(updated)
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
     } catch (err) {
@@ -47,6 +64,10 @@ export default function ProfilePage() {
           <div className="pt-8">
             <h2 className="font-heading font-semibold text-[18px] text-on-surface mb-5">Account Information</h2>
 
+            {loading && (
+              <p className="font-body text-body-md text-on-surface-variant mb-6">Loading profile...</p>
+            )}
+
             {success && (
               <div className="flex items-center gap-2 bg-green-50 text-green-700 px-4 py-3 rounded-lg mb-6 font-body text-body-sm">
                 <CheckCircle2 size={18} />
@@ -73,7 +94,7 @@ export default function ProfilePage() {
                   minLength={3}
                   maxLength={50}
                 />
-                <p className="font-body text-body-sm text-on-surface-variant mt-1">3–50 characters</p>
+                <p className="font-body text-body-sm text-on-surface-variant mt-1">3-50 characters</p>
               </div>
               <div>
                 <label htmlFor="email" className="block font-body text-body-sm font-medium text-on-surface mb-1">Email Address</label>
@@ -92,10 +113,13 @@ export default function ProfilePage() {
                   type="button"
                   className="btn-ghost"
                   onClick={() => setForm({ username: user?.username, email: user?.email })}
+                  disabled={loading}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-primary">Save Changes</button>
+                <button type="submit" disabled={loading} className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed">
+                  Save Changes
+                </button>
               </div>
             </form>
           </div>

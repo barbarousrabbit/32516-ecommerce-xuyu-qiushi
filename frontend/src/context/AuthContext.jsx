@@ -40,6 +40,11 @@ export function AuthProvider({ children }) {
     }
   }
 
+  const updateUser = useCallback((userData) => {
+    localStorage.setItem('user', JSON.stringify(userData))
+    setUser(userData)
+  }, [])
+
   // Auto-logout when any API call receives 401 (expired/invalid token)
   useEffect(() => {
     window.addEventListener('auth:expired', logout)
@@ -47,7 +52,7 @@ export function AuthProvider({ children }) {
   }, [logout])
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   )

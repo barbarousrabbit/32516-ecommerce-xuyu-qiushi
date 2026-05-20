@@ -10,7 +10,7 @@ class CartItemAdd(BaseModel):
 
 
 class CartItemUpdate(BaseModel):
-    quantity: int = Field(..., ge=1)
+    quantity: int
 
 
 class CartItemOut(BaseModel):
@@ -23,7 +23,7 @@ class CartItemOut(BaseModel):
 
 class CartOut(BaseModel):
     id: int
-    items: List[CartItemOut] = []
+    items: List[CartItemOut] = Field(default_factory=list)
 
     model_config = {"from_attributes": True}
 

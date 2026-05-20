@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 import pytest
 from fastapi.testclient import TestClient
-from conftest import requires_db
+from tests.conftest import requires_db
 from main import app
 
 client = TestClient(app)
@@ -147,6 +147,18 @@ def test_cart_add_view_update_remove():
     assert upd.status_code == 200
     updated_item = next(i for i in upd.json()["items"] if i["id"] == item_id)
     assert updated_item["quantity"] == 2
+
+    # Updating to zero should remove the item
+    zero = client.put(f"/cart/items/{item_id}", json={"quantity": 0}, headers=headers)
+    assert zero.status_code == 200
+    assert next((i for i in zero.json()["items"] if i["id"] == item_id), None) is None
+
+    # Add the product again so the explicit delete endpoint is covered too
+    add_again = client.post("/cart/items", json={"product_id": 1, "quantity": 1}, headers=headers)
+    assert add_again.status_code == 201
+    item = next((i for i in add_again.json()["items"] if i["product"]["id"] == 1), None)
+    assert item is not None
+    item_id = item["id"]
 
     # Remove
     rem = client.delete(f"/cart/items/{item_id}", headers=headers)
