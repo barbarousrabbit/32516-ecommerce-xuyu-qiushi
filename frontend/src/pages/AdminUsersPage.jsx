@@ -10,6 +10,7 @@ const EMPTY_NEW = { username: '', email: '', password: '', role: 'user' }
 export default function AdminUsersPage() {
   const [users, setUsers]     = useState([])
   const [error, setError]     = useState('')
+  const [loading, setLoading] = useState(true)
   const [modal, setModal]     = useState(null)
   const [showAdd, setShowAdd] = useState(false)
   const [newU, setNewU]       = useState(EMPTY_NEW)
@@ -18,7 +19,15 @@ export default function AdminUsersPage() {
   const { user: me }          = useAuth()
 
   async function load() {
-    try { setUsers(await api.get('/users')) } catch { setError('Failed to load users.') }
+    setLoading(true)
+    try {
+      setUsers(await api.get('/users'))
+      setError('')
+    } catch {
+      setError('Failed to load users.')
+    } finally {
+      setLoading(false)
+    }
   }
   useEffect(() => { load() }, [])
 
@@ -93,6 +102,13 @@ export default function AdminUsersPage() {
 
         {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
+        {loading && (
+          <div className="bg-white rounded-xl shadow-admin p-8 text-admin-muted font-body text-body-sm min-w-[640px]">
+            Loading users...
+          </div>
+        )}
+
+        {!loading && (
         <div className="bg-white rounded-xl shadow-admin overflow-hidden min-w-[640px]">
           <table className="w-full">
             <thead>
@@ -181,6 +197,7 @@ export default function AdminUsersPage() {
             <div className="text-center py-12 text-admin-muted font-body text-body-sm">No users yet.</div>
           )}
         </div>
+        )}
       </main>
 
       {/* Add User panel */}

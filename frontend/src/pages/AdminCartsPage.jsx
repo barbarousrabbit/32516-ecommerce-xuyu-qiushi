@@ -7,12 +7,22 @@ import AdminSidebar from '../components/AdminSidebar'
 export default function AdminCartsPage() {
   const [carts, setCarts]       = useState([])
   const [error, setError]       = useState('')
+  const [loading, setLoading]   = useState(true)
   const [expanded, setExpanded] = useState({})
 
   useEffect(() => {
-    getAllCarts()
-      .then(setCarts)
-      .catch(() => setError('Failed to load carts.'))
+    async function loadCarts() {
+      try {
+        setCarts(await getAllCarts())
+        setError('')
+      } catch {
+        setError('Failed to load carts.')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadCarts()
   }, [])
 
   const totalItems    = carts.reduce((s, c) => s + (c.cart?.items?.reduce((qs, i) => qs + i.quantity, 0) ?? 0), 0)
@@ -42,6 +52,13 @@ export default function AdminCartsPage() {
 
         {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
+        {loading && (
+          <div className="bg-white rounded-xl shadow-admin p-8 text-admin-muted font-body text-body-sm">
+            Loading carts...
+          </div>
+        )}
+
+        {!loading && (
         <div className="space-y-3">
           {carts.map(({ user_id, username, cart }) => {
             const items     = cart?.items ?? []
@@ -112,8 +129,9 @@ export default function AdminCartsPage() {
             )
           })}
         </div>
+        )}
 
-        {carts.length === 0 && !error && (
+        {!loading && carts.length === 0 && !error && (
           <div className="text-center py-12 text-admin-muted">No carts found.</div>
         )}
       </main>

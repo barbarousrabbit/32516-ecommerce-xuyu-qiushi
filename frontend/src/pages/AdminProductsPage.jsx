@@ -8,6 +8,7 @@ export default function AdminProductsPage() {
   const [products, setProducts] = useState([])
   const [error, setError]       = useState('')
   const [showAdd, setShowAdd]   = useState(false)
+  const [loading, setLoading]   = useState(true)
   const [newP, setNewP]         = useState({ name: '', description: '', price: '', stock: 0, image_url: '' })
   const [editId, setEditId]         = useState(null)
   const [editData, setEditData]     = useState({})
@@ -17,7 +18,15 @@ export default function AdminProductsPage() {
   const [stockFilter, setStockFilter]   = useState('all')
 
   async function load() {
-    try { setProducts(await getProducts()) } catch { setError('Failed to load products.') }
+    setLoading(true)
+    try {
+      setProducts(await getProducts())
+      setError('')
+    } catch {
+      setError('Failed to load products.')
+    } finally {
+      setLoading(false)
+    }
   }
   useEffect(() => { load() }, [])
 
@@ -136,6 +145,13 @@ export default function AdminProductsPage() {
 
         {error && <div className="bg-red-50 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
+        {loading && (
+          <div className="bg-white rounded-xl shadow-admin p-8 text-admin-muted font-body text-body-sm">
+            Loading products...
+          </div>
+        )}
+
+        {!loading && (
         <div className="bg-white rounded-xl shadow-admin overflow-hidden">
           <table className="w-full">
             <thead>
@@ -208,6 +224,7 @@ export default function AdminProductsPage() {
             </div>
           )}
         </div>
+        )}
       </main>
 
       {showAdd && (
