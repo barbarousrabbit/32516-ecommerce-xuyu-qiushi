@@ -26,7 +26,7 @@ export default function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
+      <Route path="/cart" element={<CartPage />} />
       <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
       <Route path="/admin/products" element={<AdminRoute><AdminProductsPage /></AdminRoute>} />
       <Route path="/admin/users" element={<AdminRoute><AdminUsersPage /></AdminRoute>} />

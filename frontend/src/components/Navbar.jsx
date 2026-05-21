@@ -91,7 +91,7 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           {/* Cart — always visible; guests go to /login, members go to /cart */}
           <button
-            onClick={() => navigate(user ? '/cart' : '/login')}
+            onClick={() => navigate('/cart')}
             aria-label="Shopping cart"
             className="cart-nav-btn"
           >
