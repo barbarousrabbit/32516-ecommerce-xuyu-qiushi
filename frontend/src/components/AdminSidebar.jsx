@@ -1,6 +1,6 @@
 // Authors: Xuyu Zhang (26025395), Qiushi Huang (25668904)
 import { Link, useLocation } from 'react-router-dom'
-import { Package, Users, ShoppingCart } from 'lucide-react'
+import { Package, Users, ShoppingCart, ArrowLeft } from 'lucide-react'
 
 const NAV_ITEMS = [
   { label: 'Products',  href: '/admin/products', icon: Package },
@@ -31,6 +31,12 @@ export default function AdminSidebar() {
           </Link>
         ))}
       </nav>
+      <div className="px-3 py-4 border-t border-white/10">
+        <Link to="/" className="sidebar-item">
+          <ArrowLeft size={18} />
+          Back to Store
+        </Link>
+      </div>
     </aside>
   )
 }
