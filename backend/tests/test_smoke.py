@@ -126,6 +126,13 @@ def test_user_cannot_access_admin_users(tmp_path):
     resp = client.get("/users", headers=auth_header(token))
     assert resp.status_code == 403
 
+    # Cleanup: remove test user so it doesn't appear in the admin Users page
+    admin_token = get_token(ADMIN_EMAIL, ADMIN_PASSWORD)
+    users = client.get("/users", headers=auth_header(admin_token)).json()
+    test_user = next((u for u in users if u["email"] == unique_email), None)
+    if test_user:
+        client.delete(f"/users/{test_user['id']}", headers=auth_header(admin_token))
+
 
 # ── Cart CRUD (happy path, requires seeded DB) ─────────────────────────────────
 
