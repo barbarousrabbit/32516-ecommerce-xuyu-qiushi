@@ -168,9 +168,18 @@ export default function AdminProductsPage() {
                   <tr key={p.id} className="border-b border-admin-border/50 hover:bg-admin-bg/50 transition-colors">
                     <td className="px-6 py-3">
                       {isEditing
-                        ? <input aria-label="Product name" value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })}
-                            className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
-                        : <span className="font-body text-body-sm font-medium">{p.name}</span>
+                        ? <div className="space-y-1">
+                            <input aria-label="Product name" value={editData.name} onChange={e => setEditData({ ...editData, name: e.target.value })}
+                              placeholder="Name" className="border border-admin-border rounded px-2 py-1 text-sm w-full focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
+                            <input aria-label="Description" value={editData.description} onChange={e => setEditData({ ...editData, description: e.target.value })}
+                              placeholder="Description (optional)" className="border border-admin-border rounded px-2 py-1 text-xs w-full text-admin-muted focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
+                            <input aria-label="Image URL" value={editData.image_url} onChange={e => setEditData({ ...editData, image_url: e.target.value })}
+                              placeholder="Image URL (optional)" className="border border-admin-border rounded px-2 py-1 text-xs w-full text-admin-muted focus:outline-none focus:border-admin-primary focus-visible:ring-1 focus-visible:ring-admin-primary/50" />
+                          </div>
+                        : <div>
+                            <span className="font-body text-body-sm font-medium">{p.name}</span>
+                            {p.description && <p className="font-body text-[11px] text-admin-muted truncate max-w-[200px]">{p.description}</p>}
+                          </div>
                       }
                     </td>
                     <td className="px-6 py-3">
