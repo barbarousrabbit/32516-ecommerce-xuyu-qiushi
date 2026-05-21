@@ -78,10 +78,16 @@ npm run dev
 ```
 
 ### Database
-Run from the **project root** (not inside `backend/` or `frontend/`):
+
+**First-time setup** — run from the project root:
 ```bash
 mysql -u root -p < database/schema.sql
 mysql -u root -p < database/seed.sql
+```
+
+**Full reset** (restores original stock levels and removes all test data):
+```bash
+mysql -u root -p < database/reset.sql
 ```
 
 ---
