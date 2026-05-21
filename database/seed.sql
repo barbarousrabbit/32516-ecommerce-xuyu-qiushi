@@ -9,7 +9,7 @@ INSERT INTO users (username, email, password_hash, role) VALUES
  'admin');
 
 -- Admin needs a shopping_cart row (one-cart-per-user constraint)
-INSERT INTO shopping_cart (user_id) VALUES (1);
+INSERT INTO shopping_cart (user_id) SELECT id FROM users WHERE email = 'admin@shopcart.com';
 
 -- ── Products (20 items across 4 categories) ────────────────────────────────────
 -- All image URLs verified 200 OK on 2026-04-29.

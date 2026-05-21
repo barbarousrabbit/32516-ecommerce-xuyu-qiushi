@@ -23,16 +23,19 @@ export function useSearch() {
   useEffect(() => {
     setLoading(true)
     setError('')
+    const controller = new AbortController()
     const timer = setTimeout(async () => {
       try {
-        setProducts(await getProducts(query))
-      } catch {
-        setError('Failed to load products. Please try again.')
+        setProducts(await getProducts(query, controller.signal))
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError('Failed to load products. Please try again.')
+        }
       } finally {
         setLoading(false)
       }
     }, 300)
-    return () => clearTimeout(timer)
+    return () => { clearTimeout(timer); controller.abort() }
   }, [query])
 
   return { query, setQuery, products, loading, error }

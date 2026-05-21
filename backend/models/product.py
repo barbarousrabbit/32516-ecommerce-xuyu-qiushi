@@ -12,6 +12,6 @@ class Product(Base):
     description = Column(Text, nullable=True)
     price       = Column(Numeric(10, 2), nullable=False)
     stock       = Column(Integer, nullable=False, default=0)
-    image_url   = Column(String(255), nullable=True)
+    image_url   = Column(String(500), nullable=True)
     created_at  = Column(TIMESTAMP, server_default=func.now())
     updated_at  = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
