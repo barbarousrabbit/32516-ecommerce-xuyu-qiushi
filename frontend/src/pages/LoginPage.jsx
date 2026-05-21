@@ -22,7 +22,7 @@ export default function LoginPage() {
     setLoading(true)
     try {
       const data = await login(form)
-      setAuth(data.user, data.access_token)
+      await setAuth(data.user, data.access_token)
       navigate('/')
     } catch (err) {
       setError(err.message || 'Invalid email or password. Please try again.')
@@ -47,6 +47,22 @@ export default function LoginPage() {
               <h1 className="font-heading text-[28px] font-bold text-on-surface mb-2">Welcome back</h1>
               <p className="font-body text-body-md text-on-surface-variant">Sign in to your account</p>
             </div>
+
+            {/* Demo credentials hint */}
+            <button
+              type="button"
+              onClick={() => setForm({ email: 'admin@shopcart.com', password: 'admin123' })}
+              className="w-full mb-6 text-left px-4 py-3 rounded-xl border border-dashed border-primary/40 bg-primary/5 hover:bg-primary/10 transition-colors group cursor-pointer"
+            >
+              <p className="font-heading text-[11px] uppercase tracking-widest text-primary/70 mb-1.5">Demo — Admin Account</p>
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <p className="font-body text-body-sm text-on-surface"><span className="text-on-surface-variant">Email: </span>admin@shopcart.com</p>
+                  <p className="font-body text-body-sm text-on-surface"><span className="text-on-surface-variant">Password: </span>admin123</p>
+                </div>
+                <span className="font-body text-body-sm text-primary/60 group-hover:text-primary transition-colors pr-1">Click to fill →</span>
+              </div>
+            </button>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Error banner */}

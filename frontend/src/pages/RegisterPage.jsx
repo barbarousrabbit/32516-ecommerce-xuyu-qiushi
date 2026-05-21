@@ -25,7 +25,7 @@ export default function RegisterPage() {
     setLoading(true)
     try {
       const data = await register(form)
-      setAuth(data.user, data.access_token)
+      await setAuth(data.user, data.access_token)
       navigate('/')
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.')
