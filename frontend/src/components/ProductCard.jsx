@@ -41,8 +41,8 @@ export default function ProductCard({ product }) {
   async function handleAdd() {
     if (!user) {
       addToGuestCart(product.id, 1)
-      setFeedback('Saved! Sign in to checkout.')
-      setTimeout(() => setFeedback(''), 2500)
+      setFeedback('Added!')
+      setTimeout(() => setFeedback(''), 2000)
       return
     }
     try {
@@ -109,10 +109,13 @@ export default function ProductCard({ product }) {
             onClick={handleAdd}
             className="w-full bg-primary text-on-primary font-heading text-button py-3 rounded-lg shadow-sm border-t border-white/20 hover:bg-surface-tint active:scale-[0.98] transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            {feedback === 'Added!' ? 'Added ✓' : 'Add to Cart'}
+            {feedback === 'Added!' || feedback === 'Saved! Sign in to checkout.' ? 'Added ✓' : 'Add to Cart'}
           </button>
-          {feedback && feedback !== 'Added!' && (
+          {feedback && feedback !== 'Added!' && feedback !== 'Saved! Sign in to checkout.' && (
             <p className="text-body-sm font-body text-error text-center">{feedback}</p>
+          )}
+          {feedback === 'Saved! Sign in to checkout.' && (
+            <p className="text-body-sm font-body text-on-surface-variant text-center">Sign in to checkout</p>
           )}
         </div>
       </div>
