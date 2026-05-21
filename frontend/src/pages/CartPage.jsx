@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Trash2, Minus, Plus, ShoppingBag, Lock, CheckCircle } from 'lucide-react'
 import { getMyCart, updateCartItem, removeCartItem, checkout } from '../services/cartService'
+import { getGuestCart } from '../services/guestCart'
+import { getProducts } from '../services/productService'
+import { useAuth } from '../context/AuthContext'
 import Navbar from '../components/Navbar'
 
 function Footer() {
@@ -24,6 +27,8 @@ export default function CartPage() {
   const [placed, setPlaced]     = useState(false)
   const [modalError, setModalError] = useState('')
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const isGuest = !user
 
   useEffect(() => {
     if (!showCheckout || placing) return
@@ -33,6 +38,26 @@ export default function CartPage() {
   }, [showCheckout, placing])
 
   async function load() {
+    setLoading(true)
+    if (isGuest) {
+      try {
+        const guestItems = getGuestCart()
+        if (guestItems.length === 0) { setCart({ items: [] }); return }
+        const products = await getProducts()
+        const items = guestItems
+          .map(gi => {
+            const product = products.find(p => p.id === gi.product_id)
+            return product ? { id: gi.product_id, product, quantity: gi.quantity } : null
+          })
+          .filter(Boolean)
+        setCart({ items })
+      } catch {
+        setError('Failed to load cart.')
+      } finally {
+        setLoading(false)
+      }
+      return
+    }
     try {
       setCart(await getMyCart())
     } catch (err) {
@@ -42,14 +67,25 @@ export default function CartPage() {
     }
   }
 
-  useEffect(() => { load() }, [])
+  useEffect(() => { load() }, [isGuest])
+
+  function updateGuestItem(productId, qty) {
+    const stored = getGuestCart()
+    const updated = qty <= 0
+      ? stored.filter(i => i.product_id !== productId)
+      : stored.map(i => i.product_id === productId ? { ...i, quantity: qty } : i)
+    localStorage.setItem('guestCart', JSON.stringify(updated))
+    load()
+  }
 
   async function handleUpdate(itemId, qty) {
+    if (isGuest) { updateGuestItem(itemId, qty); return }
     try { setCart(await updateCartItem(itemId, qty)) }
     catch (err) { setError(err.message) }
   }
 
   async function handleRemove(itemId) {
+    if (isGuest) { updateGuestItem(itemId, 0); return }
     try { await removeCartItem(itemId); load() }
     catch (err) { setError(err.message) }
   }
@@ -186,13 +222,23 @@ export default function CartPage() {
                   <span>Total</span>
                   <span className="text-on-surface">${total.toFixed(2)}</span>
                 </div>
-                <button
-                  onClick={() => setShowCheckout(true)}
-                  className="btn-primary w-full mt-6 flex items-center justify-center gap-2"
-                >
-                  <Lock size={16} />
-                  Proceed to Checkout
-                </button>
+                {isGuest ? (
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="btn-primary w-full mt-6 flex items-center justify-center gap-2"
+                  >
+                    <Lock size={16} />
+                    Sign In to Checkout
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setShowCheckout(true)}
+                    className="btn-primary w-full mt-6 flex items-center justify-center gap-2"
+                  >
+                    <Lock size={16} />
+                    Proceed to Checkout
+                  </button>
+                )}
                 <p className="font-body text-body-sm text-on-surface-variant text-center mt-3">
                   Secure, encrypted checkout
                 </p>
