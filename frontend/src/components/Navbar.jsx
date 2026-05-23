@@ -21,7 +21,7 @@ export default function Navbar() {
 
   function handleLogout() {
     logout()
-    navigate('/login')
+    navigate('/')
   }
 
   function handleSearch(e) {
