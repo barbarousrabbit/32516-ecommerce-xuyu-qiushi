@@ -12,7 +12,7 @@ export default function AdminSidebar() {
   const { pathname } = useLocation()
 
   return (
-    <aside className="w-[240px] bg-admin-sidebar min-h-screen flex flex-col flex-shrink-0">
+    <aside className="w-[240px] bg-admin-sidebar h-screen sticky top-0 flex flex-col flex-shrink-0">
       <div className="px-6 py-5 border-b border-white/10">
         <span className="text-white font-heading font-bold text-xl">ShopCart</span>
         <span className="ml-2 px-2 py-0.5 bg-admin-accent text-white font-heading text-[10px] font-bold uppercase rounded">
