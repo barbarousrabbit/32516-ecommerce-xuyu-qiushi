@@ -108,14 +108,14 @@ INSERT IGNORE INTO products (name, description, price, stock, image_url) VALUES
 ('Laptop Sleeve 15"',
  'Water-repellent neoprene sleeve for 15-inch laptops with accessory pocket and carry handle.',
  34.99, 50,
- 'https://images.unsplash.com/photo-1601524909162-ae8725290836?w=400&h=400&fit=crop&crop=bottom'),
+ 'https://images.unsplash.com/photo-1701793267196-f4ea735df3b6?w=400&h=400&fit=crop'),
 
 ('Phone Desk Stand',
  'Adjustable aluminium phone stand with 270° rotation for landscape and portrait viewing.',
  22.99, 0,
- 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop&crop=right'),
+ 'https://plus.unsplash.com/premium_photo-1681666713751-1cc81b814b91?w=400&h=400&fit=crop'),
 
 ('Screen Privacy Filter 24"',
  '24-inch anti-glare privacy screen filter — blocks side-angle viewing, reduces blue light.',
  38.99, 20,
- 'https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400&h=400&fit=crop&crop=right');
+ 'https://plus.unsplash.com/premium_photo-1681816189679-fa02d1acd1de?w=400&h=400&fit=crop');
